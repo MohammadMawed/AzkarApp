@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/moham/AndroidStudioProjects/AzkarApp/app/src/main/res/drawable/shape.xml" value="0.3828125" />
+        <entry key="..\:/Users/moham/AndroidStudioProjects/AzkarApp/app/src/main/res/drawable/shape2.xml" value="0.3402777777777778" />
+        <entry key="..\:/Users/moham/AndroidStudioProjects/AzkarApp/app/src/main/res/drawable/shape3.xml" value="0.3402777777777778" />
+        <entry key="..\:/Users/moham/AndroidStudioProjects/AzkarApp/app/src/main/res/drawable/shape4.xml" value="0.3402777777777778" />
+        <entry key="..\:/Users/moham/AndroidStudioProjects/AzkarApp/app/src/main/res/drawable/shape5.xml" value="0.3402777777777778" />
+        <entry key="..\:/Users/moham/AndroidStudioProjects/AzkarApp/app/src/main/res/drawable/shape6.xml" value="0.3402777777777778" />
+        <entry key="..\:/Users/moham/AndroidStudioProjects/AzkarApp/app/src/main/res/drawable/shape7.xml" value="0.3402777777777778" />
+        <entry key="..\:/Users/moham/AndroidStudioProjects/AzkarApp/app/src/main/res/drawable/shape7_custom.xml" value="0.3402777777777778" />
+        <entry key="..\:/Users/moham/AndroidStudioProjects/AzkarApp/app/src/main/res/drawable/shape8.xml" value="0.3402777777777778" />
+        <entry key="..\:/Users/moham/AndroidStudioProjects/AzkarApp/app/src/main/res/drawable/shape9.xml" value="0.3402777777777778" />
+        <entry key="..\:/Users/moham/AndroidStudioProjects/AzkarApp/app/src/main/res/drawable/shapebutton.xml" value="0.3828125" />
+        <entry key="..\:/Users/moham/AndroidStudioProjects/AzkarApp/app/src/main/res/drawable/shapedark.xml" value="0.3402777777777778" />
+        <entry key="..\:/Users/moham/AndroidStudioProjects/AzkarApp/app/src/main/res/drawable/shapewhite.xml" value="0.3402777777777778" />
+        <entry key="..\:/Users/moham/AndroidStudioProjects/AzkarApp/app/src/main/res/layout/activity_main.xml" value="0.33" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

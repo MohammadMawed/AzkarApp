@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <color name="color1">#1e81b0</color>
+    <color name="DarkModeColor">#292929</color>
+    <color name="color2">#e28743</color>
+    <color name="color3">#06C5B2</color>
+    <color name="gray">#DFDFDF</color>
+    <color name="orange">#c21500</color>
+    <color name="yellow">#ffc500</color>
+    <color name="darkGreen">#414d0b</color>
+    <color name="lightGreen">#727a17</color>
+    <color name="navi">#283c86</color>
+    <color name="darkNavi">#243B55</color>
+    <color name="lightBlack">#141E30</color>
+    <color name="blue">#0072ff</color>
+    <color name="lightBlue">#00c6ff</color>
+    <color name="violetBlue">#4776E6</color>
+    <color name="violet">#8E54E9</color>
+    <color name="Green">#119928</color>
+    <color name="iphoneGreen">#99f2c8</color>
+    <color name="GGreen">#1f4037</color>
+    <color name="Red">#DA4453</color>
+    <color name="darkViolet">#89216B</color>
+    <color name="titanium">#283048</color>
+    <color name="titanium_end">#535A5C</color>
+    <color name="SplashScreenFontColor">#000000</color>
+</resources>
