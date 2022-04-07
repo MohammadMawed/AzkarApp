@@ -10,7 +10,6 @@ import androidx.room.RoomDatabase
 abstract class ZikrDatabase: RoomDatabase() {
 
     abstract fun zikrDao(): ZikrDao
-
     companion object{
         @Volatile
         //Creating one instance of our database to prevent duplicating

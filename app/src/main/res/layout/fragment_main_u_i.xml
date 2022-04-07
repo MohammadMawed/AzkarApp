@@ -79,15 +79,15 @@
         android:id="@+id/shareFloatingButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="400dp"
+        android:layout_marginTop="-20dp"
         android:clickable="true"
         app:backgroundTint="@color/darkNavi"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/zikrContainer"
-        app:layout_constraintHorizontal_bias="0.955"
+        app:layout_constraintHorizontal_bias="0.91"
         app:layout_constraintStart_toStartOf="@+id/zikrContainer"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.343"
+        app:layout_constraintTop_toBottomOf="@+id/zikrContainer"
+        app:layout_constraintVertical_bias="0.0"
         app:rippleColor="@color/white"
         app:srcCompat="@drawable/ic_outline_share_24"
         app:tint="@android:color/white" />
@@ -96,15 +96,15 @@
         android:id="@+id/repeatTimeContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
+        android:layout_marginTop="-20dp"
         android:background="@drawable/shape10"
         android:padding="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/zikrContainer"
-        app:layout_constraintHorizontal_bias="0.02"
+        app:layout_constraintHorizontal_bias="0.089"
         app:layout_constraintStart_toStartOf="@+id/zikrContainer"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.664">
+        app:layout_constraintTop_toBottomOf="@+id/zikrContainer"
+        app:layout_constraintVertical_bias="0.0">
 
         <TextView
             android:id="@+id/repeatTimeTextView"
@@ -113,6 +113,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:text="3X"
+            android:textColor="#000"
             android:textSize="23dp"
             android:textStyle="bold" />
     </RelativeLayout>

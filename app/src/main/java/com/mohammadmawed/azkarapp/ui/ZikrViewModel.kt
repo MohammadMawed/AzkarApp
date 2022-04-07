@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 
 class ZikrViewModel(application: Application): AndroidViewModel(application) {
 
-    private val readAllData: LiveData<List<Zikr>>
+    val readAllData: LiveData<Zikr>
     private val repo: ZikrRepo
 
     init {
@@ -21,9 +21,10 @@ class ZikrViewModel(application: Application): AndroidViewModel(application) {
         readAllData = repo.readAllData
     }
 
-    fun addZikr(zikr: Zikr){
+    fun addZikr(){
         viewModelScope.launch(Dispatchers.IO){
-            repo.addZikr(zikr)
+            repo.addZikr(Zikr(0, "Text oh oh oh oh ", 2,false, false))
+            repo.addZikr(Zikr(1, "sdigjh jghsj kjkshgjkshjklg jk ", 3,false, false))
         }
     }
 

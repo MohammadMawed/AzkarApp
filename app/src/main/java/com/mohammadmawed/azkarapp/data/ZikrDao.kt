@@ -13,6 +13,6 @@ interface ZikrDao {
     suspend fun addZikr(zikr: Zikr)
 
     @Query("SELECT * FROM zikr ORDER BY id ASC")
-    fun getAlsabahZikr(): LiveData<List<Zikr>>
+    fun getAlsabahZikr(): LiveData<Zikr>
 
 }
