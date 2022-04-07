@@ -12,7 +12,7 @@ interface ZikrDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addZikr(zikr: Zikr)
 
-    @Query("SELECT * FROM zikr ORDER BY id ASC")
-    fun getAlsabahZikr(): LiveData<Zikr>
+    @Query("SELECT * FROM zikr WHERE id = :id")
+    fun getAlsabahZikr(id: Int): LiveData<List<Zikr>>
 
 }
