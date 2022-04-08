@@ -54,16 +54,17 @@ class MainUIFragment : Fragment() {
                 repeatTimeTextView.text = zikr.repeat.toString() + "X"
             }
 
+            val sss = it.lastIndex
+
         })
 
         nextButton.setOnClickListener {
             idd++
-            if (idd == 4) {
+            if (idd == 5) {
                 idd = 1
             }
                 viewModel.itemById(idd).observe(viewLifecycleOwner, Observer {
                     for (zikr in it) {
-                        Log.d("DataStream1", it.toString())
                         zikrTextView.text = zikr.text
                         repeatTimeTextView.text = zikr.repeat.toString() + "X"
                     }
@@ -74,17 +75,16 @@ class MainUIFragment : Fragment() {
         previousButton.setOnClickListener {
             idd--
             if (idd == 0) {
-                idd = 3
+                idd = 4
+
             }
                 viewModel.itemById(idd).observe(viewLifecycleOwner, Observer {
                     for (zikr in it) {
-                        Log.d("DataStream1", it.toString())
                         zikrTextView.text = zikr.text
                         repeatTimeTextView.text = zikr.repeat.toString() + "X"
                     }
 
                 })
-
         }
 
         return view

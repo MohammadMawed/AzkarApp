@@ -57,7 +57,7 @@
     <RelativeLayout
         android:id="@+id/zikrContainer"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="300dp"
         android:layout_margin="20dp"
         android:background="@drawable/shape6"
         android:padding="30dp"
