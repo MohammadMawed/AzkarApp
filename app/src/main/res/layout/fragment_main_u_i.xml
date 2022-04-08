@@ -57,7 +57,7 @@
     <RelativeLayout
         android:id="@+id/zikrContainer"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="350dp"
         android:layout_margin="20dp"
         android:background="@drawable/shape6"
         android:padding="30dp"
@@ -71,8 +71,18 @@
             android:id="@+id/zikrTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/dummy"
-            android:textColor="#fff" />
+            android:textSize="14.5sp"
+            android:textColor="#fff"
+            tools:text="@string/dummy" />
+
+        <TextView
+            android:id="@+id/hintTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/zikrTextView"
+            android:layout_marginTop="15dp"
+            android:textColor="#fff"
+            tools:text="TextView" />
     </RelativeLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -112,9 +122,9 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:text="3X"
+            tools:text="3X"
             android:textColor="#000"
-            android:textSize="23dp"
+            android:textSize="23sp"
             android:textStyle="bold" />
     </RelativeLayout>
 

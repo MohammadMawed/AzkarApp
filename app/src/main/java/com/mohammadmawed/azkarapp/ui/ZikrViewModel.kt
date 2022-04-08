@@ -21,8 +21,8 @@ class ZikrViewModel(application: Application): AndroidViewModel(application) {
 
     fun addZikr(){
         viewModelScope.launch(Dispatchers.IO){
-            repo.addZikr(Zikr(0, "Text oh oh oh oh ", 2,false, false))
-            repo.addZikr(Zikr(1, "sdigjh jghsj kjkshgjkshjklg jk ", 3,false, false))
+            repo.addZikr(Zikr(0, "Text oh oh oh oh ", "",2,false, false))
+            repo.addZikr(Zikr(1, "sdigjh jghsj kjkshgjkshjklg jk ", "",3,false, false))
         }
     }
     fun itemById(id: Int): LiveData<List<Zikr>> {

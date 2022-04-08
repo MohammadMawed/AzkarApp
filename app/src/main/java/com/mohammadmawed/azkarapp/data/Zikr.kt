@@ -8,6 +8,7 @@ data class Zikr(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
     val text: String,
+    val hint: String,
     val repeat: Int,
     val alsabah: Boolean,
     val wasRead: Boolean
