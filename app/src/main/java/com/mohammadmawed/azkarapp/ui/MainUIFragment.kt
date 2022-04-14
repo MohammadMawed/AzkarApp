@@ -1,9 +1,9 @@
 package com.mohammadmawed.azkarapp.ui
 
 import android.annotation.SuppressLint
-import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
@@ -15,7 +15,6 @@ import android.widget.Button
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.annotation.RequiresApi
-import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -24,8 +23,11 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.mohammadmawed.azkarapp.R
 import com.mohammadmawed.azkarapp.data.Zikr
-import com.mohammadmawed.azkarapp.receiver.AlarmReceiver
 import com.mohammadmawed.azkarapp.receiver.NotificationBuilder
+import com.mohammadmawed.azkarapp.util.NotificationUtils
+
+
+
 
 
 class MainUIFragment : Fragment() {
@@ -41,7 +43,7 @@ class MainUIFragment : Fragment() {
 
     private lateinit var viewModel: ZikrViewModel
     private lateinit var notificationBuilder: NotificationBuilder
-    private lateinit var viewModel11: NotificationBuilder
+    private lateinit var notificationBuilder1: NotificationBuilder
 
     lateinit var zikr: Zikr
 
@@ -67,11 +69,10 @@ class MainUIFragment : Fragment() {
         zikrContainer = view.findViewById(R.id.zikrContainer)
 
 
-
         viewModel = ViewModelProvider(requireActivity())[ZikrViewModel::class.java]
         notificationBuilder = context?.let { NotificationBuilder(it) }!!
 
-
+        val context = context
 
         /*val selectedItemId: Int = nav_menu.selectedItemId
         val badge = nav_menu.getOrCreateBadge(selectedItemId)
@@ -95,7 +96,7 @@ class MainUIFragment : Fragment() {
 
         nextButton.setOnClickListener {
             idd++
-            if (idd == 32) {
+            if (idd == 33) {
                 idd = 1
             }
                 viewModel.itemById(idd).observe(viewLifecycleOwner, Observer {
@@ -103,6 +104,7 @@ class MainUIFragment : Fragment() {
                         zikrTextView.text = zikr.text
                         hintTextView.text = zikr.hint
                         repeatTimeTextView.text = zikr.repeat.toString() + "X"
+
                     }
 
                 })
@@ -111,7 +113,7 @@ class MainUIFragment : Fragment() {
         previousButton.setOnClickListener {
             idd--
             if (idd == 0) {
-                idd = 31
+                idd = 32
 
             }
                 viewModel.itemById(idd).observe(viewLifecycleOwner, Observer {
@@ -145,6 +147,8 @@ class MainUIFragment : Fragment() {
             getString(R.string.notification_channel_name)
         )
 
+        context?.let { viewModel.reminderNotification(it) }
+
 
         return view
 
@@ -174,4 +178,5 @@ class MainUIFragment : Fragment() {
 
         }
     }
+
 }

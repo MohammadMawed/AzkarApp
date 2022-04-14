@@ -16,16 +16,16 @@
 
 package com.mohammadmawed.azkarapp.util
 
-import android.annotation.SuppressLint
-import android.app.NotificationManager
-import android.app.PendingIntent
+import android.app.*
 import android.content.Context
+import android.content.ContextWrapper
 import android.content.Intent
-import android.graphics.BitmapFactory
+import android.os.Build
 import androidx.core.app.NotificationCompat
-import com.mohammadmawed.azkarapp.receiver.SnoozeReceiver
 import com.mohammadmawed.azkarapp.MainActivity
 import com.mohammadmawed.azkarapp.R
+import com.mohammadmawed.azkarapp.receiver.ReminderBroadcast
+
 
 // Notification ID.
 private val NOTIFICATION_ID = 0
@@ -37,50 +37,59 @@ private val FLAGS = 0
  *
  * @param context, activity context.
  */
-@SuppressLint("WrongConstant")
-fun NotificationManager.sendNotification(messageBody: String, applicationContext: Context) {
-    // Create the content intent for the notification, which launches
-    // this activity
-    //create intent
-    val contentIntent = Intent(applicationContext, MainActivity::class.java)
-    val contentPendingIntent = PendingIntent.getActivity(applicationContext, NOTIFICATION_ID, contentIntent,
-        PendingIntent.FLAG_UPDATE_CURRENT)
+class NotificationUtils(base: Context) : ContextWrapper(base) {
+    private var _notificationManager: NotificationManager? = null
+    private val _context: Context = base
 
-    val eggImage = BitmapFactory.decodeResource(
-        applicationContext.resources,
-        R.drawable.ic_baseline_home_24)
-    val bigPicStyle = NotificationCompat.BigPictureStyle()
-        .bigPicture(eggImage)
-        .bigLargeIcon(null)
 
-    val snoozeIntent = Intent(applicationContext, SnoozeReceiver::class.java)
-    val snoozePendingIntent: PendingIntent = PendingIntent.getBroadcast(
-        applicationContext, REQUEST_CODE, snoozeIntent, FLAGS)
-
-    // Build the notification
-    val builder = NotificationCompat.Builder(
+    private val contentIntent = Intent(applicationContext, MainActivity::class.java)
+    private val contentPendingIntent: PendingIntent = PendingIntent.getActivity(
         applicationContext,
-        applicationContext.getString(R.string.notification_channel_id))
+        NOTIFICATION_ID,
+        contentIntent,
+        PendingIntent.FLAG_UPDATE_CURRENT
+    )
 
-        .setSmallIcon(R.drawable.tasbih)
-        .setContentTitle(applicationContext.getString(R.string.notification_title))
-        .setContentText(messageBody)
-        .setContentIntent(contentPendingIntent)
-        .setAutoCancel(true)
-        .setStyle(bigPicStyle)
-        .setLargeIcon(eggImage)
-        .addAction(R.drawable.ic_baseline_snooze_24,
-            applicationContext.getString(R.string.snooze),
-            snoozePendingIntent)
-        .setPriority(NotificationCompat.PRIORITY_HIGH)
-    notify(NOTIFICATION_ID, builder.build())
-}
 
-// TODO: Step 1.14 Cancel all notifications
-/**
- * Cancels all notifications.
- *
- */
-fun NotificationManager.cancelNotifications() {
-    cancelAll()
+    init {
+        createChannel()
+    }
+
+    fun setNotification(title: String?, body: String?): NotificationCompat.Builder {
+        return NotificationCompat.Builder(this, "CHANNEL_ID")
+            .setSmallIcon(R.drawable.tasbih)
+            .setContentTitle(title)
+            .setContentText(body)
+            .setContentIntent(contentPendingIntent)
+            .setAutoCancel(true)
+
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+    }
+
+    private fun createChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(
+                "CHANNEL_ID",
+                "TIMELINE_CHANNEL_NAME",
+                NotificationManager.IMPORTANCE_DEFAULT
+            )
+            channel.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
+            getManager()!!.createNotificationChannel(channel)
+        }
+    }
+
+    fun getManager(): NotificationManager? {
+        if (_notificationManager == null) {
+            _notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+        }
+        return _notificationManager
+    }
+
+    fun setReminder(timeInMillis: Long) {
+        val _intent = Intent(_context, ReminderBroadcast::class.java)
+        val _pendingIntent = PendingIntent.getBroadcast(_context, 0, _intent, 0)
+        val _alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
+        _alarmManager[AlarmManager.RTC_WAKEUP, timeInMillis] = _pendingIntent
+    }
+
 }

@@ -1,7 +1,7 @@
 package com.mohammadmawed.azkarapp.data
 
 import androidx.lifecycle.LiveData
-import com.mohammadmawed.azkarapp.R
+
 
 class ZikrRepo(private val zikrDao: ZikrDao) {
 

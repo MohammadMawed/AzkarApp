@@ -13,4 +13,5 @@
     <string name="notification_channel_name" translatable="false">zikr</string>
     <string name="notification_title" translatable="false">zikr</string>
     <string name="notification_content" translatable="false">zikr</string>
+    <string name="zikr1" translatable="false">zikr</string>
 </resources>
