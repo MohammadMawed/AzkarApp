@@ -6,7 +6,7 @@
         android:allowBackup="true"
         android:icon="@drawable/tasbih"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/tasbih"
         android:supportsRtl="true"
         android:theme="@style/Theme.AzkarApp">
         <activity
@@ -18,6 +18,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>

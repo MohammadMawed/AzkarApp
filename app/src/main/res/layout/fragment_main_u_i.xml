@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,163 +7,240 @@
     android:background="@drawable/shape9"
     tools:context=".ui.MainUIFragment">
 
-    <RelativeLayout
-        android:id="@+id/MainContainer"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:background="@drawable/shape7"
-        android:padding="12dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.4"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.005">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/calendarTextView"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:id="@+id/MainContainer"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="275dp"
-            android:layout_marginTop="7.5dp"
-            android:layout_marginBottom="5dp"
-            android:gravity="center"
-            android:text="20.10.1443"
-            android:textColor="#fff"
-            android:textSize="15sp"
+            android:layout_margin="10dp"
+            android:padding="12dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.501"
+            app:layout_constraintHorizontal_bias="0.4"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.544" />
+            app:layout_constraintVertical_bias="0.005">
 
-        <TextView
-            android:id="@+id/navigationTextView"
+            <TextView
+                android:id="@+id/calendarTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/navigationTextView"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:gravity="center"
+                android:text="@string/_20_10_1443"
+                android:textColor="#fff"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.501"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.544" />
+
+            <TextView
+                android:id="@+id/navigationTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:gravity="center"
+                android:text="@string/azkar_alsabah"
+                android:textColor="#fff"
+                android:textSize="33sp"
+                android:textStyle="bold"
+                tools:ignore="RelativeOverlap" />
+
+            <RelativeLayout
+                android:id="@+id/connectionRelativeLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="1dp"
+                android:background="@drawable/shapedark"
+                android:padding="12dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.958"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.019">
+
+                <ImageView
+                    android:id="@+id/connectionImageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/setting"
+                    app:srcCompat="@drawable/ic_outline_settings_24" />
+
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/zikrContainer"
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:layout_margin="20dp"
+            android:background="@drawable/shape6"
+            android:padding="30dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/zikrTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#fff"
+                android:textIsSelectable="true"
+                android:textSize="14.5sp"
+                tools:text="@string/dummy" />
+
+            <TextView
+                android:id="@+id/hintTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/zikrTextView"
+                android:layout_marginTop="15dp"
+                android:textColor="#fff"
+                android:textIsSelectable="true"
+                tools:text="TextView" />
+        </RelativeLayout>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/shareFloatingButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="25dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
+            android:layout_marginTop="-20dp"
+            android:clickable="true"
+            android:contentDescription="@string/share"
+            android:focusable="true"
+            app:backgroundTint="@color/Red"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/zikrContainer"
+            app:layout_constraintHorizontal_bias="0.91"
+            app:layout_constraintStart_toStartOf="@+id/zikrContainer"
+            app:layout_constraintTop_toBottomOf="@+id/zikrContainer"
+            app:layout_constraintVertical_bias="0.0"
+            app:rippleColor="@color/white"
+            app:srcCompat="@drawable/ic_outline_share_24"
+            app:tint="@android:color/white" />
+
+        <RelativeLayout
+            android:id="@+id/repeatTimeContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-20dp"
+            android:background="@drawable/shape10"
+            android:padding="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/zikrContainer"
+            app:layout_constraintHorizontal_bias="0.089"
+            app:layout_constraintStart_toStartOf="@+id/zikrContainer"
+            app:layout_constraintTop_toBottomOf="@+id/zikrContainer"
+            app:layout_constraintVertical_bias="0.0">
+
+            <TextView
+                android:id="@+id/repeatTimeTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:textColor="#000"
+                android:textSize="23sp"
+                android:textStyle="bold"
+                tools:text="3X" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/nextButtonRelativeLayout"
+            android:layout_width="110dp"
+            android:layout_height="55dp"
+            android:layout_marginEnd="50dp"
+            android:background="@drawable/shapebutton2"
+            android:clickable="true"
+            android:focusable="true"
             android:gravity="center"
-            android:text="Azkar Alsabah"
-            android:textColor="#fff"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:padding="2.5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/zikrContainer"
+            app:layout_constraintVertical_bias="0.6">
 
-    </RelativeLayout>
+            <Button
+                android:id="@+id/nextButton"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="0dp"
+                android:layout_marginBottom="0dp"
+                android:background="@drawable/shapebutton2"
+                android:backgroundTint="@color/Green"
+                android:text="@string/next"
+                android:textColor="#fff"
+                app:rippleColor="?attr/colorOnSurface" />
 
-    <RelativeLayout
-        android:id="@+id/zikrContainer"
-        android:layout_width="match_parent"
-        android:layout_height="350dp"
-        android:layout_margin="20dp"
-        android:background="@drawable/shape6"
-        android:padding="30dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.478">
+        </RelativeLayout>
 
-        <TextView
-            android:id="@+id/zikrTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="14.5sp"
-            android:textColor="#fff"
-            tools:text="@string/dummy" />
 
-        <TextView
-            android:id="@+id/hintTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/zikrTextView"
-            android:layout_marginTop="15dp"
-            android:textColor="#fff"
-            tools:text="TextView" />
-    </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/previousButtonRelativeLayout"
+            android:layout_width="110dp"
+            android:layout_height="55dp"
+            android:layout_marginStart="50dp"
+            android:background="@drawable/shapebutton3"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:padding="2.5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/zikrContainer"
+            app:layout_constraintVertical_bias="0.6">
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/shareFloatingButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="-20dp"
-        android:clickable="true"
-        app:backgroundTint="@color/darkNavi"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/zikrContainer"
-        app:layout_constraintHorizontal_bias="0.91"
-        app:layout_constraintStart_toStartOf="@+id/zikrContainer"
-        app:layout_constraintTop_toBottomOf="@+id/zikrContainer"
-        app:layout_constraintVertical_bias="0.0"
-        app:rippleColor="@color/white"
-        app:srcCompat="@drawable/ic_outline_share_24"
-        app:tint="@android:color/white" />
+            <Button
+                android:id="@+id/previousButton"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="0dp"
+                android:layout_marginBottom="0dp"
+                android:background="@drawable/shapebutton2"
+                android:backgroundTint="@color/Green"
+                android:text="@string/previous"
+                android:textColor="#fff" />
 
-    <RelativeLayout
-        android:id="@+id/repeatTimeContainer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="-20dp"
-        android:background="@drawable/shape10"
-        android:padding="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/zikrContainer"
-        app:layout_constraintHorizontal_bias="0.089"
-        app:layout_constraintStart_toStartOf="@+id/zikrContainer"
-        app:layout_constraintTop_toBottomOf="@+id/zikrContainer"
-        app:layout_constraintVertical_bias="0.0">
+        </RelativeLayout>
 
-        <TextView
-            android:id="@+id/repeatTimeTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            tools:text="3X"
-            android:textColor="#000"
-            android:textSize="23sp"
-            android:textStyle="bold" />
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <Button
-        android:id="@+id/nextButton"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="50dp"
-        android:drawableEnd="@drawable/ic_baseline_chevron_right_24"
-        android:text="Next"
-        android:textColor="#fff"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/zikrContainer"
-        app:layout_constraintVertical_bias="0.912"
-        app:strokeColor="@color/purple_200"
-        app:strokeWidth="2.5dp" />
 
-    <Button
-        android:id="@+id/previousButton"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="20dp"
-        android:drawableLeft="@drawable/ic_baseline_chevron_left_24"
-        android:text="Previous"
-        android:textColor="#fff"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/zikrContainer"
-        app:layout_constraintVertical_bias="0.912"
-        app:strokeColor="@color/Red"
-        app:strokeWidth="2.5dp" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

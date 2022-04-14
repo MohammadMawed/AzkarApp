@@ -9,7 +9,11 @@
         android:id="@+id/mainUIFragment"
         android:name="com.mohammadmawed.azkarapp.ui.MainUIFragment"
         android:label="fragment_main_u_i"
-        tools:layout="@layout/fragment_main_u_i" />
+        tools:layout="@layout/fragment_main_u_i" >
+        <action
+            android:id="@+id/action_mainUIFragment_to_nightFragment"
+            app:destination="@id/nightFragment" />
+    </fragment>
     <fragment
         android:id="@+id/splashFragment"
         android:name="com.mohammadmawed.azkarapp.ui.SplashFragment"
@@ -19,4 +23,14 @@
             android:id="@+id/action_splashFragment_to_mainUIFragment"
             app:destination="@id/mainUIFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/settingFragment"
+        android:name="com.mohammadmawed.azkarapp.ui.SettingFragment"
+        android:label="fragment_setting"
+        tools:layout="@layout/fragment_setting" />
+    <fragment
+        android:id="@+id/nightFragment"
+        android:name="com.mohammadmawed.azkarapp.ui.NightFragment"
+        android:label="fragment_night"
+        tools:layout="@layout/fragment_night" />
 </navigation>

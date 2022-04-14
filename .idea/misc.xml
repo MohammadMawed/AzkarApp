@@ -3,6 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/moham/AndroidStudioProjects/AzkarApp/app/src/main/res/drawable/home_icon.xml" value="0.3675" />
+        <entry key="..\:/Users/moham/AndroidStudioProjects/AzkarApp/app/src/main/res/drawable/ic_baseline_mode_night_24.xml" value="0.248" />
+        <entry key="..\:/Users/moham/AndroidStudioProjects/AzkarApp/app/src/main/res/drawable/night_icon.xml" value="0.248" />
+        <entry key="..\:/Users/moham/AndroidStudioProjects/AzkarApp/app/src/main/res/drawable/setting_icon.xml" value="0.248" />
         <entry key="..\:/Users/moham/AndroidStudioProjects/AzkarApp/app/src/main/res/drawable/shape.xml" value="0.3828125" />
         <entry key="..\:/Users/moham/AndroidStudioProjects/AzkarApp/app/src/main/res/drawable/shape10.xml" value="0.347" />
         <entry key="..\:/Users/moham/AndroidStudioProjects/AzkarApp/app/src/main/res/drawable/shape2.xml" value="0.3402777777777778" />
@@ -15,11 +19,16 @@
         <entry key="..\:/Users/moham/AndroidStudioProjects/AzkarApp/app/src/main/res/drawable/shape8.xml" value="0.3402777777777778" />
         <entry key="..\:/Users/moham/AndroidStudioProjects/AzkarApp/app/src/main/res/drawable/shape9.xml" value="0.3402777777777778" />
         <entry key="..\:/Users/moham/AndroidStudioProjects/AzkarApp/app/src/main/res/drawable/shapebutton.xml" value="0.3828125" />
+        <entry key="..\:/Users/moham/AndroidStudioProjects/AzkarApp/app/src/main/res/drawable/shapebutton2.xml" value="0.353" />
+        <entry key="..\:/Users/moham/AndroidStudioProjects/AzkarApp/app/src/main/res/drawable/shapebutton3.xml" value="0.353" />
         <entry key="..\:/Users/moham/AndroidStudioProjects/AzkarApp/app/src/main/res/drawable/shapedark.xml" value="0.3402777777777778" />
         <entry key="..\:/Users/moham/AndroidStudioProjects/AzkarApp/app/src/main/res/drawable/shapewhite.xml" value="0.3402777777777778" />
         <entry key="..\:/Users/moham/AndroidStudioProjects/AzkarApp/app/src/main/res/layout/activity_main.xml" value="0.33" />
-        <entry key="..\:/Users/moham/AndroidStudioProjects/AzkarApp/app/src/main/res/layout/fragment_main_u_i.xml" value="0.32592592592592595" />
+        <entry key="..\:/Users/moham/AndroidStudioProjects/AzkarApp/app/src/main/res/layout/fragment_main_u_i.xml" value="0.33" />
+        <entry key="..\:/Users/moham/AndroidStudioProjects/AzkarApp/app/src/main/res/layout/fragment_night.xml" value="0.32592592592592595" />
+        <entry key="..\:/Users/moham/AndroidStudioProjects/AzkarApp/app/src/main/res/layout/fragment_setting.xml" value="0.32592592592592595" />
         <entry key="..\:/Users/moham/AndroidStudioProjects/AzkarApp/app/src/main/res/layout/fragment_splash.xml" value="0.32592592592592595" />
+        <entry key="..\:/Users/moham/AndroidStudioProjects/AzkarApp/app/src/main/res/menu/bottom_nav_menu.xml" value="0.32592592592592595" />
       </map>
     </option>
   </component>

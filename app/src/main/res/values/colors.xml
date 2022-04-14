@@ -30,6 +30,8 @@
     <color name="Red">#DA4453</color>
     <color name="darkViolet">#89216B</color>
     <color name="titanium">#283048</color>
+    <color name="bag">#ffd89b</color>
+    <color name="coolcolor">#ff7e5f</color>
     <color name="titanium_end">#535A5C</color>
     <color name="SplashScreenFontColor">#000000</color>
 </resources>

@@ -1,29 +1,31 @@
 package com.mohammadmawed.azkarapp.ui
 
 import android.annotation.SuppressLint
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.Canvas
 import android.graphics.Color
-import android.graphics.drawable.Drawable
+import android.os.Build
 import android.os.Bundle
-import android.os.Environment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.annotation.RequiresApi
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.mohammadmawed.azkarapp.R
 import com.mohammadmawed.azkarapp.data.Zikr
-import java.io.ByteArrayOutputStream
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
+import com.mohammadmawed.azkarapp.receiver.AlarmReceiver
+import com.mohammadmawed.azkarapp.receiver.NotificationBuilder
 
 
 class MainUIFragment : Fragment() {
@@ -35,14 +37,19 @@ class MainUIFragment : Fragment() {
     private lateinit var previousButton: Button
     private lateinit var shareFloatingButton: FloatingActionButton
     private lateinit var zikrContainer: RelativeLayout
+    private lateinit var nav_menu: BottomNavigationView
 
     private lateinit var viewModel: ZikrViewModel
+    private lateinit var notificationBuilder: NotificationBuilder
+    private lateinit var viewModel11: NotificationBuilder
+
     lateinit var zikr: Zikr
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("SetTextI18n", "ResourceAsColor")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,7 +66,17 @@ class MainUIFragment : Fragment() {
         shareFloatingButton = view.findViewById(R.id.shareFloatingButton)
         zikrContainer = view.findViewById(R.id.zikrContainer)
 
+
+
         viewModel = ViewModelProvider(requireActivity())[ZikrViewModel::class.java]
+        notificationBuilder = context?.let { NotificationBuilder(it) }!!
+
+
+
+        /*val selectedItemId: Int = nav_menu.selectedItemId
+        val badge = nav_menu.getOrCreateBadge(selectedItemId)
+        badge.isVisible = true
+        // An icon only badge will be displayed unless a number is set*/
 
         viewModel.addZikr()
 
@@ -115,9 +132,46 @@ class MainUIFragment : Fragment() {
             }
             startActivity(Intent.createChooser(shareIntent, zikrTextView.text))
 
+
+            context?.let {
+                NotificationManagerCompat.from(it).apply {
+                    this.notify(1, notificationBuilder.repliedNotification)
+                }
+            }
         }
 
-        return view
-    }
+        createChannel(
+            "CHANNEL_ID",
+            getString(R.string.notification_channel_name)
+        )
 
+
+        return view
+
+    }
+    private fun createChannel(channelId: String, channelName: String) {
+        // TODO: Step 1.6 START create a channel
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val notificationChannel = NotificationChannel(
+                channelId,
+                channelName,
+                // TODO: Step 2.4 change importance
+                NotificationManager.IMPORTANCE_HIGH
+            )// TODO: Step 2.6 disable badges for this channel
+                .apply {
+                    setShowBadge(false)
+                }
+
+            notificationChannel.enableLights(true)
+            notificationChannel.lightColor = Color.RED
+            notificationChannel.enableVibration(true)
+            notificationChannel.description = getString(R.string.notification_content)
+
+            val notificationManager = requireActivity().getSystemService(
+                NotificationManager::class.java
+            )
+            notificationManager.createNotificationChannel(notificationChannel)
+
+        }
+    }
 }
