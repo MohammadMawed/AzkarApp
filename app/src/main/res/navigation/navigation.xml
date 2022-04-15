@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/splashFragment">
+    app:startDestination="@id/mainUIFragment">
 
     <fragment
         android:id="@+id/mainUIFragment"
@@ -13,15 +13,6 @@
         <action
             android:id="@+id/action_mainUIFragment_to_nightFragment"
             app:destination="@id/nightFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/splashFragment"
-        android:name="com.mohammadmawed.azkarapp.ui.SplashFragment"
-        android:label="fragment_splash"
-        tools:layout="@layout/fragment_splash" >
-        <action
-            android:id="@+id/action_splashFragment_to_mainUIFragment"
-            app:destination="@id/mainUIFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingFragment"

@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mohammadmawed.azkarapp">
 
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/tasbih"
@@ -19,7 +21,8 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".receiver.ReminderBroadcast"/>
+        <receiver android:name=".receiver.ReminderBroadcast"
+            android:exported="false"/>
 
     </application>
 

@@ -1,6 +1,7 @@
 package com.mohammadmawed.azkarapp.ui
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
 import android.widget.Switch
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
 import com.mohammadmawed.azkarapp.R
 
@@ -16,6 +18,7 @@ class SettingFragment : Fragment() {
     private lateinit var notificationSwitch: Switch
     private lateinit var viewModel: ZikrViewModel
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

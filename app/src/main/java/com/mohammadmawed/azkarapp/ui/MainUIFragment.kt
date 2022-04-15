@@ -3,9 +3,8 @@ package com.mohammadmawed.azkarapp.ui
 import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.content.Context
+import android.content.Context.NOTIFICATION_SERVICE
 import android.content.Intent
-import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,7 +14,6 @@ import android.widget.Button
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.annotation.RequiresApi
-import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -23,11 +21,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.mohammadmawed.azkarapp.R
 import com.mohammadmawed.azkarapp.data.Zikr
-import com.mohammadmawed.azkarapp.receiver.NotificationBuilder
-import com.mohammadmawed.azkarapp.util.NotificationUtils
-
-
-
 
 
 class MainUIFragment : Fragment() {
@@ -42,14 +35,8 @@ class MainUIFragment : Fragment() {
     private lateinit var nav_menu: BottomNavigationView
 
     private lateinit var viewModel: ZikrViewModel
-    private lateinit var notificationBuilder: NotificationBuilder
-    private lateinit var notificationBuilder1: NotificationBuilder
-
     lateinit var zikr: Zikr
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("SetTextI18n", "ResourceAsColor")
@@ -70,9 +57,10 @@ class MainUIFragment : Fragment() {
 
 
         viewModel = ViewModelProvider(requireActivity())[ZikrViewModel::class.java]
-        notificationBuilder = context?.let { NotificationBuilder(it) }!!
 
         val context = context
+
+        createChannel()
 
         /*val selectedItemId: Int = nav_menu.selectedItemId
         val badge = nav_menu.getOrCreateBadge(selectedItemId)
@@ -99,15 +87,15 @@ class MainUIFragment : Fragment() {
             if (idd == 33) {
                 idd = 1
             }
-                viewModel.itemById(idd).observe(viewLifecycleOwner, Observer {
-                    for (zikr in it) {
-                        zikrTextView.text = zikr.text
-                        hintTextView.text = zikr.hint
-                        repeatTimeTextView.text = zikr.repeat.toString() + "X"
+            viewModel.itemById(idd).observe(viewLifecycleOwner, Observer {
+                for (zikr in it) {
+                    zikrTextView.text = zikr.text
+                    hintTextView.text = zikr.hint
+                    repeatTimeTextView.text = zikr.repeat.toString() + "X"
 
-                    }
+                }
 
-                })
+            })
 
         }
         previousButton.setOnClickListener {
@@ -116,14 +104,14 @@ class MainUIFragment : Fragment() {
                 idd = 32
 
             }
-                viewModel.itemById(idd).observe(viewLifecycleOwner, Observer {
-                    for (zikr in it) {
-                        zikrTextView.text = zikr.text
-                        hintTextView.text = zikr.hint
-                        repeatTimeTextView.text = zikr.repeat.toString() + "X"
-                    }
+            viewModel.itemById(idd).observe(viewLifecycleOwner, Observer {
+                for (zikr in it) {
+                    zikrTextView.text = zikr.text
+                    hintTextView.text = zikr.hint
+                    repeatTimeTextView.text = zikr.repeat.toString() + "X"
+                }
 
-                })
+            })
         }
         shareFloatingButton.setOnClickListener {
 
@@ -134,49 +122,32 @@ class MainUIFragment : Fragment() {
             }
             startActivity(Intent.createChooser(shareIntent, zikrTextView.text))
 
-
-            context?.let {
-                NotificationManagerCompat.from(it).apply {
-                    this.notify(1, notificationBuilder.repliedNotification)
-                }
-            }
         }
 
-        createChannel(
-            "CHANNEL_ID",
-            getString(R.string.notification_channel_name)
-        )
 
-        context?.let { viewModel.reminderNotification(it) }
+
+        viewModel.reminderNotification(context!!)
+
 
 
         return view
 
     }
-    private fun createChannel(channelId: String, channelName: String) {
-        // TODO: Step 1.6 START create a channel
+
+    private fun createChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val notificationChannel = NotificationChannel(
-                channelId,
-                channelName,
-                // TODO: Step 2.4 change importance
-                NotificationManager.IMPORTANCE_HIGH
-            )// TODO: Step 2.6 disable badges for this channel
-                .apply {
-                    setShowBadge(false)
-                }
-
-            notificationChannel.enableLights(true)
-            notificationChannel.lightColor = Color.RED
-            notificationChannel.enableVibration(true)
-            notificationChannel.description = getString(R.string.notification_content)
-
-            val notificationManager = requireActivity().getSystemService(
-                NotificationManager::class.java
-            )
-            notificationManager.createNotificationChannel(notificationChannel)
-
+            // Create the NotificationChannel
+            val name = getString(R.string.notification_channel_name)
+            val descriptionText = getString(R.string.notification_channel_name)
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val mChannel =
+                NotificationChannel(getString(R.string.notification_channel_id), name, importance)
+            mChannel.description = descriptionText
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            val notificationManager =
+                requireActivity().getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(mChannel)
         }
     }
-
 }

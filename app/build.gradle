@@ -102,5 +102,5 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging:19.0.1'
     implementation 'android.arch.work:work-runtime:1.0.1'
 
-
+    implementation 'androidx.work:work-runtime:2.7.0-alpha05'
 }

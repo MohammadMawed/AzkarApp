@@ -3,13 +3,16 @@ package com.mohammadmawed.azkarapp.ui
 import android.annotation.SuppressLint
 import android.app.AlarmManager
 import android.app.Application
+import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.os.SystemClock
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.app.AlarmManagerCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -18,14 +21,13 @@ import com.mohammadmawed.azkarapp.data.Zikr
 import com.mohammadmawed.azkarapp.data.ZikrDatabase
 import com.mohammadmawed.azkarapp.data.ZikrRepo
 import com.mohammadmawed.azkarapp.receiver.ReminderBroadcast
-import com.mohammadmawed.azkarapp.util.NotificationUtils
+import com.mohammadmawed.azkarapp.util.cancelNotifications
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.util.*
 
+@RequiresApi(Build.VERSION_CODES.M)
 @SuppressLint("UnspecifiedImmutableFlag")
 class ZikrViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -49,12 +51,12 @@ class ZikrViewModel(application: Application) : AndroidViewModel(application) {
         val zikrDao = ZikrDatabase.getDatabase(application).zikrDao()
         repo = ZikrRepo(zikrDao)
 
-        notifyPendingIntent = PendingIntent.getBroadcast(
-            getApplication(),
-            REQUEST_CODE,
-            notifyIntent,
-            PendingIntent.FLAG_UPDATE_CURRENT
-        )
+
+        notifyPendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            PendingIntent.getBroadcast(getApplication(), 0, notifyIntent, PendingIntent.FLAG_MUTABLE)
+        } else {
+            PendingIntent.getBroadcast(getApplication(), 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+        }
 
     }
 
@@ -71,23 +73,32 @@ class ZikrViewModel(application: Application) : AndroidViewModel(application) {
 
     @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("SimpleDateFormat")
-    fun reminderNotification(context: Context) {
-        val _notificationUtils = NotificationUtils(context)
-        val _currentTime = System.currentTimeMillis()
-        val tenSeconds = (1000).toLong()
-        val _triggerReminder = _currentTime + tenSeconds //triggers a reminder after 10 seconds.
 
-        val sdf = SimpleDateFormat("hh:mm")
-        val currentDate = sdf.format(Date())
+    fun reminderNotification(context: Context) {
+
+        val triggerTime = SystemClock.elapsedRealtime()
 
         val current = LocalDateTime.now()
         val formatter = DateTimeFormatter.ofPattern("HH:mm")
         val formatted = current.format(formatter)
 
         Log.d("date", formatted)
-        if (formatted == "18:46" || formatted == "18:47") {
-            alarmManager.set(AlarmManager.RTC_WAKEUP, 1000, notifyPendingIntent)
-            _notificationUtils.setReminder(_triggerReminder)
+        if (formatted == "02:19" || formatted == "02:20") {
+            // TODO: Step 1.15 call cancel notification
+            val notificationManager =
+                ContextCompat.getSystemService(
+                    context,
+                    NotificationManager::class.java
+                ) as NotificationManager
+
+            notificationManager.cancelNotifications()
+
+            AlarmManagerCompat.setExactAndAllowWhileIdle(
+                alarmManager,
+                AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                triggerTime,
+                notifyPendingIntent
+            )
         }
     }
 }
