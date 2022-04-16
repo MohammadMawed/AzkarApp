@@ -32,7 +32,6 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:gravity="center"
-                tools:text="@string/_20_10_1443"
                 android:textColor="@color/whiteFont"
                 android:textSize="15sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -40,7 +39,8 @@
                 app:layout_constraintHorizontal_bias="0.501"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.544" />
+                app:layout_constraintVertical_bias="0.544"
+                tools:text="@string/_20_10_1443" />
 
             <TextView
                 android:id="@+id/navigationTextView"
@@ -111,10 +111,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/zikrTextView"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="25dp"
                 android:textColor="#fff"
                 android:textIsSelectable="true"
-                tools:text="TextView" />
+                tools:text="@string/hintDummy" />
         </RelativeLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton

@@ -1,31 +1,44 @@
 package com.mohammadmawed.azkarapp.ui
 
 import android.content.Context
+import android.content.Intent
 import android.content.res.Configuration
+import android.content.res.Resources
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
+import android.widget.RadioGroup
 import android.widget.Switch
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContentProviderCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
+import com.mohammadmawed.azkarapp.MainActivity
 import com.mohammadmawed.azkarapp.R
+import com.mohammadmawed.azkarapp.data.PreferencesManager
+import kotlinx.coroutines.launch
+import java.util.*
+
 
 class SettingFragment : Fragment() {
 
     private lateinit var notificationSwitch: Switch
     private lateinit var darkModeSwitch: Switch
+    private lateinit var radioButton: RadioButton
+    private lateinit var radioButton1: RadioButton
+    private lateinit var radioButtonG: RadioGroup
     private lateinit var settingUI: ConstraintLayout
     private lateinit var calendarSettingTextView: TextView
     private lateinit var viewModel: ZikrViewModel
+    private lateinit var prefM: PreferencesManager
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
@@ -38,19 +51,25 @@ class SettingFragment : Fragment() {
 
         notificationSwitch = view.findViewById(R.id.switch1)
         darkModeSwitch = view.findViewById(R.id.switch2)
+        radioButton = view.findViewById(R.id.radio_arabic)
+        radioButton1 = view.findViewById(R.id.radio_english)
+        radioButtonG = view.findViewById(R.id.grr)
         calendarSettingTextView = view.findViewById(R.id.calendarSettingTextView)
         settingUI = view.findViewById(R.id.settingUI)
 
 
         viewModel = ViewModelProvider(requireActivity())[ZikrViewModel::class.java]
 
-        viewModel.islamicCalendarLiveData.observe(viewLifecycleOwner, Observer {
+        prefM = PreferencesManager(requireContext())
+
+
+        viewModel.islamicCalendarLiveData.observe(viewLifecycleOwner) {
             calendarSettingTextView.text = it
-        })
+        }
 
         darkModeSwitch.isChecked = isNightMode(requireContext())
 
-        darkModeSwitch.setOnCheckedChangeListener { compoundButton, b ->
+        darkModeSwitch.setOnCheckedChangeListener { _, b ->
             if (b) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             } else {
@@ -59,36 +78,60 @@ class SettingFragment : Fragment() {
         }
 
 
-        notificationSwitch.setOnCheckedChangeListener { compoundButton, b ->
+        notificationSwitch.setOnCheckedChangeListener { _, b ->
             if (b) {
-                //viewModel.reminderNotification()
                 Snackbar.make(settingUI, "Notifications are now on!", Snackbar.LENGTH_LONG).show()
-
             }
         }
 
-        fun onRadioButtonClicked(view: View) {
-            if (view is RadioButton) {
-                // Is the button now checked?
-                val checked = view.isChecked
+        radioButton.setOnClickListener {
 
-                // Check which radio button was clicked
-                when (view.getId()) {
-                    R.id.radio_arabic ->
-                        if (checked) {
-                            // Pirates are the best
+            val locale = Locale("ar")
+            Locale.setDefault(locale)
 
-                        }
-                    R.id.radio_english ->
-                        if (checked) {
-                            // Ninjas rule
+            val resources: Resources = requireContext().resources
 
-                        }
-                }
+            val configuration: Configuration = resources.configuration
+            configuration.locale = locale
+            configuration.setLayoutDirection(locale)
+
+            lifecycleScope.launch {
+                prefM.save("btn", "true")
+            }
+
+            resources.updateConfiguration(configuration, resources.displayMetrics)
+            val intent = Intent(context, MainActivity::class.java)
+            startActivity(intent)
+            radioButton.isChecked = true
+        }
+
+
+        radioButton1.setOnClickListener {
+
+            val locale = Locale("en")
+            Locale.setDefault(locale)
+
+            val resources: Resources = requireContext().resources
+
+            val configuration: Configuration = resources.configuration
+            configuration.locale = locale
+            configuration.setLayoutDirection(locale)
+
+            resources.updateConfiguration(configuration, resources.displayMetrics)
+            val intent = Intent(context, MainActivity::class.java)
+            startActivity(intent)
+            radioButton1.isChecked = true
+        }
+
+        lifecycleScope.launch {
+            val vale = prefM.read("btn")
+            if (vale == "true"){
+                radioButton.isChecked = true
             }
         }
         return view
     }
+
     fun isNightMode(context: Context): Boolean {
         val nightModeFlags =
             context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK

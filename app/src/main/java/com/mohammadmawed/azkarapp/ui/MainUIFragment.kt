@@ -14,13 +14,19 @@ import android.widget.Button
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.createDataStore
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.mohammadmawed.azkarapp.R
+import com.mohammadmawed.azkarapp.data.PreferencesManager
 import com.mohammadmawed.azkarapp.data.Zikr
+import kotlinx.coroutines.launch
 
 
 class MainUIFragment : Fragment() {
@@ -59,6 +65,7 @@ class MainUIFragment : Fragment() {
 
 
         viewModel = ViewModelProvider(requireActivity())[ZikrViewModel::class.java]
+
 
         val context = context
 
@@ -128,9 +135,8 @@ class MainUIFragment : Fragment() {
         viewModel.islamicCalendarLiveData.observe(viewLifecycleOwner, Observer {
             calendarTextView.text = it
         })
-        viewModel.reminderNotification()
 
-        //viewModel.reminderNotification(context!!)
+
 
         return view
 

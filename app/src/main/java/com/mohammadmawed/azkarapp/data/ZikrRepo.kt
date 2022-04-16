@@ -45,27 +45,9 @@ class ZikrRepo(private val zikrDao: ZikrDao) {
         return formatter.format(hijrahDate)
     }
 
-    fun createChannel(context: Context) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-
-            // Create the NotificationChannel
-            val name = "Zikr"
-            val descriptionText = "Zikr"
-            val importance = NotificationManager.IMPORTANCE_DEFAULT
-            val mChannel =
-                NotificationChannel("Zikr", name, importance)
-            mChannel.description = descriptionText
-            // Register the channel with the system; you can't change the importance
-            // or other notification behaviors after this
-            val notificationManager =
-                context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.createNotificationChannel(mChannel)
-        }
-    }
-
     //To add Zikr is from here
     suspend fun addZikr() {
-        zikrDao.addZikr(Zikr(1, "أَعُوذُ بِاللهِ مِنْ الشَّيْطَانِ الرَّجِيمِ\n" +
+        zikrDao.addZikr(Zikr(1, "أَعُوذُ بِاللهِ مِنْ الشَّيْطَانِ الرَّجِيمِ \n"+
                 "اللّهُ لاَ إِلَـهَ إِلاَّ هُوَ الْحَيُّ الْقَيُّومُ لاَ تَأْخُذُهُ سِنَةٌ وَلاَ نَوْمٌ لَّهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الأَرْضِ مَن ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلاَّ بِإِذْنِهِ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ وَلاَ يُحِيطُونَ بِشَيْءٍ مِّنْ عِلْمِهِ إِلاَّ بِمَا شَاء وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالأَرْضَ وَلاَ يَؤُودُهُ حِفْظُهُمَا وَهُوَ الْعَلِيُّ الْعَظِيمُ. [آية الكرسى - البقرة 255].", "من قالها حين يصبح أجير من الجن حتى يمسى ومن قالها حين يمسى أجير من الجن حتى يصبح.",1,false, false))
         zikrDao.addZikr(Zikr(2, "بِسْمِ اللهِ الرَّحْمنِ الرَّحِيم\n" +
                 "قُلْ هُوَ ٱللَّهُ أَحَدٌ، ٱللَّهُ ٱلصَّمَدُ، لَمْ يَلِدْ وَلَمْ يُولَدْ، وَلَمْ يَكُن لَّهُۥ كُفُوًا أَحَدٌۢ.", "من قالها حين يصبح وحين يمسى كفته من كل شىء (الإخلاص والمعوذتين). ",3,false, false))
