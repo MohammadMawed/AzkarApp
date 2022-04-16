@@ -1,6 +1,18 @@
 package com.mohammadmawed.azkarapp.data
 
+import android.app.Activity
+import android.app.Application
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
+import android.icu.util.Calendar
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
+import com.mohammadmawed.azkarapp.R
+import java.time.LocalDate
+import java.time.chrono.HijrahDate
+import java.time.format.DateTimeFormatter
 
 
 class ZikrRepo(private val zikrDao: ZikrDao) {
@@ -10,8 +22,49 @@ class ZikrRepo(private val zikrDao: ZikrDao) {
         return readAllData
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun islamicDate(): String {
+
+        val calendar = Calendar.getInstance()
+        val year = calendar[java.util.Calendar.YEAR]
+        val month = calendar[java.util.Calendar.MONTH] + 1
+
+        //Change the number behind the brackets
+        val day = calendar[java.util.Calendar.DAY_OF_MONTH]
+
+        val dt: LocalDate = LocalDate.of(year, month, day)
+
+        //When change the language locally, display the date in the tight language
+
+        //val locale: String = Locale.getDefault().toLanguageTag()
+        //val fr = DateTimeFormatter.ofPattern("dd MMMM yyyy", Locale(locale))
+
+        // convert to Hijri
+        val hijrahDate = HijrahDate.from(dt)
+        val formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy")
+        return formatter.format(hijrahDate)
+    }
+
+    fun createChannel(context: Context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
+            // Create the NotificationChannel
+            val name = "Zikr"
+            val descriptionText = "Zikr"
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val mChannel =
+                NotificationChannel("Zikr", name, importance)
+            mChannel.description = descriptionText
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            val notificationManager =
+                context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(mChannel)
+        }
+    }
+
     //To add Zikr is from here
-    suspend fun addZikr(zikr: Zikr) {
+    suspend fun addZikr() {
         zikrDao.addZikr(Zikr(1, "أَعُوذُ بِاللهِ مِنْ الشَّيْطَانِ الرَّجِيمِ\n" +
                 "اللّهُ لاَ إِلَـهَ إِلاَّ هُوَ الْحَيُّ الْقَيُّومُ لاَ تَأْخُذُهُ سِنَةٌ وَلاَ نَوْمٌ لَّهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الأَرْضِ مَن ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلاَّ بِإِذْنِهِ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ وَلاَ يُحِيطُونَ بِشَيْءٍ مِّنْ عِلْمِهِ إِلاَّ بِمَا شَاء وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالأَرْضَ وَلاَ يَؤُودُهُ حِفْظُهُمَا وَهُوَ الْعَلِيُّ الْعَظِيمُ. [آية الكرسى - البقرة 255].", "من قالها حين يصبح أجير من الجن حتى يمسى ومن قالها حين يمسى أجير من الجن حتى يصبح.",1,false, false))
         zikrDao.addZikr(Zikr(2, "بِسْمِ اللهِ الرَّحْمنِ الرَّحِيم\n" +
@@ -49,6 +102,5 @@ class ZikrRepo(private val zikrDao: ZikrDao) {
         zikrDao.addZikr(Zikr(30, "سُبْحـانَ اللهِ وَبِحَمْـدِهِ. ", "حُطَّتْ خَطَايَاهُ وَإِنْ كَانَتْ مِثْلَ زَبَدِ الْبَحْرِ. لَمْ يَأْتِ أَحَدٌ يَوْمَ الْقِيَامَةِ بِأَفْضَلَ مِمَّا جَاءَ بِهِ إِلَّا أَحَدٌ قَالَ مِثْلَ مَا قَالَ أَوْ زَادَ عَلَيْهِ.",100,false, false))
 
     }
-
 
 }

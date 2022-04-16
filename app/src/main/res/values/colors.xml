@@ -7,6 +7,7 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="whiteFont">#292929</color>
 
     <color name="color1">#1e81b0</color>
     <color name="DarkModeColor">#292929</color>
@@ -32,6 +33,9 @@
     <color name="titanium">#283048</color>
     <color name="bag">#ffd89b</color>
     <color name="coolcolor">#ff7e5f</color>
+    <color name="lightBlueBaby">#687FB1</color>
+    <color name="lightBlueBabyA">#848589</color>
     <color name="titanium_end">#535A5C</color>
+    <color name="per">#4b33c1</color>
     <color name="SplashScreenFontColor">#000000</color>
 </resources>

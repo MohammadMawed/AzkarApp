@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/shape9"
+    android:id="@+id/settingUI"
     tools:context=".ui.NightFragment">
 
     <RelativeLayout
@@ -29,15 +29,15 @@
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:gravity="center"
-            android:text="@string/_20_10_1443"
-            android:textColor="#fff"
+            android:textColor="@color/whiteFont"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.501"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.544" />
+            app:layout_constraintVertical_bias="0.544"
+            tools:text="@string/_20_10_1443" />
 
         <TextView
             android:id="@+id/navigationTextView"
@@ -48,7 +48,7 @@
             android:layout_marginBottom="5dp"
             android:gravity="center"
             android:text="@string/setting"
-            android:textColor="#fff"
+            android:textColor="@color/whiteFont"
             android:textSize="33sp"
             android:textStyle="bold"
             tools:ignore="RelativeOverlap" />
@@ -60,14 +60,14 @@
         android:layout_width="match_parent"
         android:layout_height="350dp"
         android:layout_margin="20dp"
-        android:background="@drawable/shape6"
-        android:padding="20dp"
+        android:background="@drawable/shape12"
+        android:padding="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.75"
+        app:layout_constraintHorizontal_bias="0.975"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.426">
+        app:layout_constraintVertical_bias="0.499">
 
 
         <Switch
@@ -78,9 +78,10 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="10dp"
-            android:text="Notifications"
+            android:text="@string/notifications"
             android:textColor="#ffff"
             android:textSize="20sp"
+            android:textStyle="bold"
             tools:ignore="UseSwitchCompatOrMaterialXml" />
 
         <TextView
@@ -89,7 +90,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/switch1"
             android:layout_marginTop="10dp"
-            android:text="This option will send a reminder if enabled."
+            android:text="@string/this_option_will_send_a_reminder_if_enabled"
             android:textColor="#fff"
             android:textSize="15sp" />
 
@@ -102,9 +103,10 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="20dp"
-            android:text="Notifications"
+            android:text="@string/dark_mode"
             android:textColor="#ffff"
             android:textSize="20sp"
+            android:textStyle="bold"
             tools:ignore="UseSwitchCompatOrMaterialXml" />
 
         <TextView
@@ -113,7 +115,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/switch2"
             android:layout_marginTop="10dp"
-            android:text="This option will send a reminder if enabled."
+            android:text="@string/this_option_will_enable_dark_mode"
             android:textColor="#fff"
             android:textSize="15sp" />
 
@@ -123,7 +125,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/textView3"
             android:layout_marginTop="20dp"
-            android:text="App Language"
+            android:text="@string/app_language"
             android:textColor="#fff"
             android:textSize="20sp" />
 
@@ -142,7 +144,7 @@
                 android:layout_marginRight="5dp"
                 android:layout_marginBottom="5dp"
                 android:onClick="onRadioButtonClicked"
-                android:text="Arabic"
+                android:text="@string/arabic"
                 android:textColor="#fff"
                 android:textSize="15sp"
                 tools:ignore="UsingOnClickInXml" />
@@ -153,7 +155,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:onClick="onRadioButtonClicked"
-                android:text="English"
+                android:text="@string/english"
                 android:textColor="#fff"
                 android:textSize="15sp" />
         </RadioGroup>

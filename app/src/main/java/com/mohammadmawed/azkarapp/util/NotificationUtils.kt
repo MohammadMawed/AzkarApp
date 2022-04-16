@@ -17,9 +17,12 @@
 package com.mohammadmawed.azkarapp.util
 
 import android.annotation.SuppressLint
-import android.app.*
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
@@ -29,7 +32,7 @@ import com.mohammadmawed.azkarapp.R
 
 // Notification ID.
 private const val NOTIFICATION_ID = 0
-
+private val VIBRATION = longArrayOf(1000, 1000, 1000, 1000, 1000)
 
 @RequiresApi(Build.VERSION_CODES.M)
 @SuppressLint("UnspecifiedImmutableFlag")
@@ -43,7 +46,7 @@ fun NotificationManager.sendNotification(messageBody: String, applicationContext
         contentIntent,
         PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
     )
-    // TODO: Step 2.2 add snooze action
+    //add snooze action
 
     // Build the notification
     val builder = NotificationCompat.Builder(applicationContext, applicationContext.getString(R.string.notification_channel_id))
@@ -54,7 +57,9 @@ fun NotificationManager.sendNotification(messageBody: String, applicationContext
         .setContentText(messageBody)
         .setContentIntent(contentPendingIntent)
         .setAutoCancel(true)
-        // TODO: Step 2.3 add snooze action
+        .setVibrate(VIBRATION)
+        //.setSound(Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + applicationContext + "/raw/eiskalt.mp3"))
+        //add snooze action
         .setPriority(NotificationCompat.PRIORITY_HIGH)
     notify(NOTIFICATION_ID, builder.build())
 }

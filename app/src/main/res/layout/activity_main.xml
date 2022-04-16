@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/shape9"
     tools:context=".MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -39,7 +38,6 @@
         app:menu="@menu/bottom_nav_menu"
         tools:layout_editor_absoluteX="-16dp"
         tools:layout_editor_absoluteY="811dp" />
-
 
 
 </RelativeLayout>

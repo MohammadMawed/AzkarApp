@@ -1,13 +1,12 @@
 package com.mohammadmawed.azkarapp.ui
 
 import android.annotation.SuppressLint
-import android.app.AlarmManager
-import android.app.Application
-import android.app.NotificationManager
-import android.app.PendingIntent
+import android.app.*
 import android.content.Context
 import android.content.Intent
+import android.icu.util.Calendar
 import android.os.Build
+import android.os.CountDownTimer
 import android.os.SystemClock
 import android.util.Log
 import androidx.annotation.RequiresApi
@@ -24,81 +23,128 @@ import com.mohammadmawed.azkarapp.receiver.ReminderBroadcast
 import com.mohammadmawed.azkarapp.util.cancelNotifications
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-@RequiresApi(Build.VERSION_CODES.M)
+@RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("UnspecifiedImmutableFlag")
 class ZikrViewModel(application: Application) : AndroidViewModel(application) {
 
     private val REQUEST_CODE = 0
     private val TRIGGER_TIME = "TRIGGER_AT"
 
+    private val minute: Long = 60_000L
+    private val second: Long = 1_000L
+
     private val repo: ZikrRepo
-    private val notifyPendingIntent: PendingIntent
+    private lateinit var notifyPendingIntent: PendingIntent
 
     private val alarmManager = application.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+    private var prefs =
+        application.getSharedPreferences("com.mohammadmawed.azkarapp", Context.MODE_PRIVATE)
 
     private val notifyIntent = Intent(application, ReminderBroadcast::class.java)
 
     private var _sendNotificationMutableLiveData: MutableLiveData<Boolean> =
         MutableLiveData()
 
-    val sendNotificationLiveData: LiveData<Boolean> =
-        _sendNotificationMutableLiveData
+    private var _snackBarSendNotificationMutableLiveData: MutableLiveData<Boolean> =
+        MutableLiveData()
+
+    private var _islamicCalendarMutableLiveData: MutableLiveData<String> =
+        MutableLiveData()
+
+    val islamicCalendarLiveData: LiveData<String> =
+        _islamicCalendarMutableLiveData
+
+    val snackBarSendNotificationLiveData: LiveData<Boolean> =
+        _snackBarSendNotificationMutableLiveData
+
+    private val _elapsedTime = MutableLiveData<Long>()
+    val elapsedTime: LiveData<Long>
+        get() = _elapsedTime
+
+    var alarmOn: Boolean = false
+
+    private lateinit var timer: CountDownTimer
 
     init {
         val zikrDao = ZikrDatabase.getDatabase(application).zikrDao()
         repo = ZikrRepo(zikrDao)
 
+        //Calling all functions when the viewModel is initialized
+        addZikr()
+        islamicDate()
 
-        notifyPendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            PendingIntent.getBroadcast(getApplication(), 0, notifyIntent, PendingIntent.FLAG_MUTABLE)
-        } else {
-            PendingIntent.getBroadcast(getApplication(), 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT)
-        }
+        createNotificationChannel(application)
+
 
     }
 
-    fun addZikr() {
+    private fun addZikr() {
         viewModelScope.launch(Dispatchers.IO) {
-            repo.addZikr(Zikr(0, "Text oh oh oh oh ", "", 2, false, false))
-            repo.addZikr(Zikr(1, "sdigjh jghsj kjkshgjkshjklg jk ", "", 3, false, false))
+            repo.addZikr()
+            repo.addZikr()
         }
+    }
+    private fun createNotificationChannel(context: Context){
+        repo.createChannel(context)
     }
 
     fun itemById(id: Int): LiveData<List<Zikr>> {
         return repo.getItemByID(id)
     }
 
+    private fun islamicDate(){
+        val hijriDate = repo.islamicDate()
+        _islamicCalendarMutableLiveData.postValue(hijriDate)
+
+    }
+
     @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("SimpleDateFormat")
 
-    fun reminderNotification(context: Context) {
+    fun reminderNotification() {
 
-        val triggerTime = SystemClock.elapsedRealtime()
+        notifyPendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            PendingIntent.getBroadcast(
+                getApplication(),
+                0,
+                notifyIntent,
+                PendingIntent.FLAG_MUTABLE
+            )
+        } else {
+            PendingIntent.getBroadcast(
+                getApplication(),
+                0,
+                notifyIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT
+            )
+        }
 
+        // Set the alarm to start at 8:30 a.m.
+        val calendar: Calendar = Calendar.getInstance().apply {
+            timeInMillis = System.currentTimeMillis()
+            set(Calendar.HOUR_OF_DAY, 3)
+            set(Calendar.MINUTE, 34)
+        }
         val current = LocalDateTime.now()
         val formatter = DateTimeFormatter.ofPattern("HH:mm")
         val formatted = current.format(formatter)
 
         Log.d("date", formatted)
-        if (formatted == "02:19" || formatted == "02:20") {
-            // TODO: Step 1.15 call cancel notification
-            val notificationManager =
-                ContextCompat.getSystemService(
-                    context,
-                    NotificationManager::class.java
-                ) as NotificationManager
 
-            notificationManager.cancelNotifications()
-
-            AlarmManagerCompat.setExactAndAllowWhileIdle(
-                alarmManager,
-                AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                triggerTime,
+        //Wake up the device to fire the alarm at approximately 3:00 p.m., and repeat once a day at the same time
+            alarmManager.setInexactRepeating(
+                AlarmManager.RTC_WAKEUP,
+                calendar.timeInMillis,
+                AlarmManager.INTERVAL_DAY,
                 notifyPendingIntent
             )
-        }
+
+        //}
     }
+
 }

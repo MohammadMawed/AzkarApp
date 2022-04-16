@@ -3,7 +3,7 @@ package com.mohammadmawed.azkarapp.ui
 import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.content.Context.NOTIFICATION_SERVICE
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -28,6 +28,7 @@ class MainUIFragment : Fragment() {
     private lateinit var zikrTextView: TextView
     private lateinit var hintTextView: TextView
     private lateinit var repeatTimeTextView: TextView
+    private lateinit var calendarTextView: TextView
     private lateinit var nextButton: Button
     private lateinit var previousButton: Button
     private lateinit var shareFloatingButton: FloatingActionButton
@@ -50,6 +51,7 @@ class MainUIFragment : Fragment() {
         zikrTextView = view.findViewById(R.id.zikrTextView)
         hintTextView = view.findViewById(R.id.hintTextView)
         repeatTimeTextView = view.findViewById(R.id.repeatTimeTextView)
+        calendarTextView = view.findViewById(R.id.calendarTextView)
         nextButton = view.findViewById(R.id.nextButton)
         previousButton = view.findViewById(R.id.previousButton)
         shareFloatingButton = view.findViewById(R.id.shareFloatingButton)
@@ -60,14 +62,12 @@ class MainUIFragment : Fragment() {
 
         val context = context
 
-        createChannel()
-
         /*val selectedItemId: Int = nav_menu.selectedItemId
         val badge = nav_menu.getOrCreateBadge(selectedItemId)
         badge.isVisible = true
         // An icon only badge will be displayed unless a number is set*/
 
-        viewModel.addZikr()
+        createChannel()
 
         var idd: Int = 1
 
@@ -117,28 +117,31 @@ class MainUIFragment : Fragment() {
 
             val shareIntent: Intent = Intent().apply {
                 action = Intent.ACTION_SEND
-                putExtra(Intent.EXTRA_STREAM, zikrTextView.text)
                 type = "text/plain"
+                val text: String = zikrTextView.text.toString()
+                putExtra(Intent.EXTRA_STREAM, text)
             }
-            startActivity(Intent.createChooser(shareIntent, zikrTextView.text))
+            startActivity(Intent.createChooser(shareIntent, "Share using"))
 
         }
 
+        viewModel.islamicCalendarLiveData.observe(viewLifecycleOwner, Observer {
+            calendarTextView.text = it
+        })
+        viewModel.reminderNotification()
 
-
-        viewModel.reminderNotification(context!!)
-
-
+        //viewModel.reminderNotification(context!!)
 
         return view
 
     }
 
-    private fun createChannel() {
+    fun createChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
             // Create the NotificationChannel
-            val name = getString(R.string.notification_channel_name)
-            val descriptionText = getString(R.string.notification_channel_name)
+            val name = getText(R.string.notification_channel_name)
+            val descriptionText = "Zikr"
             val importance = NotificationManager.IMPORTANCE_DEFAULT
             val mChannel =
                 NotificationChannel(getString(R.string.notification_channel_id), name, importance)
@@ -146,7 +149,7 @@ class MainUIFragment : Fragment() {
             // Register the channel with the system; you can't change the importance
             // or other notification behaviors after this
             val notificationManager =
-                requireActivity().getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+                requireActivity().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(mChannel)
         }
     }

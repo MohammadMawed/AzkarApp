@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/shape9"
     tools:context=".ui.MainUIFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -33,8 +32,8 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:gravity="center"
-                android:text="@string/_20_10_1443"
-                android:textColor="#fff"
+                tools:text="@string/_20_10_1443"
+                android:textColor="@color/whiteFont"
                 android:textSize="15sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -52,7 +51,7 @@
                 android:layout_marginBottom="5dp"
                 android:gravity="center"
                 android:text="@string/azkar_alsabah"
-                android:textColor="#fff"
+                android:textColor="@color/whiteFont"
                 android:textSize="33sp"
                 android:textStyle="bold"
                 tools:ignore="RelativeOverlap" />
@@ -91,7 +90,7 @@
             android:layout_width="match_parent"
             android:layout_height="350dp"
             android:layout_margin="20dp"
-            android:background="@drawable/shape6"
+            android:background="@drawable/shape12"
             android:padding="30dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -142,7 +141,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="-20dp"
-            android:background="@drawable/shape10"
+            android:background="@drawable/shapedark"
             android:padding="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/zikrContainer"
@@ -157,8 +156,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
-                android:textColor="#000"
-                android:textSize="23sp"
+                android:textColor="#fff"
+                android:textSize="25sp"
                 android:textStyle="bold"
                 tools:text="3X" />
         </RelativeLayout>
@@ -197,7 +196,8 @@
                 android:background="@drawable/shapebutton2"
                 android:backgroundTint="@color/Green"
                 android:text="@string/next"
-                android:textColor="#fff"
+                android:textColor="@color/whiteFont"
+                android:textSize="16sp"
                 app:rippleColor="?attr/colorOnSurface" />
 
         </RelativeLayout>
@@ -236,7 +236,8 @@
                 android:background="@drawable/shapebutton2"
                 android:backgroundTint="@color/Green"
                 android:text="@string/previous"
-                android:textColor="#fff" />
+                android:textColor="@color/whiteFont"
+                android:textSize="16sp" />
 
         </RelativeLayout>
 
