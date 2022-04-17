@@ -58,6 +58,8 @@ class MainUIFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_main_u_i, container, false)
 
+        viewModel.readLanguageSettings("language", requireContext())
+
         zikrTextView = view.findViewById(R.id.zikrTextView)
         hintTextView = view.findViewById(R.id.hintTextView)
         indexTextView = view.findViewById(R.id.indexTextView)
@@ -69,6 +71,7 @@ class MainUIFragment : Fragment() {
         zikrContainer = view.findViewById(R.id.zikrContainer)
 
 
+
         val context = context
 
         /*val selectedItemId: Int = nav_menu.selectedItemId
@@ -77,6 +80,7 @@ class MainUIFragment : Fragment() {
         // An icon only badge will be displayed unless a number is set*/
 
         createChannel()
+
 
         var idd: Int = 1
 
@@ -139,10 +143,7 @@ class MainUIFragment : Fragment() {
             calendarTextView.text = it
         })
 
-
-
         return view
-
     }
 
     private fun createChannel() {

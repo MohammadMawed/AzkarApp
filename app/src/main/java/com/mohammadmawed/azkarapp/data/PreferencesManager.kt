@@ -11,12 +11,12 @@ import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 import javax.inject.Singleton
 
-const val PR_NAME = "setting"
+const val PR_NAME = "settings"
 
 @Singleton
 class PreferencesManager @Inject constructor(@ApplicationContext context: Context) {
 
-    private val dataStore: DataStore<Preferences> = context.createDataStore("settings")
+    private val dataStore: DataStore<Preferences> = context.createDataStore(PR_NAME)
 
     suspend fun save(key: String, value: String) {
         val dataStoreKey = stringPreferencesKey(key)

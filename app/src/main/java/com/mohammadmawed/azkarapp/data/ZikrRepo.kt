@@ -6,25 +6,30 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
+import android.content.res.Resources
 import android.icu.util.Calendar
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
+import com.mohammadmawed.azkarapp.MainActivity
 import com.mohammadmawed.azkarapp.receiver.ReminderBroadcast
 import com.mohammadmawed.azkarapp.util.cancelNotifications
 import kotlinx.coroutines.flow.Flow
+import java.io.IOException
 import java.time.LocalDate
-import java.time.LocalDateTime
 import java.time.chrono.HijrahDate
 import java.time.format.DateTimeFormatter
 import java.util.*
 import javax.inject.Inject
 
 
-class ZikrRepo @Inject constructor(private val zikrDao: ZikrDao) {
+class ZikrRepo @Inject constructor(
+    private val zikrDao: ZikrDao,
+    val preferencesManager: PreferencesManager
+) {
 
-    lateinit var notifyPendingIntent: PendingIntent
 
     fun getItemByID(id: Int): Flow<List<Zikr>> {
         val readAllData: Flow<List<Zikr>> = zikrDao.getAlsabahZikr(id)
@@ -55,21 +60,29 @@ class ZikrRepo @Inject constructor(private val zikrDao: ZikrDao) {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    @SuppressLint("SimpleDateFormat")
+    @SuppressLint("SimpleDateFormat", "UnspecifiedImmutableFlag")
 
     fun reminderNotification(context: Context) {
 
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-
+        val notifyPendingIntent: PendingIntent
         val notifyIntent = Intent(context, ReminderBroadcast::class.java)
 
-
-
-        val current = LocalDateTime.now()
-        val formatter = DateTimeFormatter.ofPattern("HH:mm")
-        val formatted = current.format(formatter)
-
-        Log.d("date", formatted)
+        notifyPendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            PendingIntent.getBroadcast(
+                context,
+                0,
+                notifyIntent,
+                PendingIntent.FLAG_MUTABLE
+            )
+        } else {
+            PendingIntent.getBroadcast(
+                context,
+                0,
+                notifyIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT
+            )
+        }
 
         val notificationManager =
             ContextCompat.getSystemService(context, NotificationManager::class.java)
@@ -77,15 +90,13 @@ class ZikrRepo @Inject constructor(private val zikrDao: ZikrDao) {
 
         notificationManager.cancelNotifications()
 
-
         // Set the alarm to start at 8:30 a.m.
         Calendar.getInstance().apply {
             timeInMillis = System.currentTimeMillis()
-            set(Calendar.HOUR_OF_DAY, 2)
-            set(Calendar.MINUTE, 25)
+            set(Calendar.HOUR_OF_DAY, 14)
+            set(Calendar.MINUTE, 48)
 
             //Prevent sending more than one notification to the user
-
             if (this.time < Date()) this.add(Calendar.DAY_OF_MONTH, 1)
 
             //Wake up the device to fire the alarm at approximately 3:00 p.m., and repeat once a day at the same time
@@ -96,7 +107,42 @@ class ZikrRepo @Inject constructor(private val zikrDao: ZikrDao) {
                 notifyPendingIntent
             )
         }
+    }
 
+    suspend fun readLanguageSettings(key: String, context: Context) {
+        val lang = preferencesManager.read(key)
+
+        if (lang == "ar") {
+
+            val locale = Locale("ar")
+            Locale.setDefault(locale)
+            val resources: Resources = context.resources
+            val configuration: Configuration = resources.configuration
+            configuration.locale = locale
+            configuration.setLayoutDirection(locale)
+            resources.updateConfiguration(configuration, resources.displayMetrics)
+
+        } else if (lang == "en") {
+
+            val locale = Locale("en")
+            Locale.setDefault(locale)
+            val resources: Resources = context.resources
+            val configuration: Configuration = resources.configuration
+            configuration.locale = locale
+            configuration.setLayoutDirection(locale)
+            resources.updateConfiguration(configuration, resources.displayMetrics)
+        }
+    }
+
+    suspend fun saveSettings(key: String, value: String): Boolean {
+
+        val result: Boolean = try {
+            preferencesManager.save(key, value)
+            true
+        } catch (exception: IOException) {
+            false
+        }
+        return result
     }
 
 }

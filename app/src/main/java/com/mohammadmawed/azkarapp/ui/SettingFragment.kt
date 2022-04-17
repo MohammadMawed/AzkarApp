@@ -16,15 +16,12 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContentProviderCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import com.mohammadmawed.azkarapp.MainActivity
 import com.mohammadmawed.azkarapp.R
-import com.mohammadmawed.azkarapp.data.PreferencesManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.util.*
@@ -39,6 +36,7 @@ class SettingFragment : Fragment() {
     private lateinit var radioButtonG: RadioGroup
     private lateinit var settingUI: ConstraintLayout
     private lateinit var calendarSettingTextView: TextView
+
 
     private val viewModel: ZikrViewModel by viewModels()
 
@@ -64,6 +62,8 @@ class SettingFragment : Fragment() {
             calendarSettingTextView.text = it
         }
 
+
+
         darkModeSwitch.isChecked = isNightMode(requireContext())
 
         darkModeSwitch.setOnCheckedChangeListener { _, b ->
@@ -83,6 +83,15 @@ class SettingFragment : Fragment() {
 
         radioButton.setOnClickListener {
 
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewModel.saveSettings("language", "ar")
+                        Snackbar.make(settingUI, "Settings saved!", Snackbar.LENGTH_LONG).show()
+
+                        Snackbar.make(settingUI, "Something went wrong!", Snackbar.LENGTH_LONG).show()
+
+
+            }
+
             val locale = Locale("ar")
             Locale.setDefault(locale)
 
@@ -99,6 +108,9 @@ class SettingFragment : Fragment() {
             radioButton.isChecked = true
         }
 
+        lifecycleScope.launch {
+            viewModel.readLanguageSettings("language", requireContext())
+        }
 
         radioButton1.setOnClickListener {
 
@@ -120,7 +132,7 @@ class SettingFragment : Fragment() {
         return view
     }
 
-    fun isNightMode(context: Context): Boolean {
+    private fun isNightMode(context: Context): Boolean {
         val nightModeFlags =
             context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
         return nightModeFlags == Configuration.UI_MODE_NIGHT_YES
