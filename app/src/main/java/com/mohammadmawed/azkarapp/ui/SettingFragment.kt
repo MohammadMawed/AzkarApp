@@ -18,16 +18,18 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContentProviderCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import com.mohammadmawed.azkarapp.MainActivity
 import com.mohammadmawed.azkarapp.R
 import com.mohammadmawed.azkarapp.data.PreferencesManager
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.util.*
 
-
+@AndroidEntryPoint
 class SettingFragment : Fragment() {
 
     private lateinit var notificationSwitch: Switch
@@ -37,8 +39,8 @@ class SettingFragment : Fragment() {
     private lateinit var radioButtonG: RadioGroup
     private lateinit var settingUI: ConstraintLayout
     private lateinit var calendarSettingTextView: TextView
-    private lateinit var viewModel: ZikrViewModel
-    private lateinit var prefM: PreferencesManager
+
+    private val viewModel: ZikrViewModel by viewModels()
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
@@ -56,11 +58,6 @@ class SettingFragment : Fragment() {
         radioButtonG = view.findViewById(R.id.grr)
         calendarSettingTextView = view.findViewById(R.id.calendarSettingTextView)
         settingUI = view.findViewById(R.id.settingUI)
-
-
-        viewModel = ViewModelProvider(requireActivity())[ZikrViewModel::class.java]
-
-        prefM = PreferencesManager(requireContext())
 
 
         viewModel.islamicCalendarLiveData.observe(viewLifecycleOwner) {
@@ -95,13 +92,10 @@ class SettingFragment : Fragment() {
             configuration.locale = locale
             configuration.setLayoutDirection(locale)
 
-            lifecycleScope.launch {
-                prefM.save("btn", "true")
-            }
-
             resources.updateConfiguration(configuration, resources.displayMetrics)
             val intent = Intent(context, MainActivity::class.java)
             startActivity(intent)
+
             radioButton.isChecked = true
         }
 
@@ -123,12 +117,6 @@ class SettingFragment : Fragment() {
             radioButton1.isChecked = true
         }
 
-        lifecycleScope.launch {
-            val vale = prefM.read("btn")
-            if (vale == "true"){
-                radioButton.isChecked = true
-            }
-        }
         return view
     }
 

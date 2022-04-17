@@ -12,27 +12,25 @@ import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
-import com.mohammadmawed.azkarapp.data.Zikr
-import com.mohammadmawed.azkarapp.data.ZikrDatabase
-import com.mohammadmawed.azkarapp.data.ZikrRepo
+import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.*
+import com.mohammadmawed.azkarapp.data.*
 import com.mohammadmawed.azkarapp.receiver.ReminderBroadcast
 import com.mohammadmawed.azkarapp.util.cancelNotifications
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.Flow
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 
 @RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("UnspecifiedImmutableFlag")
-class ZikrViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val repo: ZikrRepo
-    private var notifyPendingIntent: PendingIntent
+class ZikrViewModel @ViewModelInject constructor(
+    application: Application,
+    private val zikrDao: ZikrDao,
+    private val repo: ZikrRepo,
+    private val preferencesManager: PreferencesManager
+) : AndroidViewModel(application) {
 
     private val alarmManager = application.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
@@ -59,11 +57,11 @@ class ZikrViewModel(application: Application) : AndroidViewModel(application) {
     val notificationsOnLiveDate: LiveData<Boolean> =
         _notificationsOnMutableLiveDate
 
-    init {
-        val zikrDao = ZikrDatabase.getDatabase(application).zikrDao()
-        repo = ZikrRepo(zikrDao)
+    //val dao = zikrDao.getAlsabahZikr().asLiveData()
 
-        notifyPendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+    init {
+
+        repo.notifyPendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             PendingIntent.getBroadcast(
                 getApplication(),
                 0,
@@ -80,22 +78,13 @@ class ZikrViewModel(application: Application) : AndroidViewModel(application) {
         }
 
         //Calling all functions when the viewModel is initialized
-        addZikr()
         islamicDate()
-
         reminderNotification()
 
-
     }
 
-    private fun addZikr() {
-        viewModelScope.launch(Dispatchers.IO) {
-            repo.addZikr()
-        }
-    }
-
-    fun itemById(id: Int): LiveData<List<Zikr>> {
-        return repo.getItemByID(id)
+    fun itemById(id: Int): Flow<List<Zikr>> {
+       return repo.getItemByID(id)
     }
 
     private fun islamicDate() {
@@ -125,8 +114,8 @@ class ZikrViewModel(application: Application) : AndroidViewModel(application) {
         // Set the alarm to start at 8:30 a.m.
         Calendar.getInstance().apply {
             timeInMillis = System.currentTimeMillis()
-            set(Calendar.HOUR_OF_DAY, 14)
-            set(Calendar.MINUTE, 30)
+            set(Calendar.HOUR_OF_DAY, 2)
+            set(Calendar.MINUTE, 25)
 
             //Prevent sending more than one notification to the user
 
@@ -140,7 +129,6 @@ class ZikrViewModel(application: Application) : AndroidViewModel(application) {
                 notifyPendingIntent
             )
         }
-
 
     }
 

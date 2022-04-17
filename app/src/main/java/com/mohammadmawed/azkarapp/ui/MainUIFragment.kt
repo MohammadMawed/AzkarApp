@@ -18,21 +18,25 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.createDataStore
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.mohammadmawed.azkarapp.R
 import com.mohammadmawed.azkarapp.data.PreferencesManager
 import com.mohammadmawed.azkarapp.data.Zikr
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
-
+@AndroidEntryPoint
 class MainUIFragment : Fragment() {
 
     private lateinit var zikrTextView: TextView
     private lateinit var hintTextView: TextView
+    private lateinit var indexTextView: TextView
     private lateinit var repeatTimeTextView: TextView
     private lateinit var calendarTextView: TextView
     private lateinit var nextButton: Button
@@ -41,7 +45,7 @@ class MainUIFragment : Fragment() {
     private lateinit var zikrContainer: RelativeLayout
     private lateinit var nav_menu: BottomNavigationView
 
-    private lateinit var viewModel: ZikrViewModel
+    private val viewModel: ZikrViewModel by viewModels()
     lateinit var zikr: Zikr
 
 
@@ -56,15 +60,13 @@ class MainUIFragment : Fragment() {
 
         zikrTextView = view.findViewById(R.id.zikrTextView)
         hintTextView = view.findViewById(R.id.hintTextView)
+        indexTextView = view.findViewById(R.id.indexTextView)
         repeatTimeTextView = view.findViewById(R.id.repeatTimeTextView)
         calendarTextView = view.findViewById(R.id.calendarTextView)
         nextButton = view.findViewById(R.id.nextButton)
         previousButton = view.findViewById(R.id.previousButton)
         shareFloatingButton = view.findViewById(R.id.shareFloatingButton)
         zikrContainer = view.findViewById(R.id.zikrContainer)
-
-
-        viewModel = ViewModelProvider(requireActivity())[ZikrViewModel::class.java]
 
 
         val context = context
@@ -78,28 +80,28 @@ class MainUIFragment : Fragment() {
 
         var idd: Int = 1
 
-        viewModel.itemById(idd).observe(viewLifecycleOwner, Observer {
-            for (zikr in it) {
+        viewModel.itemById(idd).asLiveData().observe(viewLifecycleOwner, Observer { list->
+            for (zikr in list) {
                 zikrTextView.text = zikr.text
                 hintTextView.text = zikr.hint
                 repeatTimeTextView.text = zikr.repeat.toString() + "X"
+                indexTextView.text = "$idd/30"
             }
-
-            val sss = it.lastIndex
 
         })
 
+
         nextButton.setOnClickListener {
             idd++
-            if (idd == 33) {
+            if (idd == 31) {
                 idd = 1
             }
-            viewModel.itemById(idd).observe(viewLifecycleOwner, Observer {
+            viewModel.itemById(idd).asLiveData().observe(viewLifecycleOwner, Observer {
                 for (zikr in it) {
                     zikrTextView.text = zikr.text
                     hintTextView.text = zikr.hint
                     repeatTimeTextView.text = zikr.repeat.toString() + "X"
-
+                    indexTextView.text = "$idd/30"
                 }
 
             })
@@ -108,14 +110,15 @@ class MainUIFragment : Fragment() {
         previousButton.setOnClickListener {
             idd--
             if (idd == 0) {
-                idd = 32
+                idd = 30
 
             }
-            viewModel.itemById(idd).observe(viewLifecycleOwner, Observer {
+            viewModel.itemById(idd).asLiveData().observe(viewLifecycleOwner, Observer {
                 for (zikr in it) {
                     zikrTextView.text = zikr.text
                     hintTextView.text = zikr.hint
                     repeatTimeTextView.text = zikr.repeat.toString() + "X"
+                    indexTextView.text = "$idd/30"
                 }
 
             })
@@ -142,7 +145,7 @@ class MainUIFragment : Fragment() {
 
     }
 
-    fun createChannel() {
+    private fun createChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
             // Create the NotificationChannel

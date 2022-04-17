@@ -6,13 +6,15 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.createDataStore
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.first
+import javax.inject.Inject
 import javax.inject.Singleton
 
 const val PR_NAME = "setting"
 
 @Singleton
-class PreferencesManager(context: Context) {
+class PreferencesManager @Inject constructor(@ApplicationContext context: Context) {
 
     private val dataStore: DataStore<Preferences> = context.createDataStore("settings")
 

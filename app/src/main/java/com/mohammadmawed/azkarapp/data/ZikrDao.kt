@@ -1,10 +1,10 @@
 package com.mohammadmawed.azkarapp.data
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ZikrDao {
@@ -13,6 +13,6 @@ interface ZikrDao {
     suspend fun addZikr(zikr: Zikr)
 
     @Query("SELECT * FROM zikr WHERE id = :id")
-    fun getAlsabahZikr(id: Int): LiveData<List<Zikr>>
+    fun getAlsabahZikr(id: Int): Flow<List<Zikr>>
 
 }
