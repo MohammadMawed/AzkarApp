@@ -18,7 +18,6 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import com.google.android.material.snackbar.Snackbar
 import com.mohammadmawed.azkarapp.MainActivity
 import com.mohammadmawed.azkarapp.R
@@ -56,25 +55,37 @@ class SettingFragment : Fragment() {
         settingUI = view.findViewById(R.id.settingUI)
 
         //Loading user's settings
-        viewModel.notificationRefFlow.observe(viewLifecycleOwner, Observer {
-            notificationSwitch.isChecked = it
-        })
+        with(viewModel) {
 
-        viewModel.languagePrefFlow.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            notificationSwitch = view.findViewById(R.id.switch1)
+            darkModeSwitch = view.findViewById(R.id.switch2)
+            radioButton = view.findViewById(R.id.radio_arabic)
+            radioButton1 = view.findViewById(R.id.radio_english)
+            radioButtonG = view.findViewById(R.id.grr)
+            calendarSettingTextView = view.findViewById(R.id.calendarSettingTextView)
+            settingUI = view.findViewById(R.id.settingUI)
+
+            //Loading user's settings
+            notificationRefFlow.observe(viewLifecycleOwner) {
+                notificationSwitch.isChecked = it
+            }
+        }
+
+        viewModel.languagePrefFlow.observe(viewLifecycleOwner) {
             if (it == "ar") {
                 radioButton.isChecked = true
             } else if (it == "en") {
                 radioButton1.isChecked = true
             }
-        })
+        }
 
-        notificationSwitch.setOnCheckedChangeListener { compoundButton, b ->
+        notificationSwitch.setOnCheckedChangeListener { compoundButton, _ ->
             if (compoundButton.isChecked) {
-                viewModel.saveNotificationSettings(true)
+                viewModel.saveNotificationSettings(true, requireContext())
                 Log.d("notificat sett checked", "true")
                 //Snackbar.make(settingUI, "Notifications are now on!", Snackbar.LENGTH_LONG).show()
             } else {
-                viewModel.saveNotificationSettings(false)
+                viewModel.saveNotificationSettings(false, requireContext())
                 Log.d("notificat sett uncheck", "false")
                 //Snackbar.make(settingUI, "Notifications are now OFF!", Snackbar.LENGTH_LONG).show()
             }
@@ -97,7 +108,7 @@ class SettingFragment : Fragment() {
 
         radioButton.setOnClickListener {
 
-            viewModel.saveLanguageSettings("ar")
+            viewModel.saveLanguageSettings("ar", requireContext())
 
             radioButton.isChecked = true
 
@@ -110,7 +121,7 @@ class SettingFragment : Fragment() {
         }
 
         radioButton1.setOnClickListener {
-            viewModel.saveLanguageSettings("en")
+            viewModel.saveLanguageSettings("en", requireContext())
 
             viewModel.changeLanguage("en", requireContext())
 

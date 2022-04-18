@@ -5,8 +5,6 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
-import android.content.res.Configuration
-import android.content.res.Resources
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -17,23 +15,15 @@ import android.widget.Button
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.annotation.RequiresApi
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.createDataStore
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
-import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.mohammadmawed.azkarapp.R
-import com.mohammadmawed.azkarapp.data.PreferencesManager
 import com.mohammadmawed.azkarapp.data.Zikr
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
-import java.util.*
 
 @AndroidEntryPoint
 class MainUIFragment : Fragment() {
@@ -73,13 +63,13 @@ class MainUIFragment : Fragment() {
         zikrContainer = view.findViewById(R.id.zikrContainer)
 
 
-        viewModel.languagePrefFlow.observe(viewLifecycleOwner, Observer {
+        viewModel.languagePrefFlow.observe(viewLifecycleOwner) {
             if (it == "ar") {
-              viewModel.changeLanguage("ar", requireContext())
-            }else if (it == "en"){
+                viewModel.changeLanguage("ar", requireContext())
+            } else if (it == "en") {
                 viewModel.changeLanguage("en", requireContext())
             }
-        })
+        }
 
         viewModel.islamicCalendarLiveData.observe(viewLifecycleOwner, Observer {
             calendarTextView.text = it

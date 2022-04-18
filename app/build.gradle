@@ -111,7 +111,7 @@ dependencies {
     implementation 'androidx.work:work-runtime:2.8.0-alpha02'
 
     // Preferences
-    implementation "androidx.datastore:datastore-preferences:1.0.0-alpha03"
+    implementation "androidx.datastore:datastore-preferences:1.0.0"
 
 
 }

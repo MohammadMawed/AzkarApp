@@ -72,20 +72,22 @@ class ZikrViewModel @ViewModelInject constructor(
         repo.cancelNotification(context)
     }
 
-    fun saveLanguageSettings(value: String) {
+    fun saveLanguageSettings(value: String, context: Context) {
         viewModelScope.launch {
-            preferencesManager.saveLanguageRef(value)
+            preferencesManager.saveLanguageRef(value, context)
         }
     }
 
-    fun saveNotificationSettings(value: Boolean) {
+    fun saveNotificationSettings(value: Boolean, context: Context) {
         viewModelScope.launch {
-            preferencesManager.saveNotification(value)
+            preferencesManager.saveNotification(value, context)
         }
     }
 
     fun changeLanguage(lang: String, context: Context) {
         repo.changeLanguage(lang, context)
     }
+
+
 
 }
