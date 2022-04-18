@@ -8,10 +8,8 @@ import androidx.annotation.RequiresApi
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import com.mohammadmawed.azkarapp.data.*
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
-import java.io.IOException
 
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -45,12 +43,15 @@ class ZikrViewModel @ViewModelInject constructor(
     val notificationsOnLiveDate: LiveData<Boolean> =
         _notificationsOnMutableLiveDate
 
+    val languagePrefFlow = preferencesManager.languageRefFlow.asLiveData()
+    val notificationRefFlow = preferencesManager.notificationRefFlow.asLiveData()
+
     //val dao = zikrDao.getAlsabahZikr().asLiveData()
 
     init {
         //Calling all functions when the viewModel is initialized
         islamicDate()
-        remindUserAtTime(application)
+
     }
 
     fun itemById(id: Int): Flow<List<Zikr>> {
@@ -63,26 +64,28 @@ class ZikrViewModel @ViewModelInject constructor(
 
     }
 
-    private fun remindUserAtTime(application: Application) {
-        repo.reminderNotification(application)
+    fun remindUserAtTime(context: Context) {
+        repo.reminderNotification(context)
     }
 
-    suspend fun readSettings(key: String): Boolean{
+    fun cancelRemindUserAtTime(context: Context) {
+        repo.cancelNotification(context)
+    }
 
-        val result: Boolean = try {
-            preferencesManager.read(key)
-            true
-        }catch (exception: IOException){
-            false
+    fun saveLanguageSettings(value: String) {
+        viewModelScope.launch {
+            preferencesManager.saveLanguageRef(value)
         }
-        return result
     }
 
-    fun saveSettings(key: String, value: String) = viewModelScope.launch{
-        repo.saveSettings(key, value)
+    fun saveNotificationSettings(value: Boolean) {
+        viewModelScope.launch {
+            preferencesManager.saveNotification(value)
+        }
     }
-    fun readLanguageSettings(key: String, context: Context) = viewModelScope.launch{
-        repo.readLanguageSettings(key, context)
+
+    fun changeLanguage(lang: String, context: Context) {
+        repo.changeLanguage(lang, context)
     }
 
 }

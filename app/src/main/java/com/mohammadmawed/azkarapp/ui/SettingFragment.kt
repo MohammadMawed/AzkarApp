@@ -3,9 +3,9 @@ package com.mohammadmawed.azkarapp.ui
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
-import android.content.res.Resources
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,13 +18,11 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.Observer
 import com.google.android.material.snackbar.Snackbar
 import com.mohammadmawed.azkarapp.MainActivity
 import com.mohammadmawed.azkarapp.R
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
-import java.util.*
 
 @AndroidEntryPoint
 class SettingFragment : Fragment() {
@@ -57,12 +55,35 @@ class SettingFragment : Fragment() {
         calendarSettingTextView = view.findViewById(R.id.calendarSettingTextView)
         settingUI = view.findViewById(R.id.settingUI)
 
+        //Loading user's settings
+        viewModel.notificationRefFlow.observe(viewLifecycleOwner, Observer {
+            notificationSwitch.isChecked = it
+        })
+
+        viewModel.languagePrefFlow.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            if (it == "ar") {
+                radioButton.isChecked = true
+            } else if (it == "en") {
+                radioButton1.isChecked = true
+            }
+        })
+
+        notificationSwitch.setOnCheckedChangeListener { compoundButton, b ->
+            if (compoundButton.isChecked) {
+                viewModel.saveNotificationSettings(true)
+                Log.d("notificat sett checked", "true")
+                //Snackbar.make(settingUI, "Notifications are now on!", Snackbar.LENGTH_LONG).show()
+            } else {
+                viewModel.saveNotificationSettings(false)
+                Log.d("notificat sett uncheck", "false")
+                //Snackbar.make(settingUI, "Notifications are now OFF!", Snackbar.LENGTH_LONG).show()
+            }
+
+        }
 
         viewModel.islamicCalendarLiveData.observe(viewLifecycleOwner) {
             calendarSettingTextView.text = it
         }
-
-
 
         darkModeSwitch.isChecked = isNightMode(requireContext())
 
@@ -74,59 +95,30 @@ class SettingFragment : Fragment() {
             }
         }
 
-
-        notificationSwitch.setOnCheckedChangeListener { _, b ->
-            if (b) {
-                Snackbar.make(settingUI, "Notifications are now on!", Snackbar.LENGTH_LONG).show()
-            }
-        }
-
         radioButton.setOnClickListener {
 
-            viewLifecycleOwner.lifecycleScope.launch {
-                viewModel.saveSettings("language", "ar")
-                        Snackbar.make(settingUI, "Settings saved!", Snackbar.LENGTH_LONG).show()
-
-                        Snackbar.make(settingUI, "Something went wrong!", Snackbar.LENGTH_LONG).show()
-
-
-            }
-
-            val locale = Locale("ar")
-            Locale.setDefault(locale)
-
-            val resources: Resources = requireContext().resources
-
-            val configuration: Configuration = resources.configuration
-            configuration.locale = locale
-            configuration.setLayoutDirection(locale)
-
-            resources.updateConfiguration(configuration, resources.displayMetrics)
-            val intent = Intent(context, MainActivity::class.java)
-            startActivity(intent)
+            viewModel.saveLanguageSettings("ar")
 
             radioButton.isChecked = true
-        }
 
-        lifecycleScope.launch {
-            viewModel.readLanguageSettings("language", requireContext())
+            viewModel.changeLanguage("ar", requireContext())
+
+            val intent = Intent(context, MainActivity::class.java)
+            startActivity(intent)
+            //Snackbar.make(settingUI, "Something went wrong!", Snackbar.LENGTH_LONG).show()
+
         }
 
         radioButton1.setOnClickListener {
+            viewModel.saveLanguageSettings("en")
 
-            val locale = Locale("en")
-            Locale.setDefault(locale)
+            viewModel.changeLanguage("en", requireContext())
 
-            val resources: Resources = requireContext().resources
+            radioButton1.isChecked = true
+            viewModel.changeLanguage("ar", requireContext())
 
-            val configuration: Configuration = resources.configuration
-            configuration.locale = locale
-            configuration.setLayoutDirection(locale)
-
-            resources.updateConfiguration(configuration, resources.displayMetrics)
             val intent = Intent(context, MainActivity::class.java)
             startActivity(intent)
-            radioButton1.isChecked = true
         }
 
         return view

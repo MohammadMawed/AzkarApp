@@ -5,8 +5,11 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
+import android.content.res.Resources
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,6 +33,7 @@ import com.mohammadmawed.azkarapp.data.PreferencesManager
 import com.mohammadmawed.azkarapp.data.Zikr
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.util.*
 
 @AndroidEntryPoint
 class MainUIFragment : Fragment() {
@@ -58,8 +62,6 @@ class MainUIFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_main_u_i, container, false)
 
-        viewModel.readLanguageSettings("language", requireContext())
-
         zikrTextView = view.findViewById(R.id.zikrTextView)
         hintTextView = view.findViewById(R.id.hintTextView)
         indexTextView = view.findViewById(R.id.indexTextView)
@@ -71,6 +73,26 @@ class MainUIFragment : Fragment() {
         zikrContainer = view.findViewById(R.id.zikrContainer)
 
 
+        viewModel.languagePrefFlow.observe(viewLifecycleOwner, Observer {
+            if (it == "ar") {
+              viewModel.changeLanguage("ar", requireContext())
+            }else if (it == "en"){
+                viewModel.changeLanguage("en", requireContext())
+            }
+        })
+
+        viewModel.islamicCalendarLiveData.observe(viewLifecycleOwner, Observer {
+            calendarTextView.text = it
+        })
+
+        viewModel.notificationRefFlow.observe(viewLifecycleOwner, Observer {
+            Log.d("notificat mainui", it.toString())
+            if (it == true){
+                viewModel.remindUserAtTime(requireContext())
+            }else{
+                viewModel.cancelRemindUserAtTime(requireContext())
+            }
+        })
 
         val context = context
 
@@ -84,7 +106,7 @@ class MainUIFragment : Fragment() {
 
         var idd: Int = 1
 
-        viewModel.itemById(idd).asLiveData().observe(viewLifecycleOwner, Observer { list->
+        viewModel.itemById(idd).asLiveData().observe(viewLifecycleOwner, Observer { list ->
             for (zikr in list) {
                 zikrTextView.text = zikr.text
                 hintTextView.text = zikr.hint
@@ -138,10 +160,6 @@ class MainUIFragment : Fragment() {
             startActivity(Intent.createChooser(shareIntent, "Share using"))
 
         }
-
-        viewModel.islamicCalendarLiveData.observe(viewLifecycleOwner, Observer {
-            calendarTextView.text = it
-        })
 
         return view
     }

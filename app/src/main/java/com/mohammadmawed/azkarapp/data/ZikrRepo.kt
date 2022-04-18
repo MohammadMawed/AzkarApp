@@ -11,13 +11,10 @@ import android.content.res.Resources
 import android.icu.util.Calendar
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
-import com.mohammadmawed.azkarapp.MainActivity
 import com.mohammadmawed.azkarapp.receiver.ReminderBroadcast
 import com.mohammadmawed.azkarapp.util.cancelNotifications
 import kotlinx.coroutines.flow.Flow
-import java.io.IOException
 import java.time.LocalDate
 import java.time.chrono.HijrahDate
 import java.time.format.DateTimeFormatter
@@ -29,7 +26,6 @@ class ZikrRepo @Inject constructor(
     private val zikrDao: ZikrDao,
     val preferencesManager: PreferencesManager
 ) {
-
 
     fun getItemByID(id: Int): Flow<List<Zikr>> {
         val readAllData: Flow<List<Zikr>> = zikrDao.getAlsabahZikr(id)
@@ -93,8 +89,8 @@ class ZikrRepo @Inject constructor(
         // Set the alarm to start at 8:30 a.m.
         Calendar.getInstance().apply {
             timeInMillis = System.currentTimeMillis()
-            set(Calendar.HOUR_OF_DAY, 14)
-            set(Calendar.MINUTE, 48)
+            set(Calendar.HOUR_OF_DAY, 4)
+            set(Calendar.MINUTE, 16)
 
             //Prevent sending more than one notification to the user
             if (this.time < Date()) this.add(Calendar.DAY_OF_MONTH, 1)
@@ -109,40 +105,56 @@ class ZikrRepo @Inject constructor(
         }
     }
 
-    suspend fun readLanguageSettings(key: String, context: Context) {
-        val lang = preferencesManager.read(key)
+    @SuppressLint("UnspecifiedImmutableFlag")
+    fun cancelNotification(context: Context) {
 
-        if (lang == "ar") {
+        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val notifyPendingIntent: PendingIntent
+        val notifyIntent = Intent(context, ReminderBroadcast::class.java)
 
-            val locale = Locale("ar")
-            Locale.setDefault(locale)
-            val resources: Resources = context.resources
-            val configuration: Configuration = resources.configuration
-            configuration.locale = locale
-            configuration.setLayoutDirection(locale)
-            resources.updateConfiguration(configuration, resources.displayMetrics)
-
-        } else if (lang == "en") {
-
-            val locale = Locale("en")
-            Locale.setDefault(locale)
-            val resources: Resources = context.resources
-            val configuration: Configuration = resources.configuration
-            configuration.locale = locale
-            configuration.setLayoutDirection(locale)
-            resources.updateConfiguration(configuration, resources.displayMetrics)
+        notifyPendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            PendingIntent.getBroadcast(
+                context,
+                0,
+                notifyIntent,
+                PendingIntent.FLAG_MUTABLE
+            )
+        } else {
+            PendingIntent.getBroadcast(
+                context,
+                0,
+                notifyIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT
+            )
         }
+
+        val notificationManager =
+            ContextCompat.getSystemService(context, NotificationManager::class.java)
+                    as NotificationManager
+
+        notificationManager.cancelNotifications()
+
+        alarmManager.cancel(notifyPendingIntent)
     }
 
-    suspend fun saveSettings(key: String, value: String): Boolean {
-
-        val result: Boolean = try {
-            preferencesManager.save(key, value)
-            true
-        } catch (exception: IOException) {
-            false
+    fun changeLanguage(lang: String, context: Context) {
+        if (lang == "ar") {
+            val locale = Locale("ar")
+            Locale.setDefault(locale)
+            val resources: Resources? = context.resources
+            val configuration: Configuration? = resources?.configuration
+            configuration?.locale = locale
+            configuration?.setLayoutDirection(locale)
+            resources?.updateConfiguration(configuration, resources.displayMetrics)
+        } else if (lang == "en") {
+            val locale = Locale("en")
+            Locale.setDefault(locale)
+            val resources: Resources? = context.resources
+            val configuration: Configuration? = resources?.configuration
+            configuration?.locale = locale
+            configuration?.setLayoutDirection(locale)
+            resources?.updateConfiguration(configuration, resources.displayMetrics)
         }
-        return result
     }
 
 }

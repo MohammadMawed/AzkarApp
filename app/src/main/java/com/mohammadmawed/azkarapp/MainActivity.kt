@@ -1,5 +1,7 @@
 package com.mohammadmawed.azkarapp
 
+import android.content.res.Configuration
+import android.content.res.Resources
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -17,6 +19,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.mohammadmawed.azkarapp.ui.ZikrViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.util.*
 
 @AndroidEntryPoint
 
@@ -30,16 +33,38 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         navController = navHostFragment.navController
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.nav_menu)
 
         setupWithNavController(bottomNavigationView, navController)
 
-        lifecycleScope.launch {
-            viewModel.readLanguageSettings("language", application)
-        }
+        viewModel.languagePrefFlow.observe(this, androidx.lifecycle.Observer {
+            if (it == "ar") {
+                viewModel.changeLanguage("ar", application)
+
+                val locale = Locale("ar")
+                Locale.setDefault(locale)
+                val resources: Resources? = application.resources
+                val configuration: Configuration? = resources?.configuration
+                configuration?.locale = locale
+                configuration?.setLayoutDirection(locale)
+                resources?.updateConfiguration(configuration, resources.displayMetrics)
+
+            }else if (it == "en"){
+                viewModel.changeLanguage("en", application)
+
+                val locale = Locale("en")
+                Locale.setDefault(locale)
+                val resources: Resources? = application.resources
+                val configuration: Configuration? = resources?.configuration
+                configuration?.locale = locale
+                configuration?.setLayoutDirection(locale)
+                resources?.updateConfiguration(configuration, resources.displayMetrics)
+            }
+        })
 
     }
 }
