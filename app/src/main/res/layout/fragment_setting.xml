@@ -2,9 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/settingUI"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/settingUI"
     tools:context=".ui.NightFragment">
 
     <RelativeLayout
@@ -94,12 +94,50 @@
             android:textColor="#fff"
             android:textSize="15sp" />
 
+        <RelativeLayout
+            android:id="@+id/timePickerButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView2"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="5dp"
+            android:layout_toEndOf="@+id/textView"
+            android:background="@drawable/shapedark"
+            android:gravity="center"
+            android:padding="7.5dp"
+            android:textColor="@color/white"
+            android:textSize="15sp">
+
+            <TextView
+                android:id="@+id/notificationSetTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:textColor="#fff"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                tools:text="09:15" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView2"
+            android:layout_marginTop="22dp"
+            android:text="Receive notification at: "
+            android:textColor="@color/white"
+            android:textSize="15sp" />
 
         <Switch
             android:id="@+id/switch2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/textView2"
+            android:layout_below="@+id/timePickerButton"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="20dp"

@@ -41,30 +41,6 @@ class MainActivity : AppCompatActivity() {
 
         setupWithNavController(bottomNavigationView, navController)
 
-        viewModel.languagePrefFlow.observe(this, androidx.lifecycle.Observer {
-            if (it == "ar") {
-                viewModel.changeLanguage("ar", application)
-
-                val locale = Locale("ar")
-                Locale.setDefault(locale)
-                val resources: Resources? = application.resources
-                val configuration: Configuration? = resources?.configuration
-                configuration?.locale = locale
-                configuration?.setLayoutDirection(locale)
-                resources?.updateConfiguration(configuration, resources.displayMetrics)
-
-            }else if (it == "en"){
-                viewModel.changeLanguage("en", application)
-
-                val locale = Locale("en")
-                Locale.setDefault(locale)
-                val resources: Resources? = application.resources
-                val configuration: Configuration? = resources?.configuration
-                configuration?.locale = locale
-                configuration?.setLayoutDirection(locale)
-                resources?.updateConfiguration(configuration, resources.displayMetrics)
-            }
-        })
 
     }
 }

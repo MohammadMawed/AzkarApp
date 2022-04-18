@@ -70,8 +70,8 @@ dependencies {
     // LiveData
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.4.1"
     implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.0"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.0"
 
     //Image loading
     implementation 'de.hdodenhof:circleimageview:3.1.0'
@@ -94,21 +94,18 @@ dependencies {
     implementation 'androidx.core:core-splashscreen:1.0.0-beta02'
 
     //Navigation
-    implementation 'com.google.android.material:material:1.5.0'
+    implementation 'com.google.android.material:material:1.4.0'
 
-    // Dagger Hilt
-    implementation "com.google.dagger:hilt-android:$hiltVersion"
-    kapt "com.google.dagger:hilt-android-compiler:$hiltVersion"
-    implementation "androidx.hilt:hilt-lifecycle-viewmodel:$hiltAndroidXVersion"
-    kapt "androidx.hilt:hilt-compiler:$hiltAndroidXVersion"
-
-
-    implementation 'com.google.firebase:firebase-core:20.1.2'
-    implementation 'com.google.firebase:firebase-iid:21.1.0'
-    implementation 'com.google.firebase:firebase-messaging:23.0.2'
     implementation 'android.arch.work:work-runtime:1.0.1'
 
-    implementation 'androidx.work:work-runtime:2.8.0-alpha02'
+    implementation 'androidx.work:work-runtime:2.8.0-alpha01'
+
+    // Dagger Hilt
+    implementation "com.google.dagger:hilt-android:2.28.3-alpha"
+    kapt "com.google.dagger:hilt-android-compiler:2.28.3-alpha"
+    implementation "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha02"
+    kapt "androidx.hilt:hilt-compiler:1.0.0-alpha02"
+
 
     // Preferences
     implementation "androidx.datastore:datastore-preferences:1.0.0"

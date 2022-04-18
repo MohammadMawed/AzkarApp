@@ -1,5 +1,6 @@
 package com.mohammadmawed.azkarapp.ui
 
+import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
@@ -9,19 +10,21 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.RadioButton
-import android.widget.RadioGroup
-import android.widget.Switch
-import android.widget.TextView
+import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.timepicker.MaterialTimePicker
+import com.google.android.material.timepicker.TimeFormat
 import com.mohammadmawed.azkarapp.MainActivity
 import com.mohammadmawed.azkarapp.R
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
 class SettingFragment : Fragment() {
@@ -32,7 +35,9 @@ class SettingFragment : Fragment() {
     private lateinit var radioButton1: RadioButton
     private lateinit var radioButtonG: RadioGroup
     private lateinit var settingUI: ConstraintLayout
+    private lateinit var timePickerButton: RelativeLayout
     private lateinit var calendarSettingTextView: TextView
+    private lateinit var notificationSetTextView: TextView
 
 
     private val viewModel: ZikrViewModel by viewModels()
@@ -52,37 +57,40 @@ class SettingFragment : Fragment() {
         radioButton1 = view.findViewById(R.id.radio_english)
         radioButtonG = view.findViewById(R.id.grr)
         calendarSettingTextView = view.findViewById(R.id.calendarSettingTextView)
+        notificationSetTextView = view.findViewById(R.id.notificationSetTextView)
         settingUI = view.findViewById(R.id.settingUI)
+        timePickerButton = view.findViewById(R.id.timePickerButton)
+
+        viewModel.islamicCalendarLiveData.observe(viewLifecycleOwner, Observer {
+            calendarSettingTextView.text = it
+            notificationSetTextView.text = "12:10"
+        })
 
         //Loading user's settings
-        with(viewModel) {
+        lifecycleScope.launchWhenStarted {
 
-            notificationSwitch = view.findViewById(R.id.switch1)
-            darkModeSwitch = view.findViewById(R.id.switch2)
-            radioButton = view.findViewById(R.id.radio_arabic)
-            radioButton1 = view.findViewById(R.id.radio_english)
-            radioButtonG = view.findViewById(R.id.grr)
-            calendarSettingTextView = view.findViewById(R.id.calendarSettingTextView)
-            settingUI = view.findViewById(R.id.settingUI)
-
-            //Loading user's settings
-            notificationRefFlow.observe(viewLifecycleOwner) {
+            viewModel.notificationRefFlow.collectLatest {
                 notificationSwitch.isChecked = it
+            }
+
+            viewModel.languagePrefFlow.collectLatest {
+                if (it == "ar") {
+                    radioButton.isChecked = true
+                } else if (it == "en") {
+                    radioButton1.isChecked = true
+                }
             }
         }
 
-        viewModel.languagePrefFlow.observe(viewLifecycleOwner) {
-            if (it == "ar") {
-                radioButton.isChecked = true
-            } else if (it == "en") {
-                radioButton1.isChecked = true
-            }
+        viewModel.islamicCalendarLiveData.observe(viewLifecycleOwner) {
+            calendarSettingTextView.text = it
         }
 
         notificationSwitch.setOnCheckedChangeListener { compoundButton, _ ->
             if (compoundButton.isChecked) {
                 viewModel.saveNotificationSettings(true, requireContext())
                 Log.d("notificat sett checked", "true")
+
                 //Snackbar.make(settingUI, "Notifications are now on!", Snackbar.LENGTH_LONG).show()
             } else {
                 viewModel.saveNotificationSettings(false, requireContext())
@@ -92,8 +100,35 @@ class SettingFragment : Fragment() {
 
         }
 
-        viewModel.islamicCalendarLiveData.observe(viewLifecycleOwner) {
-            calendarSettingTextView.text = it
+        timePickerButton.setOnClickListener {
+            val picker =
+                MaterialTimePicker.Builder()
+                    .setTimeFormat(TimeFormat.CLOCK_12H)
+                    .setHour(12)
+                    .setMinute(10)
+                    .setTitleText("Select time to get notification at:")
+                    .build()
+            picker.show(childFragmentManager, "TAG")
+
+            picker.addOnPositiveButtonClickListener {
+
+                val hour = picker.hour
+                val minute = picker.minute
+
+                viewModel.saveNotificationSettingsHour(hour, requireContext())
+                viewModel.saveNotificationSettingsMinute(minute, requireContext())
+
+                Snackbar.make(settingUI, "You will receive at: $hour: $minute" , Snackbar.LENGTH_LONG).show()
+            }
+            picker.addOnNegativeButtonClickListener {
+                // call back code
+            }
+            picker.addOnCancelListener {
+                // call back code
+            }
+            picker.addOnDismissListener {
+                // call back code
+            }
         }
 
         darkModeSwitch.isChecked = isNightMode(requireContext())

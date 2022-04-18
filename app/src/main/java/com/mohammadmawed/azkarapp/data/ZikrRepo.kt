@@ -15,6 +15,7 @@ import androidx.core.content.ContextCompat
 import com.mohammadmawed.azkarapp.receiver.ReminderBroadcast
 import com.mohammadmawed.azkarapp.util.cancelNotifications
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
 import java.time.LocalDate
 import java.time.chrono.HijrahDate
 import java.time.format.DateTimeFormatter
@@ -89,7 +90,7 @@ class ZikrRepo @Inject constructor(
         // Set the alarm to start at 8:30 a.m.
         Calendar.getInstance().apply {
             timeInMillis = System.currentTimeMillis()
-            set(Calendar.HOUR_OF_DAY, 4)
+            set(Calendar.HOUR_OF_DAY, 1)
             set(Calendar.MINUTE, 16)
 
             //Prevent sending more than one notification to the user
@@ -156,7 +157,4 @@ class ZikrRepo @Inject constructor(
             resources?.updateConfiguration(configuration, resources.displayMetrics)
         }
     }
-
-
-
 }

@@ -8,7 +8,7 @@ import androidx.annotation.RequiresApi
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import com.mohammadmawed.azkarapp.data.*
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 
@@ -31,8 +31,8 @@ class ZikrViewModel @ViewModelInject constructor(
     private var _islamicCalendarMutableLiveData: MutableLiveData<String> =
         MutableLiveData()
 
-    private val _notificationsOnMutableLiveDate: MutableLiveData<Boolean> =
-        MutableLiveData()
+    private val _notificationsOnSharedFlow: MutableSharedFlow<Boolean> =
+        MutableSharedFlow()
 
     val islamicCalendarLiveData: LiveData<String> =
         _islamicCalendarMutableLiveData
@@ -40,11 +40,12 @@ class ZikrViewModel @ViewModelInject constructor(
     val snackBarSendNotificationLiveData: LiveData<Boolean> =
         _snackBarSendNotificationMutableLiveData
 
-    val notificationsOnLiveDate: LiveData<Boolean> =
-        _notificationsOnMutableLiveDate
+    var notificationsOnSharedFlow = _notificationsOnSharedFlow.asSharedFlow()
 
-    val languagePrefFlow = preferencesManager.languageRefFlow.asLiveData()
-    val notificationRefFlow = preferencesManager.notificationRefFlow.asLiveData()
+    val languagePrefFlow = preferencesManager.languageRefFlow
+    val notificationRefFlow = preferencesManager.notificationRefFlow
+    val notificationTimeHourFlow = preferencesManager.notificationTimeHourFlow
+    val notificationTimeMinuteFlow = preferencesManager.notificationTimeMinuteFlow
 
     //val dao = zikrDao.getAlsabahZikr().asLiveData()
 
@@ -61,7 +62,6 @@ class ZikrViewModel @ViewModelInject constructor(
     private fun islamicDate() {
         val hijriDate = repo.islamicDate()
         _islamicCalendarMutableLiveData.postValue(hijriDate)
-
     }
 
     fun remindUserAtTime(context: Context) {
@@ -70,6 +70,10 @@ class ZikrViewModel @ViewModelInject constructor(
 
     fun cancelRemindUserAtTime(context: Context) {
         repo.cancelNotification(context)
+    }
+
+    fun changeLanguage(lang: String, context: Context) {
+        repo.changeLanguage(lang, context)
     }
 
     fun saveLanguageSettings(value: String, context: Context) {
@@ -84,10 +88,25 @@ class ZikrViewModel @ViewModelInject constructor(
         }
     }
 
-    fun changeLanguage(lang: String, context: Context) {
-        repo.changeLanguage(lang, context)
+    fun saveNotificationSettingsHour(value: Int, context: Context) {
+        viewModelScope.launch {
+            preferencesManager.saveNotificationHour(value, context)
+        }
     }
 
+    fun saveNotificationSettingsMinute(value: Int, context: Context) {
+        viewModelScope.launch {
+            preferencesManager.saveNotificationMinute(value, context)
+        }
+    }
 
-
+    fun loadData():String {
+        var value: String = String()
+        val launch = viewModelScope.launch {
+            notificationTimeHourFlow.collectLatest {
+                value = it.toString()
+            }
+        }
+        return value
+    }
 }

@@ -19,11 +19,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.mohammadmawed.azkarapp.R
 import com.mohammadmawed.azkarapp.data.Zikr
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
 class MainUIFragment : Fragment() {
@@ -62,26 +64,33 @@ class MainUIFragment : Fragment() {
         shareFloatingButton = view.findViewById(R.id.shareFloatingButton)
         zikrContainer = view.findViewById(R.id.zikrContainer)
 
+        lifecycleScope.launchWhenStarted {
 
-        viewModel.languagePrefFlow.observe(viewLifecycleOwner) {
-            if (it == "ar") {
-                viewModel.changeLanguage("ar", requireContext())
-            } else if (it == "en") {
-                viewModel.changeLanguage("en", requireContext())
+            var hour: Int
+            viewModel.notificationTimeHourFlow.collectLatest {
+                hour = it
+            }
+
+            viewModel.notificationRefFlow.collectLatest {
+                Log.d("notificat mainui", it.toString())
+                if (it) {
+                    viewModel.remindUserAtTime(requireContext())
+                } else {
+                    viewModel.cancelRemindUserAtTime(requireContext())
+                }
+            }
+            viewModel.languagePrefFlow.collectLatest {
+                if (it == "ar") {
+                    viewModel.changeLanguage("ar", requireContext())
+                } else if (it == "en") {
+                    viewModel.changeLanguage("en", requireContext())
+                }
             }
         }
 
+
         viewModel.islamicCalendarLiveData.observe(viewLifecycleOwner, Observer {
             calendarTextView.text = it
-        })
-
-        viewModel.notificationRefFlow.observe(viewLifecycleOwner, Observer {
-            Log.d("notificat mainui", it.toString())
-            if (it == true){
-                viewModel.remindUserAtTime(requireContext())
-            }else{
-                viewModel.cancelRemindUserAtTime(requireContext())
-            }
         })
 
         val context = context
