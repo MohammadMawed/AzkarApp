@@ -1,6 +1,5 @@
 package com.mohammadmawed.azkarapp.ui
 
-import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
@@ -25,6 +24,7 @@ import com.mohammadmawed.azkarapp.MainActivity
 import com.mohammadmawed.azkarapp.R
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.first
 
 @AndroidEntryPoint
 class SettingFragment : Fragment() {
@@ -38,7 +38,6 @@ class SettingFragment : Fragment() {
     private lateinit var timePickerButton: RelativeLayout
     private lateinit var calendarSettingTextView: TextView
     private lateinit var notificationSetTextView: TextView
-
 
     private val viewModel: ZikrViewModel by viewModels()
 
@@ -63,11 +62,23 @@ class SettingFragment : Fragment() {
 
         viewModel.islamicCalendarLiveData.observe(viewLifecycleOwner, Observer {
             calendarSettingTextView.text = it
-            notificationSetTextView.text = "12:10"
+
         })
+
+        var savedHour: Int = 0
+        var savedMinute: Int = 0
 
         //Loading user's settings
         lifecycleScope.launchWhenStarted {
+
+            savedHour = viewModel.notificationTimeHourFlow.first()
+            savedMinute = viewModel.notificationTimeMinuteFlow.first()
+
+            if (savedMinute == 9 || savedMinute < 9) {
+                notificationSetTextView.text = "$savedHour:0$savedMinute"
+            } else {
+                notificationSetTextView.text = "$savedHour:$savedMinute"
+            }
 
             viewModel.notificationRefFlow.collectLatest {
                 notificationSwitch.isChecked = it
@@ -76,8 +87,10 @@ class SettingFragment : Fragment() {
             viewModel.languagePrefFlow.collectLatest {
                 if (it == "ar") {
                     radioButton.isChecked = true
+                    radioButton1.isChecked = false
                 } else if (it == "en") {
                     radioButton1.isChecked = true
+                    radioButton.isChecked = false
                 }
             }
         }
@@ -101,13 +114,15 @@ class SettingFragment : Fragment() {
         }
 
         timePickerButton.setOnClickListener {
+
             val picker =
                 MaterialTimePicker.Builder()
                     .setTimeFormat(TimeFormat.CLOCK_12H)
-                    .setHour(12)
-                    .setMinute(10)
+                    .setHour(savedHour)
+                    .setMinute(savedMinute)
                     .setTitleText("Select time to get notification at:")
                     .build()
+
             picker.show(childFragmentManager, "TAG")
 
             picker.addOnPositiveButtonClickListener {
@@ -118,7 +133,17 @@ class SettingFragment : Fragment() {
                 viewModel.saveNotificationSettingsHour(hour, requireContext())
                 viewModel.saveNotificationSettingsMinute(minute, requireContext())
 
-                Snackbar.make(settingUI, "You will receive at: $hour: $minute" , Snackbar.LENGTH_LONG).show()
+                var mintOp = "$hour:$minute"
+
+                if (minute == 9 || minute < 9) {
+                    mintOp = "$hour:0$minute "
+                }
+
+                Snackbar.make(settingUI, "You will receive at $mintOp", Snackbar.LENGTH_LONG)
+                    .show()
+
+                notificationSetTextView.text = mintOp
+
             }
             picker.addOnNegativeButtonClickListener {
                 // call back code
@@ -129,6 +154,7 @@ class SettingFragment : Fragment() {
             picker.addOnDismissListener {
                 // call back code
             }
+
         }
 
         darkModeSwitch.isChecked = isNightMode(requireContext())
@@ -142,12 +168,9 @@ class SettingFragment : Fragment() {
         }
 
         radioButton.setOnClickListener {
-
             viewModel.saveLanguageSettings("ar", requireContext())
 
             radioButton.isChecked = true
-
-            viewModel.changeLanguage("ar", requireContext())
 
             val intent = Intent(context, MainActivity::class.java)
             startActivity(intent)
@@ -158,10 +181,7 @@ class SettingFragment : Fragment() {
         radioButton1.setOnClickListener {
             viewModel.saveLanguageSettings("en", requireContext())
 
-            viewModel.changeLanguage("en", requireContext())
-
             radioButton1.isChecked = true
-            viewModel.changeLanguage("ar", requireContext())
 
             val intent = Intent(context, MainActivity::class.java)
             startActivity(intent)

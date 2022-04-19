@@ -51,7 +51,7 @@ class PreferencesManager @Inject constructor(@ApplicationContext context: Contex
     }
 
     val languageRefFlow: Flow<String> = context.dataStore.data.map {
-        it[LANGUAGE_PREF] ?: "en"
+        it[LANGUAGE_PREF] !!
     }
     val notificationRefFlow: Flow<Boolean> = context.dataStore.data.map {
         it[NOTIFICATION_TOGGLE] ?: true

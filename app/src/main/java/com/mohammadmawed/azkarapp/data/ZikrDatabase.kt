@@ -3,6 +3,7 @@ package com.mohammadmawed.azkarapp.data
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.mohammadmawed.azkarapp.R
 import kotlinx.coroutines.CoroutineScope
 import com.mohammadmawed.azkarapp.di.ApplicationScope
 import kotlinx.coroutines.launch

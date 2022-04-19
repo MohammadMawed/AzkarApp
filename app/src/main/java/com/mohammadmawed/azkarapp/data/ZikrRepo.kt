@@ -16,6 +16,7 @@ import com.mohammadmawed.azkarapp.receiver.ReminderBroadcast
 import com.mohammadmawed.azkarapp.util.cancelNotifications
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.first
 import java.time.LocalDate
 import java.time.chrono.HijrahDate
 import java.time.format.DateTimeFormatter
@@ -59,11 +60,12 @@ class ZikrRepo @Inject constructor(
     @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("SimpleDateFormat", "UnspecifiedImmutableFlag")
 
-    fun reminderNotification(context: Context) {
+    fun reminderNotification(context: Context, hour: Int, minute: Int) {
 
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val notifyPendingIntent: PendingIntent
         val notifyIntent = Intent(context, ReminderBroadcast::class.java)
+
 
         notifyPendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             PendingIntent.getBroadcast(
@@ -87,11 +89,13 @@ class ZikrRepo @Inject constructor(
 
         notificationManager.cancelNotifications()
 
+
+
         // Set the alarm to start at 8:30 a.m.
         Calendar.getInstance().apply {
             timeInMillis = System.currentTimeMillis()
-            set(Calendar.HOUR_OF_DAY, 1)
-            set(Calendar.MINUTE, 16)
+            set(Calendar.HOUR_OF_DAY, hour)
+            set(Calendar.MINUTE, minute)
 
             //Prevent sending more than one notification to the user
             if (this.time < Date()) this.add(Calendar.DAY_OF_MONTH, 1)
@@ -147,7 +151,7 @@ class ZikrRepo @Inject constructor(
             configuration?.locale = locale
             configuration?.setLayoutDirection(locale)
             resources?.updateConfiguration(configuration, resources.displayMetrics)
-        } else if (lang == "en") {
+        } else {
             val locale = Locale("en")
             Locale.setDefault(locale)
             val resources: Resources? = context.resources

@@ -26,6 +26,8 @@ import com.mohammadmawed.azkarapp.R
 import com.mohammadmawed.azkarapp.data.Zikr
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.first
+import kotlin.math.min
 
 @AndroidEntryPoint
 class MainUIFragment : Fragment() {
@@ -64,34 +66,10 @@ class MainUIFragment : Fragment() {
         shareFloatingButton = view.findViewById(R.id.shareFloatingButton)
         zikrContainer = view.findViewById(R.id.zikrContainer)
 
-        lifecycleScope.launchWhenStarted {
 
-            var hour: Int
-            viewModel.notificationTimeHourFlow.collectLatest {
-                hour = it
-            }
-
-            viewModel.notificationRefFlow.collectLatest {
-                Log.d("notificat mainui", it.toString())
-                if (it) {
-                    viewModel.remindUserAtTime(requireContext())
-                } else {
-                    viewModel.cancelRemindUserAtTime(requireContext())
-                }
-            }
-            viewModel.languagePrefFlow.collectLatest {
-                if (it == "ar") {
-                    viewModel.changeLanguage("ar", requireContext())
-                } else if (it == "en") {
-                    viewModel.changeLanguage("en", requireContext())
-                }
-            }
-        }
-
-
-        viewModel.islamicCalendarLiveData.observe(viewLifecycleOwner, Observer {
+        viewModel.islamicCalendarLiveData.observe(viewLifecycleOwner) {
             calendarTextView.text = it
-        })
+        }
 
         val context = context
 
@@ -105,7 +83,7 @@ class MainUIFragment : Fragment() {
 
         var idd: Int = 1
 
-        viewModel.itemById(idd).asLiveData().observe(viewLifecycleOwner, Observer { list ->
+        viewModel.itemById(idd).asLiveData().observe(viewLifecycleOwner) { list ->
             for (zikr in list) {
                 zikrTextView.text = zikr.text
                 hintTextView.text = zikr.hint
@@ -113,7 +91,7 @@ class MainUIFragment : Fragment() {
                 indexTextView.text = "$idd/30"
             }
 
-        })
+        }
 
 
         nextButton.setOnClickListener {
@@ -121,7 +99,7 @@ class MainUIFragment : Fragment() {
             if (idd == 31) {
                 idd = 1
             }
-            viewModel.itemById(idd).asLiveData().observe(viewLifecycleOwner, Observer {
+            viewModel.itemById(idd).asLiveData().observe(viewLifecycleOwner) {
                 for (zikr in it) {
                     zikrTextView.text = zikr.text
                     hintTextView.text = zikr.hint
@@ -129,7 +107,7 @@ class MainUIFragment : Fragment() {
                     indexTextView.text = "$idd/30"
                 }
 
-            })
+            }
 
         }
         previousButton.setOnClickListener {
