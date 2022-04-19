@@ -24,7 +24,7 @@
             android:id="@+id/calendarSettingTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/navigationTextView"
+            android:layout_below="@+id/navigationTextViewNight"
             android:layout_marginStart="25dp"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
@@ -40,7 +40,7 @@
             tools:text="@string/_20_10_1443" />
 
         <TextView
-            android:id="@+id/navigationTextView"
+            android:id="@+id/navigationTextViewNight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="25dp"
@@ -66,7 +66,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/MainContainerSetting"
-        app:layout_constraintVertical_bias="0.16">
+        app:layout_constraintVertical_bias="0.286">
 
 
         <Switch
@@ -146,7 +146,7 @@
             tools:ignore="UseSwitchCompatOrMaterialXml" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/grr"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/switch2"
@@ -155,45 +155,6 @@
             android:textColor="#fff"
             android:textSize="15sp" />
 
-        <TextView
-            android:id="@+id/appLanguageTitleTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/textView3"
-            android:layout_marginTop="20dp"
-            android:text="@string/app_language"
-            android:textColor="#fff"
-            android:textSize="20sp" />
-
-        <RadioGroup
-            android:id="@+id/grr"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/appLanguageTitleTextView"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/radio_arabic"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginBottom="5dp"
-                android:text="@string/arabic"
-                android:textColor="#fff"
-                android:textSize="15sp"
-                tools:ignore="UsingOnClickInXml" />
-
-            <RadioButton
-                android:id="@+id/radio_english"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:text="@string/english"
-                android:textColor="#fff"
-                android:textSize="15sp" />
-        </RadioGroup>
 
         <TextView
             android:id="@+id/rateUsTextView"
@@ -207,18 +168,18 @@
 
         <RelativeLayout
             android:id="@+id/rateUsButton"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/rateUsTextView"
-            android:layout_marginStart="5dp"
-            android:layout_marginLeft="10dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="35dp"
             android:layout_marginTop="10dp"
-            android:layout_marginEnd="5dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginEnd="35dp"
             android:layout_marginBottom="5dp"
             android:background="@drawable/shapedark"
             android:gravity="center"
-            android:padding="7dp">
+            android:padding="10dp">
 
             <TextView
                 android:id="@+id/rateUsTextViewButton"

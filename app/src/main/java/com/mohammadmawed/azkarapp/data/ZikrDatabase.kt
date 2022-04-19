@@ -3,7 +3,6 @@ package com.mohammadmawed.azkarapp.data
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.mohammadmawed.azkarapp.R
 import kotlinx.coroutines.CoroutineScope
 import com.mohammadmawed.azkarapp.di.ApplicationScope
 import kotlinx.coroutines.launch
@@ -329,6 +328,16 @@ abstract class ZikrDatabase : RoomDatabase() {
                         "حُطَّتْ خَطَايَاهُ وَإِنْ كَانَتْ مِثْلَ زَبَدِ الْبَحْرِ. لَمْ يَأْتِ أَحَدٌ يَوْمَ الْقِيَامَةِ بِأَفْضَلَ مِمَّا جَاءَ بِهِ إِلَّا أَحَدٌ قَالَ مِثْلَ مَا قَالَ أَوْ زَادَ عَلَيْهِ.",
                         100,
                         alsabah = false,
+                        wasRead = false
+                    )
+                )
+                zikrDao.addZikr(
+                    Zikr(
+                        31,
+                        "سُبْحـانَ اللهِ وَبِحَمْـدِهِ. ",
+                        "حُطَّتْ خَطَايَاهُ وَإِنْ كَانَتْ مِثْلَ زَبَدِ الْبَحْرِ. لَمْ يَأْتِ أَحَدٌ يَوْمَ الْقِيَامَةِ بِأَفْضَلَ مِمَّا جَاءَ بِهِ إِلَّا أَحَدٌ قَالَ مِثْلَ مَا قَالَ أَوْ زَادَ عَلَيْهِ.",
+                        100,
+                        alsabah = true,
                         wasRead = false
                     )
                 )

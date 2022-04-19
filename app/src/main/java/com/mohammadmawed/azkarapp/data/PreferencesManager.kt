@@ -20,16 +20,9 @@ class PreferencesManager @Inject constructor(@ApplicationContext context: Contex
     private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(PR_NAME)
 
     companion object {
-        val LANGUAGE_PREF: Preferences.Key<String> = stringPreferencesKey("lang")
         val NOTIFICATION_TOGGLE: Preferences.Key<Boolean> = booleanPreferencesKey("notification")
         val NOTIFICATION_TIME_HOUR: Preferences.Key<Int> = intPreferencesKey("notification_time_hour")
         val NOTIFICATION_TIME_MINUTE: Preferences.Key<Int> = intPreferencesKey("notification_time_minute")
-    }
-
-    suspend fun saveLanguageRef(value: String, context: Context) {
-        context.dataStore.edit {
-            it[LANGUAGE_PREF] = value
-        }
     }
 
     suspend fun saveNotification(value: Boolean, context: Context) {
@@ -48,10 +41,6 @@ class PreferencesManager @Inject constructor(@ApplicationContext context: Contex
         context.dataStore.edit {
             it[NOTIFICATION_TIME_MINUTE] = value
         }
-    }
-
-    val languageRefFlow: Flow<String> = context.dataStore.data.map {
-        it[LANGUAGE_PREF] !!
     }
     val notificationRefFlow: Flow<Boolean> = context.dataStore.data.map {
         it[NOTIFICATION_TOGGLE] ?: true

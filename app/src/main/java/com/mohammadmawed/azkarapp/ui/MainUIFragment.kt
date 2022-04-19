@@ -7,7 +7,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,15 +18,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.asLiveData
-import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.mohammadmawed.azkarapp.R
 import com.mohammadmawed.azkarapp.data.Zikr
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.first
-import kotlin.math.min
 
 @AndroidEntryPoint
 class MainUIFragment : Fragment() {
@@ -56,15 +51,15 @@ class MainUIFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_main_u_i, container, false)
 
-        zikrTextView = view.findViewById(R.id.zikrTextView)
-        hintTextView = view.findViewById(R.id.hintTextView)
-        indexTextView = view.findViewById(R.id.indexTextView)
-        repeatTimeTextView = view.findViewById(R.id.repeatTimeTextView)
-        calendarTextView = view.findViewById(R.id.calendarTextView)
-        nextButton = view.findViewById(R.id.nextButton)
-        previousButton = view.findViewById(R.id.previousButton)
-        shareFloatingButton = view.findViewById(R.id.shareFloatingButton)
-        zikrContainer = view.findViewById(R.id.zikrContainer)
+        zikrTextView = view.findViewById(R.id.zikrTextViewNight)
+        hintTextView = view.findViewById(R.id.hintTextViewNight)
+        indexTextView = view.findViewById(R.id.indexTextViewNight)
+        repeatTimeTextView = view.findViewById(R.id.repeatTimeTextViewNight)
+        calendarTextView = view.findViewById(R.id.calendarTextViewNight)
+        nextButton = view.findViewById(R.id.nextButtonNight)
+        previousButton = view.findViewById(R.id.previousButtonNight)
+        shareFloatingButton = view.findViewById(R.id.shareFloatingButtonNight)
+        zikrContainer = view.findViewById(R.id.zikrContainerNight)
 
 
         viewModel.islamicCalendarLiveData.observe(viewLifecycleOwner) {
@@ -83,7 +78,7 @@ class MainUIFragment : Fragment() {
 
         var idd: Int = 1
 
-        viewModel.itemById(idd).asLiveData().observe(viewLifecycleOwner) { list ->
+        viewModel.itemById(idd, false).asLiveData().observe(viewLifecycleOwner) { list ->
             for (zikr in list) {
                 zikrTextView.text = zikr.text
                 hintTextView.text = zikr.hint
@@ -98,7 +93,7 @@ class MainUIFragment : Fragment() {
             if (idd == 31) {
                 idd = 1
             }
-            viewModel.itemById(idd).asLiveData().observe(viewLifecycleOwner) {
+            viewModel.itemById(idd, false).asLiveData().observe(viewLifecycleOwner) {
                 for (zikr in it) {
                     zikrTextView.text = zikr.text
                     hintTextView.text = zikr.hint
@@ -115,7 +110,7 @@ class MainUIFragment : Fragment() {
                 idd = 30
 
             }
-            viewModel.itemById(idd).asLiveData().observe(viewLifecycleOwner, Observer {
+            viewModel.itemById(idd, false).asLiveData().observe(viewLifecycleOwner, Observer {
                 for (zikr in it) {
                     zikrTextView.text = zikr.text
                     hintTextView.text = zikr.hint

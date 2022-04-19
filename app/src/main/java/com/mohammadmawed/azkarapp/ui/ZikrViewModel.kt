@@ -4,15 +4,21 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.*
-import com.mohammadmawed.azkarapp.data.*
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.*
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import com.mohammadmawed.azkarapp.data.PreferencesManager
+import com.mohammadmawed.azkarapp.data.Zikr
+import com.mohammadmawed.azkarapp.data.ZikrDao
+import com.mohammadmawed.azkarapp.data.ZikrRepo
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import kotlin.math.min
 
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -45,7 +51,6 @@ class ZikrViewModel @ViewModelInject constructor(
 
     var notificationsOnSharedFlow = _notificationsOnSharedFlow.asSharedFlow()
 
-    val languagePrefFlow = preferencesManager.languageRefFlow
     val notificationRefFlow = preferencesManager.notificationRefFlow
     val notificationTimeHourFlow = preferencesManager.notificationTimeHourFlow
     val notificationTimeMinuteFlow = preferencesManager.notificationTimeMinuteFlow
@@ -61,8 +66,12 @@ class ZikrViewModel @ViewModelInject constructor(
 
     }
 
-    fun itemById(id: Int): Flow<List<Zikr>> {
-        return repo.getItemByID(id)
+    fun itemById(id: Int, alsabah: Boolean): Flow<List<Zikr>> {
+        return repo.getItemByID(id, alsabah)
+    }
+
+    fun getAlmasahZikr(id: Int, alsabah: Boolean): Flow<List<Zikr>> {
+        return repo.getAlmasahZikr(id, alsabah)
     }
 
     private fun islamicDate() {
@@ -82,24 +91,6 @@ class ZikrViewModel @ViewModelInject constructor(
             }
         }
 
-    }
-
-    private fun changeLanguage(context: Context) {
-        viewModelScope.launch {
-            val language = languagePrefFlow.first()
-            Log.d("lang", language)
-            if (language == "ar") {
-                repo.changeLanguage("ar", context)
-            } else if (language == "en") {
-                repo.changeLanguage("en", context)
-            }
-        }
-    }
-
-    fun saveLanguageSettings(value: String, context: Context) {
-        viewModelScope.launch {
-            preferencesManager.saveLanguageRef(value, context)
-        }
     }
 
     fun saveNotificationSettings(value: Boolean, context: Context) {

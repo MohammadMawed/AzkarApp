@@ -2,11 +2,9 @@ package com.mohammadmawed.azkarapp.ui
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,7 +19,6 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
-import com.mohammadmawed.azkarapp.MainActivity
 import com.mohammadmawed.azkarapp.R
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -32,9 +29,6 @@ class SettingFragment : Fragment() {
 
     private lateinit var notificationSwitch: Switch
     private lateinit var darkModeSwitch: Switch
-    private lateinit var radioButton: RadioButton
-    private lateinit var radioButton1: RadioButton
-    private lateinit var radioButtonG: RadioGroup
     private lateinit var settingUI: ConstraintLayout
     private lateinit var timePickerButton: RelativeLayout
     private lateinit var calendarSettingTextView: TextView
@@ -54,9 +48,6 @@ class SettingFragment : Fragment() {
 
         notificationSwitch = view.findViewById(R.id.switch1)
         darkModeSwitch = view.findViewById(R.id.switch2)
-        radioButton = view.findViewById(R.id.radio_arabic)
-        radioButton1 = view.findViewById(R.id.radio_english)
-        radioButtonG = view.findViewById(R.id.grr)
         calendarSettingTextView = view.findViewById(R.id.calendarSettingTextView)
         notificationSetTextView = view.findViewById(R.id.notificationSetTextView)
         settingUI = view.findViewById(R.id.settingUI)
@@ -84,16 +75,6 @@ class SettingFragment : Fragment() {
 
             viewModel.notificationRefFlow.collectLatest {
                 notificationSwitch.isChecked = it
-            }
-
-            viewModel.languagePrefFlow.collectLatest {
-                if (it == "ar") {
-                    radioButton.isChecked = true
-                    radioButton1.isChecked = false
-                } else if (it == "en") {
-                    radioButton1.isChecked = true
-                    radioButton.isChecked = false
-                }
             }
         }
 
@@ -164,26 +145,6 @@ class SettingFragment : Fragment() {
             } else {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             }
-        }
-
-        radioButton.setOnClickListener {
-            viewModel.saveLanguageSettings("ar", requireContext())
-
-            radioButton.isChecked = true
-
-            val intent = Intent(context, MainActivity::class.java)
-            startActivity(intent)
-            //Snackbar.make(settingUI, "Something went wrong!", Snackbar.LENGTH_LONG).show()
-
-        }
-
-        radioButton1.setOnClickListener {
-            viewModel.saveLanguageSettings("en", requireContext())
-
-            radioButton1.isChecked = true
-
-            val intent = Intent(context, MainActivity::class.java)
-            startActivity(intent)
         }
 
         return view

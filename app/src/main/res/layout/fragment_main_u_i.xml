@@ -11,7 +11,7 @@
         android:layout_height="match_parent">
 
         <RelativeLayout
-            android:id="@+id/MainContainer"
+            android:id="@+id/MainContainerNight"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -24,10 +24,10 @@
             app:layout_constraintVertical_bias="0.005">
 
             <TextView
-                android:id="@+id/calendarTextView"
+                android:id="@+id/calendarTextViewNight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/navigationTextView"
+                android:layout_below="@+id/navigationTextViewNight"
                 android:layout_marginStart="25dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
@@ -43,7 +43,7 @@
                 tools:text="@string/_20_10_1443" />
 
             <TextView
-                android:id="@+id/navigationTextView"
+                android:id="@+id/navigationTextViewNight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="25dp"
@@ -57,7 +57,7 @@
                 tools:ignore="RelativeOverlap" />
 
             <RelativeLayout
-                android:id="@+id/connectionRelativeLayout"
+                android:id="@+id/connectionRelativeLayoutNight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
@@ -74,7 +74,7 @@
                 app:layout_constraintVertical_bias="0.019">
 
                 <ImageView
-                    android:id="@+id/connectionImageView"
+                    android:id="@+id/connectionImageViewNight"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:contentDescription="@string/setting"
@@ -86,7 +86,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/zikrContainer"
+            android:id="@+id/zikrContainerNight"
             android:layout_width="match_parent"
             android:layout_height="350dp"
             android:layout_margin="20dp"
@@ -95,11 +95,11 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/MainContainer"
+            app:layout_constraintTop_toBottomOf="@+id/MainContainerNight"
             app:layout_constraintVertical_bias="0.335">
 
             <TextView
-                android:id="@+id/zikrTextView"
+                android:id="@+id/zikrTextViewNight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
@@ -110,17 +110,17 @@
                 tools:text="@string/dummy" />
 
             <TextView
-                android:id="@+id/hintTextView"
+                android:id="@+id/hintTextViewNight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/zikrTextView"
+                android:layout_below="@+id/zikrTextViewNight"
                 android:layout_marginTop="25dp"
                 android:textColor="#fff"
                 android:textIsSelectable="true"
                 tools:text="@string/hintDummy" />
 
             <TextView
-                android:id="@+id/indexTextView"
+                android:id="@+id/indexTextViewNight"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
@@ -132,7 +132,7 @@
         </RelativeLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/shareFloatingButton"
+            android:id="@+id/shareFloatingButtonNight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="-20dp"
@@ -141,31 +141,31 @@
             android:focusable="true"
             app:backgroundTint="@color/Red"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/zikrContainer"
+            app:layout_constraintEnd_toEndOf="@+id/zikrContainerNight"
             app:layout_constraintHorizontal_bias="0.91"
-            app:layout_constraintStart_toStartOf="@+id/zikrContainer"
-            app:layout_constraintTop_toBottomOf="@+id/zikrContainer"
+            app:layout_constraintStart_toStartOf="@+id/zikrContainerNight"
+            app:layout_constraintTop_toBottomOf="@+id/zikrContainerNight"
             app:layout_constraintVertical_bias="0.0"
             app:rippleColor="@color/white"
             app:srcCompat="@drawable/ic_outline_share_24"
             app:tint="@android:color/white" />
 
         <RelativeLayout
-            android:id="@+id/repeatTimeContainer"
+            android:id="@+id/repeatTimeContainerNight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="-20dp"
             android:background="@drawable/shapedark"
             android:padding="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/zikrContainer"
+            app:layout_constraintEnd_toEndOf="@+id/zikrContainerNight"
             app:layout_constraintHorizontal_bias="0.089"
-            app:layout_constraintStart_toStartOf="@+id/zikrContainer"
-            app:layout_constraintTop_toBottomOf="@+id/zikrContainer"
+            app:layout_constraintStart_toStartOf="@+id/zikrContainerNight"
+            app:layout_constraintTop_toBottomOf="@+id/zikrContainerNight"
             app:layout_constraintVertical_bias="0.0">
 
             <TextView
-                android:id="@+id/repeatTimeTextView"
+                android:id="@+id/repeatTimeTextViewNight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
@@ -178,7 +178,7 @@
 
 
         <RelativeLayout
-            android:id="@+id/nextButtonRelativeLayout"
+            android:id="@+id/nextButtonRelativeLayoutNight"
             android:layout_width="110dp"
             android:layout_height="55dp"
             android:layout_marginEnd="50dp"
@@ -191,11 +191,11 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/zikrContainer"
+            app:layout_constraintTop_toBottomOf="@+id/zikrContainerNight"
             app:layout_constraintVertical_bias="0.6">
 
             <Button
-                android:id="@+id/nextButton"
+                android:id="@+id/nextButtonNight"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="110dp"
                 android:layout_height="wrap_content"
@@ -217,7 +217,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/previousButtonRelativeLayout"
+            android:id="@+id/previousButtonRelativeLayoutNight"
             android:layout_width="110dp"
             android:layout_height="55dp"
             android:layout_marginStart="50dp"
@@ -227,14 +227,14 @@
             android:gravity="center"
             android:padding="2.5dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/nextButtonRelativeLayout"
+            app:layout_constraintEnd_toStartOf="@+id/nextButtonRelativeLayoutNight"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/zikrContainer"
+            app:layout_constraintTop_toBottomOf="@+id/zikrContainerNight"
             app:layout_constraintVertical_bias="0.6">
 
             <Button
-                android:id="@+id/previousButton"
+                android:id="@+id/previousButtonNight"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="110dp"
                 android:layout_height="wrap_content"

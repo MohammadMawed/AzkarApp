@@ -12,7 +12,10 @@ interface ZikrDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addZikr(zikr: Zikr)
 
-    @Query("SELECT * FROM zikr WHERE id = :id")
-    fun getAlsabahZikr(id: Int): Flow<List<Zikr>>
+    @Query("SELECT * FROM zikr WHERE id = :id AND alsabah = :alsabah")
+    fun getAlsabahZikr(id: Int, alsabah: Boolean): Flow<List<Zikr>>
+
+    @Query("SELECT * FROM zikr WHERE id = :id AND alsabah = :alsabah")
+    fun getAlmasahZikr(id: Int, alsabah: Boolean): Flow<List<Zikr>>
 
 }

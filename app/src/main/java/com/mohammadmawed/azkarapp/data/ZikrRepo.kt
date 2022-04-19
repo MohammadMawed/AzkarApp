@@ -6,8 +6,6 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.content.res.Configuration
-import android.content.res.Resources
 import android.icu.util.Calendar
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -15,8 +13,6 @@ import androidx.core.content.ContextCompat
 import com.mohammadmawed.azkarapp.receiver.ReminderBroadcast
 import com.mohammadmawed.azkarapp.util.cancelNotifications
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.first
 import java.time.LocalDate
 import java.time.chrono.HijrahDate
 import java.time.format.DateTimeFormatter
@@ -29,8 +25,13 @@ class ZikrRepo @Inject constructor(
     val preferencesManager: PreferencesManager
 ) {
 
-    fun getItemByID(id: Int): Flow<List<Zikr>> {
-        val readAllData: Flow<List<Zikr>> = zikrDao.getAlsabahZikr(id)
+    fun getItemByID(id: Int, alsabah: Boolean): Flow<List<Zikr>> {
+        val readAllData: Flow<List<Zikr>> = zikrDao.getAlsabahZikr(id, alsabah)
+        return readAllData
+    }
+
+    fun getAlmasahZikr(id: Int, alsabah: Boolean): Flow<List<Zikr>> {
+        val readAllData: Flow<List<Zikr>> = zikrDao.getAlmasahZikr(id, alsabah)
         return readAllData
     }
 
@@ -90,7 +91,6 @@ class ZikrRepo @Inject constructor(
         notificationManager.cancelNotifications()
 
 
-
         // Set the alarm to start at 8:30 a.m.
         Calendar.getInstance().apply {
             timeInMillis = System.currentTimeMillis()
@@ -140,25 +140,5 @@ class ZikrRepo @Inject constructor(
         notificationManager.cancelNotifications()
 
         alarmManager.cancel(notifyPendingIntent)
-    }
-
-    fun changeLanguage(lang: String, context: Context) {
-        if (lang == "ar") {
-            val locale = Locale("ar")
-            Locale.setDefault(locale)
-            val resources: Resources? = context.resources
-            val configuration: Configuration? = resources?.configuration
-            configuration?.locale = locale
-            configuration?.setLayoutDirection(locale)
-            resources?.updateConfiguration(configuration, resources.displayMetrics)
-        } else {
-            val locale = Locale("en")
-            Locale.setDefault(locale)
-            val resources: Resources? = context.resources
-            val configuration: Configuration? = resources?.configuration
-            configuration?.locale = locale
-            configuration?.setLayoutDirection(locale)
-            resources?.updateConfiguration(configuration, resources.displayMetrics)
-        }
     }
 }
