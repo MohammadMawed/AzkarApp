@@ -1,5 +1,6 @@
 package com.mohammadmawed.azkarapp.ui
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
@@ -41,6 +42,7 @@ class SettingFragment : Fragment() {
 
     private val viewModel: ZikrViewModel by viewModels()
 
+    @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -101,16 +103,14 @@ class SettingFragment : Fragment() {
 
         notificationSwitch.setOnCheckedChangeListener { compoundButton, _ ->
             if (compoundButton.isChecked) {
-                viewModel.saveNotificationSettings(true, requireContext())
-                Log.d("notificat sett checked", "true")
 
-                //Snackbar.make(settingUI, "Notifications are now on!", Snackbar.LENGTH_LONG).show()
+                viewModel.saveNotificationSettings(true, requireContext())
+                Snackbar.make(settingUI, "Notifications are now ON!", Snackbar.LENGTH_LONG).show()
+
             } else {
                 viewModel.saveNotificationSettings(false, requireContext())
-                Log.d("notificat sett uncheck", "false")
-                //Snackbar.make(settingUI, "Notifications are now OFF!", Snackbar.LENGTH_LONG).show()
+                Snackbar.make(settingUI, "Notifications are now OFF!", Snackbar.LENGTH_LONG).show()
             }
-
         }
 
         timePickerButton.setOnClickListener {
@@ -154,7 +154,6 @@ class SettingFragment : Fragment() {
             picker.addOnDismissListener {
                 // call back code
             }
-
         }
 
         darkModeSwitch.isChecked = isNightMode(requireContext())

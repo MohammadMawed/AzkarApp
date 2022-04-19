@@ -57,7 +57,7 @@ class ZikrViewModel @ViewModelInject constructor(
         //Calling all functions when the viewModel is initialized
         islamicDate()
         remindUserAtTime(application)
-        changeLanguage(application)
+        //changeLanguage(application)
 
     }
 

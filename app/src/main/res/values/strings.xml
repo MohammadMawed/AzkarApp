@@ -23,4 +23,9 @@
     <string name="app_language">App Language</string>
     <string name="arabic">Arabic</string>
     <string name="english">English</string>
+    <string name="receive_notification_at">Receive notification at:</string>
+    <string name="current_version">Current Version</string>
+    <string name="v_1_0_0">V 1.0.0</string>
+    <string name="rate_us_on_google_play">Rate us on Google Play</string>
+    <string name="rate_us">Rate Us</string>
 </resources>

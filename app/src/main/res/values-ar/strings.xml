@@ -14,4 +14,9 @@
     <string name="app_language">لغة التطبيق</string>
     <string name="arabic">العربية</string>
     <string name="english">الإنجليزية</string>
+    <string name="receive_notification_at">تلقي إشعار على:</string>
+    <string name="current_version">النسخة الحالية</string>
+    <string name="v_1_0_0">V 1.0.0</string>
+    <string name="rate_us_on_google_play">قيمنا على جوجل بلاي</string>
+    <string name="rate_us">قيمنا</string>
 </resources>

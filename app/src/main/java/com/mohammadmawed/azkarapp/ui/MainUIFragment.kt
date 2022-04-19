@@ -93,7 +93,6 @@ class MainUIFragment : Fragment() {
 
         }
 
-
         nextButton.setOnClickListener {
             idd++
             if (idd == 31) {
