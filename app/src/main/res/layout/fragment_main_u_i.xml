@@ -11,7 +11,7 @@
         android:layout_height="match_parent">
 
         <RelativeLayout
-            android:id="@+id/MainContainerNight"
+            android:id="@+id/MainContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -24,11 +24,25 @@
             app:layout_constraintVertical_bias="0.005">
 
             <TextView
-                android:id="@+id/calendarTextViewNight"
+                android:id="@+id/navigationTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/navigationTextViewNight"
                 android:layout_marginStart="25dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:gravity="center"
+                android:text="@string/azkar_alsabah"
+                android:textColor="@color/whiteFont"
+                android:textSize="33sp"
+                android:textStyle="bold"
+                tools:ignore="RelativeOverlap" />
+
+            <TextView
+                android:id="@+id/calendarTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/navigationTextView"
+                android:layout_marginStart="30dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:gravity="center"
@@ -42,51 +56,50 @@
                 app:layout_constraintVertical_bias="0.544"
                 tools:text="@string/_20_10_1443" />
 
-            <TextView
-                android:id="@+id/navigationTextViewNight"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <ImageView
+                android:id="@+id/line"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_below="@+id/calendarTextView"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="25dp"
+                android:src="@drawable/shapebutton5" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGroup"
+                android:layout_width="match_parent"
+                android:layout_below="@+id/line"
                 android:layout_marginStart="25dp"
                 android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:gravity="center"
-                android:text="@string/azkar_alsabah"
-                android:textColor="@color/whiteFont"
-                android:textSize="33sp"
-                android:textStyle="bold"
-                tools:ignore="RelativeOverlap" />
+                android:layout_height="wrap_content">
 
-            <RelativeLayout
-                android:id="@+id/connectionRelativeLayoutNight"
+                <!-- Chips can be declared here, or added dynamically. -->
+
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="1dp"
-                android:background="@drawable/shapedark"
-                android:padding="12dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.958"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.019">
+                android:checked="true"
+                android:text="@string/azkar_alsabah"/>
 
-                <ImageView
-                    android:id="@+id/connectionImageViewNight"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:contentDescription="@string/setting"
-                    app:srcCompat="@drawable/ic_outline_settings_24" />
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip1"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/chip"
+                android:text="@string/azkar_almasah"/>
 
+            </com.google.android.material.chip.ChipGroup>
 
-            </RelativeLayout>
 
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/zikrContainerNight"
+            android:id="@+id/zikrContainer"
             android:layout_width="match_parent"
             android:layout_height="350dp"
             android:layout_margin="20dp"
@@ -94,12 +107,13 @@
             android:padding="30dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.4"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/MainContainerNight"
-            app:layout_constraintVertical_bias="0.335">
+            app:layout_constraintTop_toBottomOf="@+id/MainContainer"
+            app:layout_constraintVertical_bias="0.075">
 
             <TextView
-                android:id="@+id/zikrTextViewNight"
+                android:id="@+id/zikrTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
@@ -110,21 +124,20 @@
                 tools:text="@string/dummy" />
 
             <TextView
-                android:id="@+id/hintTextViewNight"
+                android:id="@+id/hintTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/zikrTextViewNight"
+                android:layout_below="@+id/zikrTextView"
                 android:layout_marginTop="25dp"
                 android:textColor="#fff"
                 android:textIsSelectable="true"
                 tools:text="@string/hintDummy" />
 
             <TextView
-                android:id="@+id/indexTextViewNight"
+                android:id="@+id/indexTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:layout_marginBottom="5dp"
                 android:gravity="center"
                 android:textColor="#fff"
                 android:textIsSelectable="true"
@@ -132,7 +145,7 @@
         </RelativeLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/shareFloatingButtonNight"
+            android:id="@+id/shareFloatingButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="-20dp"
@@ -141,31 +154,31 @@
             android:focusable="true"
             app:backgroundTint="@color/Red"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/zikrContainerNight"
+            app:layout_constraintEnd_toEndOf="@+id/zikrContainer"
             app:layout_constraintHorizontal_bias="0.91"
-            app:layout_constraintStart_toStartOf="@+id/zikrContainerNight"
-            app:layout_constraintTop_toBottomOf="@+id/zikrContainerNight"
+            app:layout_constraintStart_toStartOf="@+id/zikrContainer"
+            app:layout_constraintTop_toBottomOf="@+id/zikrContainer"
             app:layout_constraintVertical_bias="0.0"
             app:rippleColor="@color/white"
             app:srcCompat="@drawable/ic_outline_share_24"
             app:tint="@android:color/white" />
 
         <RelativeLayout
-            android:id="@+id/repeatTimeContainerNight"
+            android:id="@+id/repeatTimeContainer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="-20dp"
             android:background="@drawable/shapedark"
             android:padding="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/zikrContainerNight"
+            app:layout_constraintEnd_toEndOf="@+id/zikrContainer"
             app:layout_constraintHorizontal_bias="0.089"
-            app:layout_constraintStart_toStartOf="@+id/zikrContainerNight"
-            app:layout_constraintTop_toBottomOf="@+id/zikrContainerNight"
+            app:layout_constraintStart_toStartOf="@+id/zikrContainer"
+            app:layout_constraintTop_toBottomOf="@+id/zikrContainer"
             app:layout_constraintVertical_bias="0.0">
 
             <TextView
-                android:id="@+id/repeatTimeTextViewNight"
+                android:id="@+id/repeatTimeTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
@@ -178,11 +191,12 @@
 
 
         <RelativeLayout
-            android:id="@+id/nextButtonRelativeLayoutNight"
+            android:id="@+id/nextButtonRelativeLayout"
             android:layout_width="110dp"
             android:layout_height="55dp"
+            android:layout_marginTop="80dp"
             android:layout_marginEnd="50dp"
-            android:background="@drawable/shapebutton2"
+            android:background="@drawable/shapebutton4"
             android:clickable="true"
             android:focusable="true"
             android:gravity="center"
@@ -191,11 +205,11 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/zikrContainerNight"
-            app:layout_constraintVertical_bias="0.6">
+            app:layout_constraintTop_toBottomOf="@+id/zikrContainer"
+            app:layout_constraintVertical_bias="0.0">
 
             <Button
-                android:id="@+id/nextButtonNight"
+                android:id="@+id/nextButton"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="110dp"
                 android:layout_height="wrap_content"
@@ -217,24 +231,25 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/previousButtonRelativeLayoutNight"
+            android:id="@+id/previousButtonRelativeLayout"
             android:layout_width="110dp"
             android:layout_height="55dp"
             android:layout_marginStart="50dp"
-            android:background="@drawable/shapebutton3"
+            android:layout_marginTop="80dp"
+            android:background="@drawable/shapebutton4"
             android:clickable="true"
             android:focusable="true"
             android:gravity="center"
             android:padding="2.5dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/nextButtonRelativeLayoutNight"
+            app:layout_constraintEnd_toStartOf="@+id/nextButtonRelativeLayout"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/zikrContainerNight"
-            app:layout_constraintVertical_bias="0.6">
+            app:layout_constraintTop_toBottomOf="@+id/zikrContainer"
+            app:layout_constraintVertical_bias="0.0">
 
             <Button
-                android:id="@+id/previousButtonNight"
+                android:id="@+id/previousButton"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="110dp"
                 android:layout_height="wrap_content"

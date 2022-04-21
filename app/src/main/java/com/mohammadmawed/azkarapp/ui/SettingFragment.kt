@@ -111,8 +111,12 @@ class SettingFragment : Fragment() {
                 val hour = picker.hour
                 val minute = picker.minute
 
+                viewModel.saveNotificationSettings(false, requireContext())
+
                 viewModel.saveNotificationSettingsHour(hour, requireContext())
                 viewModel.saveNotificationSettingsMinute(minute, requireContext())
+
+                viewModel.saveNotificationSettings(true, requireContext())
 
                 var mintOp = "$hour:$minute"
 

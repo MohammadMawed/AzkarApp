@@ -16,9 +16,9 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.asLiveData
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.chip.Chip
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.mohammadmawed.azkarapp.R
 import com.mohammadmawed.azkarapp.data.Zikr
@@ -34,6 +34,7 @@ class MainUIFragment : Fragment() {
     private lateinit var calendarTextView: TextView
     private lateinit var nextButton: Button
     private lateinit var previousButton: Button
+    private lateinit var chip1: Chip
     private lateinit var shareFloatingButton: FloatingActionButton
     private lateinit var zikrContainer: RelativeLayout
     private lateinit var nav_menu: BottomNavigationView
@@ -51,15 +52,17 @@ class MainUIFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_main_u_i, container, false)
 
-        zikrTextView = view.findViewById(R.id.zikrTextViewNight)
-        hintTextView = view.findViewById(R.id.hintTextViewNight)
-        indexTextView = view.findViewById(R.id.indexTextViewNight)
-        repeatTimeTextView = view.findViewById(R.id.repeatTimeTextViewNight)
-        calendarTextView = view.findViewById(R.id.calendarTextViewNight)
-        nextButton = view.findViewById(R.id.nextButtonNight)
-        previousButton = view.findViewById(R.id.previousButtonNight)
-        shareFloatingButton = view.findViewById(R.id.shareFloatingButtonNight)
-        zikrContainer = view.findViewById(R.id.zikrContainerNight)
+
+        zikrTextView = view.findViewById(R.id.zikrTextView)
+        hintTextView = view.findViewById(R.id.hintTextView)
+        indexTextView = view.findViewById(R.id.indexTextView)
+        repeatTimeTextView = view.findViewById(R.id.repeatTimeTextView)
+        calendarTextView = view.findViewById(R.id.calendarTextView)
+        nextButton = view.findViewById(R.id.nextButton)
+        previousButton = view.findViewById(R.id.previousButton)
+        chip1 = view.findViewById(R.id.chip1)
+        shareFloatingButton = view.findViewById(R.id.shareFloatingButton)
+        zikrContainer = view.findViewById(R.id.zikrContainer)
 
 
         viewModel.islamicCalendarLiveData.observe(viewLifecycleOwner) {
@@ -75,6 +78,19 @@ class MainUIFragment : Fragment() {
 
         createChannel()
 
+        /**
+         *  Responds to chip click
+         */
+        chip1.setOnClickListener {
+
+        }
+        chip1.setOnCloseIconClickListener {
+            // Responds to chip's close icon click if one is present
+        }
+
+        chip1.setOnCheckedChangeListener { chip1, isChecked ->
+            // Responds to chip checked/unchecked
+        }
 
         var idd: Int = 1
 
@@ -110,7 +126,7 @@ class MainUIFragment : Fragment() {
                 idd = 30
 
             }
-            viewModel.itemById(idd, false).asLiveData().observe(viewLifecycleOwner, Observer {
+            viewModel.itemById(idd, false).asLiveData().observe(viewLifecycleOwner) {
                 for (zikr in it) {
                     zikrTextView.text = zikr.text
                     hintTextView.text = zikr.hint
@@ -118,7 +134,7 @@ class MainUIFragment : Fragment() {
                     indexTextView.text = "$idd/30"
                 }
 
-            })
+            }
         }
         shareFloatingButton.setOnClickListener {
 

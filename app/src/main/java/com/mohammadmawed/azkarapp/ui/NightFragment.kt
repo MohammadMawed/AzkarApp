@@ -1,8 +1,8 @@
 package com.mohammadmawed.azkarapp.ui
 
+import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +10,9 @@ import android.widget.Button
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.asLiveData
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.mohammadmawed.azkarapp.R
@@ -33,13 +35,14 @@ class NightFragment : Fragment() {
     private val viewModel: ZikrViewModel by viewModels()
     lateinit var zikr: Zikr
 
+    @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-         val view = inflater.inflate(R.layout.fragment_night, container, false)
+        val view = inflater.inflate(R.layout.fragment_night, container, false)
 
         zikrTextViewNight = view.findViewById(R.id.zikrTextViewNight)
         hintTextViewNight = view.findViewById(R.id.hintTextViewNight)
@@ -56,20 +59,52 @@ class NightFragment : Fragment() {
             calendarTextViewNight.text = it
         }
 
-        var idd: Int = 31
+        var iddF: Int = 31
 
-        viewModel.getAlmasahZikr(idd, true).asLiveData().observe(viewLifecycleOwner) { list ->
+        viewModel.getAlmasahZikr(iddF, true).asLiveData().observe(viewLifecycleOwner) { list ->
             for (zikr in list) {
                 zikrTextViewNight.text = zikr.text
                 hintTextViewNight.text = zikr.hint
                 repeatTimeTextViewNight.text = zikr.repeat.toString() + "X"
-                val index = idd - 30
+                val index = iddF - 30
                 indexTextViewNight.text = "$index/30"
             }
 
         }
+        nextButtonNight.setOnClickListener {
+            iddF++
+            if (iddF == 61) {
+                iddF = 31
+            }
+            viewModel.itemById(iddF, true).asLiveData().observe(viewLifecycleOwner) {
+                for (zikr in it) {
+                    zikrTextViewNight.text = zikr.text
+                    hintTextViewNight.text = zikr.hint
+                    repeatTimeTextViewNight.text = zikr.repeat.toString() + "X"
+                    val index = iddF - 30
+                    indexTextViewNight.text = "$index/30"
+                }
 
+            }
 
+        }
+        previousButtonNight.setOnClickListener {
+            iddF--
+            if (iddF == 31) {
+                iddF = 60
+
+            }
+            viewModel.itemById(iddF, true).asLiveData().observe(viewLifecycleOwner) {
+                for (zikr in it) {
+                    zikrTextViewNight.text = zikr.text
+                    hintTextViewNight.text = zikr.hint
+                    repeatTimeTextViewNight.text = zikr.repeat.toString() + "X"
+                    val index = iddF - 30
+                    indexTextViewNight.text = "$index/30"
+                }
+
+            }
+        }
 
         return view
     }
