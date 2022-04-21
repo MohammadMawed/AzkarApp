@@ -116,14 +116,14 @@ class SettingFragment : Fragment() {
                 viewModel.saveNotificationSettingsHour(hour, requireContext())
                 viewModel.saveNotificationSettingsMinute(minute, requireContext())
 
-                viewModel.saveNotificationSettings(true, requireContext())
 
                 var mintOp = "$hour:$minute"
 
                 if (minute == 9 || minute < 9) {
                     mintOp = "$hour:0$minute "
                 }
-
+                viewModel.saveNotificationSettings(true, requireContext())
+                
                 Snackbar.make(settingUI, "You will receive at $mintOp", Snackbar.LENGTH_LONG)
                     .show()
 

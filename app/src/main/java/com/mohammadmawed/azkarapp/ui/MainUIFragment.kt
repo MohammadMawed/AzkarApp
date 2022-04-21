@@ -31,10 +31,12 @@ class MainUIFragment : Fragment() {
     private lateinit var hintTextView: TextView
     private lateinit var indexTextView: TextView
     private lateinit var repeatTimeTextView: TextView
+    private lateinit var navigationTextView: TextView
     private lateinit var calendarTextView: TextView
     private lateinit var nextButton: Button
     private lateinit var previousButton: Button
-    private lateinit var chip1: Chip
+    private lateinit var alsabahChip: Chip
+    private lateinit var almasahChip: Chip
     private lateinit var shareFloatingButton: FloatingActionButton
     private lateinit var zikrContainer: RelativeLayout
     private lateinit var nav_menu: BottomNavigationView
@@ -57,10 +59,12 @@ class MainUIFragment : Fragment() {
         hintTextView = view.findViewById(R.id.hintTextView)
         indexTextView = view.findViewById(R.id.indexTextView)
         repeatTimeTextView = view.findViewById(R.id.repeatTimeTextView)
+        navigationTextView = view.findViewById(R.id.navigationTextView)
         calendarTextView = view.findViewById(R.id.calendarTextView)
         nextButton = view.findViewById(R.id.nextButton)
         previousButton = view.findViewById(R.id.previousButton)
-        chip1 = view.findViewById(R.id.chip1)
+        almasahChip = view.findViewById(R.id.almasahChip)
+        alsabahChip = view.findViewById(R.id.alsabahChip)
         shareFloatingButton = view.findViewById(R.id.shareFloatingButton)
         zikrContainer = view.findViewById(R.id.zikrContainer)
 
@@ -70,6 +74,7 @@ class MainUIFragment : Fragment() {
         }
 
         val context = context
+        var idd: Int = 1
 
         /*val selectedItemId: Int = nav_menu.selectedItemId
         val badge = nav_menu.getOrCreateBadge(selectedItemId)
@@ -81,18 +86,7 @@ class MainUIFragment : Fragment() {
         /**
          *  Responds to chip click
          */
-        chip1.setOnClickListener {
 
-        }
-        chip1.setOnCloseIconClickListener {
-            // Responds to chip's close icon click if one is present
-        }
-
-        chip1.setOnCheckedChangeListener { chip1, isChecked ->
-            // Responds to chip checked/unchecked
-        }
-
-        var idd: Int = 1
 
         viewModel.itemById(idd, false).asLiveData().observe(viewLifecycleOwner) { list ->
             for (zikr in list) {
@@ -136,6 +130,114 @@ class MainUIFragment : Fragment() {
 
             }
         }
+
+        alsabahChip.setOnCheckedChangeListener { alsabahChip, isChecked ->
+            almasahChip.isChecked = false
+            navigationTextView.text = getString(R.string.azkar_alsabah)
+            // Responds to chip checked/unchecked
+            if (isChecked) {
+                viewModel.itemById(idd, false).asLiveData().observe(viewLifecycleOwner) { list ->
+                    for (zikr in list) {
+                        zikrTextView.text = zikr.text
+                        hintTextView.text = zikr.hint
+                        repeatTimeTextView.text = zikr.repeat.toString() + "X"
+                        indexTextView.text = "$idd/30"
+                    }
+
+                }
+
+                nextButton.setOnClickListener {
+                    idd++
+                    if (idd == 31) {
+                        idd = 1
+                    }
+                    viewModel.itemById(idd, false).asLiveData().observe(viewLifecycleOwner) {
+                        for (zikr in it) {
+                            zikrTextView.text = zikr.text
+                            hintTextView.text = zikr.hint
+                            repeatTimeTextView.text = zikr.repeat.toString() + "X"
+                            indexTextView.text = "$idd/30"
+                        }
+
+                    }
+
+                }
+                previousButton.setOnClickListener {
+                    idd--
+                    if (idd == 0) {
+                        idd = 30
+
+                    }
+                    viewModel.itemById(idd, false).asLiveData().observe(viewLifecycleOwner) {
+                        for (zikr in it) {
+                            zikrTextView.text = zikr.text
+                            hintTextView.text = zikr.hint
+                            repeatTimeTextView.text = zikr.repeat.toString() + "X"
+                            indexTextView.text = "$idd/30"
+                        }
+
+                    }
+                }
+
+            }
+        }
+        almasahChip.setOnCheckedChangeListener { almasahChip, isChecked ->
+            var iddd: Int = 31
+
+            if (isChecked) {
+                alsabahChip.isChecked = false
+
+                navigationTextView.text = getString(R.string.azkar_almasah)
+
+                viewModel.getAlmasahZikr(iddd, true).asLiveData()
+                    .observe(viewLifecycleOwner) { list ->
+                        for (zikr in list) {
+                            zikrTextView.text = zikr.text
+                            hintTextView.text = zikr.hint
+                            repeatTimeTextView.text = zikr.repeat.toString() + "X"
+                            val index = iddd - 30
+                            indexTextView.text = "$index/30"
+                        }
+
+                    }
+
+                nextButton.setOnClickListener {
+                    iddd++
+                    if (iddd == 61) {
+                        iddd = 31
+                    }
+                    viewModel.getAlmasahZikr(iddd, true).asLiveData().observe(viewLifecycleOwner) {
+                        for (zikr in it) {
+                            zikrTextView.text = zikr.text
+                            hintTextView.text = zikr.hint
+                            repeatTimeTextView.text = zikr.repeat.toString() + "X"
+                            val index = iddd - 30
+                            indexTextView.text = "$index/30"
+                        }
+
+                    }
+
+                }
+                previousButton.setOnClickListener {
+                    iddd--
+                    if (iddd == 31) {
+                        iddd = 60
+
+                    }
+                    viewModel.getAlmasahZikr(iddd, true).asLiveData().observe(viewLifecycleOwner) {
+                        for (zikr in it) {
+                            zikrTextView.text = zikr.text
+                            hintTextView.text = zikr.hint
+                            repeatTimeTextView.text = zikr.repeat.toString() + "X"
+                            val index = iddd - 30
+                            indexTextView.text = "$index/30"
+                        }
+
+                    }
+                }
+            }
+        }
+
         shareFloatingButton.setOnClickListener {
 
             val shareIntent: Intent = Intent().apply {

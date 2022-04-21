@@ -69,29 +69,31 @@
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/chipGroup"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/line"
+                app:singleSelection="true"
+                app:selectionRequired="true"
                 android:layout_marginStart="25dp"
-                android:layout_marginTop="5dp"
-                android:layout_height="wrap_content">
+                android:layout_marginTop="5dp">
 
                 <!-- Chips can be declared here, or added dynamically. -->
 
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip"
-                style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="true"
-                android:text="@string/azkar_alsabah"/>
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/alsabahChip"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="@string/azkar_alsabah" />
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip1"
-                style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toEndOf="@+id/chip"
-                android:text="@string/azkar_almasah"/>
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/almasahChip"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/alsabahChip"
+                    android:text="@string/azkar_almasah" />
 
             </com.google.android.material.chip.ChipGroup>
 
@@ -102,15 +104,18 @@
             android:id="@+id/zikrContainer"
             android:layout_width="match_parent"
             android:layout_height="350dp"
-            android:layout_margin="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
             android:background="@drawable/shape12"
             android:padding="30dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.4"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/MainContainer"
-            app:layout_constraintVertical_bias="0.075">
+            app:layout_constraintVertical_bias="0.0">
 
             <TextView
                 android:id="@+id/zikrTextView"
@@ -194,7 +199,7 @@
             android:id="@+id/nextButtonRelativeLayout"
             android:layout_width="110dp"
             android:layout_height="55dp"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="75dp"
             android:layout_marginEnd="50dp"
             android:background="@drawable/shapebutton4"
             android:clickable="true"
@@ -235,7 +240,7 @@
             android:layout_width="110dp"
             android:layout_height="55dp"
             android:layout_marginStart="50dp"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="75dp"
             android:background="@drawable/shapebutton4"
             android:clickable="true"
             android:focusable="true"
