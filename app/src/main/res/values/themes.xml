@@ -18,4 +18,8 @@
     </style>
 
 
+    <style name="ThemeOverlay.App.Chip" parent="Widget.MaterialComponents.Chip.Filter">
+        <item name="chipBackgroundColor">@color/background_color_chip</item>
+    </style>
+
 </resources>

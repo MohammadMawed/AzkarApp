@@ -87,7 +87,6 @@ class MainUIFragment : Fragment() {
          *  Responds to chip click
          */
 
-
         viewModel.itemById(idd, false).asLiveData().observe(viewLifecycleOwner) { list ->
             for (zikr in list) {
                 zikrTextView.text = zikr.text
@@ -110,9 +109,7 @@ class MainUIFragment : Fragment() {
                     repeatTimeTextView.text = zikr.repeat.toString() + "X"
                     indexTextView.text = "$idd/30"
                 }
-
             }
-
         }
         previousButton.setOnClickListener {
             idd--
@@ -127,7 +124,6 @@ class MainUIFragment : Fragment() {
                     repeatTimeTextView.text = zikr.repeat.toString() + "X"
                     indexTextView.text = "$idd/30"
                 }
-
             }
         }
 
@@ -178,7 +174,6 @@ class MainUIFragment : Fragment() {
 
                     }
                 }
-
             }
         }
         almasahChip.setOnCheckedChangeListener { almasahChip, isChecked ->
@@ -232,7 +227,6 @@ class MainUIFragment : Fragment() {
                             val index = iddd - 30
                             indexTextView.text = "$index/30"
                         }
-
                     }
                 }
             }
@@ -247,9 +241,7 @@ class MainUIFragment : Fragment() {
                 putExtra(Intent.EXTRA_STREAM, text)
             }
             startActivity(Intent.createChooser(shareIntent, "Share using"))
-
         }
-
         return view
     }
 

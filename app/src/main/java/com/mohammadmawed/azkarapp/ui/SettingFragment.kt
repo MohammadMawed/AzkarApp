@@ -48,7 +48,7 @@ class SettingFragment : Fragment() {
 
         notificationSwitch = view.findViewById(R.id.switch1)
         darkModeSwitch = view.findViewById(R.id.switch2)
-        calendarSettingTextView = view.findViewById(R.id.calendarSettingTextView)
+        calendarSettingTextView = view.findViewById(R.id.calendarRecTextView)
         notificationSetTextView = view.findViewById(R.id.notificationSetTextView)
         settingUI = view.findViewById(R.id.settingUI)
         timePickerButton = view.findViewById(R.id.timePickerButton)

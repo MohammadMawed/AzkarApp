@@ -73,6 +73,9 @@ class ZikrViewModel @ViewModelInject constructor(
     fun getAlmasahZikr(id: Int, alsabah: Boolean): Flow<List<Zikr>> {
         return repo.getAlmasahZikr(id, alsabah)
     }
+    fun getZikr(): Flow<List<Zikr>> {
+        return repo.getZikr()
+    }
 
     private fun islamicDate() {
         val hijriDate = repo.islamicDate()

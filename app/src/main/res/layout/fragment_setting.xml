@@ -8,7 +8,7 @@
     tools:context=".ui.NightFragment">
 
     <RelativeLayout
-        android:id="@+id/MainContainerSetting"
+        android:id="@+id/MainContainerRec"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -21,10 +21,10 @@
         app:layout_constraintVertical_bias="0.005">
 
         <TextView
-            android:id="@+id/calendarSettingTextView"
+            android:id="@+id/calendarRecTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/navigationTextViewNight"
+            android:layout_below="@+id/navigationTextViewRec"
             android:layout_marginStart="25dp"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
@@ -40,7 +40,7 @@
             tools:text="@string/_20_10_1443" />
 
         <TextView
-            android:id="@+id/navigationTextViewNight"
+            android:id="@+id/navigationTextViewRec"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="25dp"
@@ -65,7 +65,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/MainContainerSetting"
+        app:layout_constraintTop_toBottomOf="@+id/MainContainerRec"
         app:layout_constraintVertical_bias="0.286">
 
 

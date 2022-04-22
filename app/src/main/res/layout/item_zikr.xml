@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp">
+
+    <RelativeLayout
+        android:id="@+id/zikrContainerRec"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape12"
+        android:padding="25dp">
+
+        <TextView
+            android:id="@+id/zikrTextViewRec"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#fff"
+            android:textIsSelectable="true"
+            tools:text="@string/dummy" />
+
+        <TextView
+            android:id="@+id/hintTextViewRec"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/zikrTextViewRec"
+            android:layout_marginTop="12.5dp"
+            android:textColor="#fff"
+            android:textIsSelectable="true"
+            tools:text="@string/hintDummy" />
+
+        <TextView
+            android:id="@+id/indexTextViewRec"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/hintTextViewRec"
+            android:layout_marginTop="12.5dp"
+            android:gravity="center"
+            android:textColor="#fff"
+            android:textIsSelectable="true"
+            tools:text="10/31" />
+
+        <TextView
+            android:id="@+id/repeatTextViewRec"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/hintTextViewRec"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="5dp"
+            android:layout_toEndOf="@+id/indexTextViewRec"
+            android:gravity="center"
+            android:textColor="#fff"
+            android:textIsSelectable="true"
+            android:textSize="25sp"
+            tools:text="3X" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

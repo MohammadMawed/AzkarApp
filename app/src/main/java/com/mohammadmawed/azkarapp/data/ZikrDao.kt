@@ -18,4 +18,7 @@ interface ZikrDao {
     @Query("SELECT * FROM zikr WHERE id = :id AND alsabah = :alsabah")
     fun getAlmasahZikr(id: Int, alsabah: Boolean): Flow<List<Zikr>>
 
+    @Query("SELECT * FROM zikr")
+    fun getZikr(): Flow<List<Zikr>>
+
 }

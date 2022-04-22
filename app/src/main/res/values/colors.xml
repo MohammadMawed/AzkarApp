@@ -18,7 +18,8 @@
     <color name="yellow">#ffc500</color>
     <color name="darkGreen">#414d0b</color>
     <color name="lightGreen">#727a17</color>
-    <color name="navi">#283c86</color>
+    <color name="navi">#3e4685</color>
+    <color name="naviLight">#BDC6F1</color>
     <color name="darkNavi">#243B55</color>
     <color name="lightBlack">#141E30</color>
     <color name="blue">#0072ff</color>

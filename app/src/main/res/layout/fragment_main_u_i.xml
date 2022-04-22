@@ -71,17 +71,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/line"
-                app:singleSelection="true"
-                app:selectionRequired="true"
                 android:layout_marginStart="25dp"
-                android:layout_marginTop="5dp">
+                android:layout_marginTop="5dp"
+                app:selectionRequired="true"
+                app:singleSelection="true">
 
                 <!-- Chips can be declared here, or added dynamically. -->
 
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/alsabahChip"
-                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    style="@style/ThemeOverlay.App.Chip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true"
@@ -89,7 +89,7 @@
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/almasahChip"
-                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    style="@style/ThemeOverlay.App.Chip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toEndOf="@+id/alsabahChip"
@@ -147,6 +147,7 @@
                 android:textColor="#fff"
                 android:textIsSelectable="true"
                 tools:text="10/31" />
+
         </RelativeLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton

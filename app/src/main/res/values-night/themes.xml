@@ -17,4 +17,5 @@
     </style>
     <color name="gray">#292929</color>
     <color name="whiteFont">#fff</color>
+    <color name="naviLight">#7d90d8</color>
 </resources>
