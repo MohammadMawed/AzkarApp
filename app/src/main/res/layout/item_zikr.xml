@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -35,7 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/hintTextViewRec"
-            android:layout_marginTop="12.5dp"
+            android:layout_marginTop="18dp"
             android:gravity="center"
             android:textColor="#fff"
             android:textIsSelectable="true"
@@ -47,13 +48,33 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/hintTextViewRec"
             android:layout_marginStart="25dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:layout_toEndOf="@+id/indexTextViewRec"
             android:gravity="center"
             android:textColor="#fff"
+            android:textStyle="bold"
             android:textIsSelectable="true"
             android:textSize="25sp"
             tools:text="3X" />
+
+        <RelativeLayout
+            android:id="@+id/shareButtonContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/hintTextViewRec"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="5dp"
+            android:background="@drawable/shapedark"
+            android:padding="6dp">
+
+            <ImageView
+                android:id="@+id/shareButtonImageView"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                app:srcCompat="@drawable/ic_outline_share_24" />
+
+        </RelativeLayout>
 
     </RelativeLayout>
 

@@ -12,7 +12,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.mohammadmawed.azkarapp.data.PreferencesManager
 import com.mohammadmawed.azkarapp.data.Zikr
-import com.mohammadmawed.azkarapp.data.ZikrDao
 import com.mohammadmawed.azkarapp.data.ZikrRepo
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -26,7 +25,6 @@ import kotlinx.coroutines.launch
 
 class ZikrViewModel @ViewModelInject constructor(
     application: Application,
-    private val zikrDao: ZikrDao,
     private val repo: ZikrRepo,
     private val preferencesManager: PreferencesManager
 ) : AndroidViewModel(application) {
@@ -63,7 +61,6 @@ class ZikrViewModel @ViewModelInject constructor(
         islamicDate()
         remindUserAtTime(application)
         //changeLanguage(application)
-
     }
 
     fun itemById(id: Int, alsabah: Boolean): Flow<List<Zikr>> {
@@ -93,7 +90,6 @@ class ZikrViewModel @ViewModelInject constructor(
                 repo.cancelNotification(context)
             }
         }
-
     }
 
     fun saveNotificationSettings(value: Boolean, context: Context) {

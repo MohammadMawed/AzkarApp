@@ -16,7 +16,7 @@
     <string name="notification_channel_name" translatable="false">zikr</string>
     <string name="notification_title" translatable="false">Zikr</string>
     <string name="notification_content" translatable="false">Zikr</string>
-    <string name="zikr1" translatable="false">Zikr</string>
+    <string name="zikr1">Zikr</string>
     <string name="notifications">Notifications</string>
     <string name="this_option_will_send_a_reminder_if_enabled">This option will send a reminder if enabled.</string>
     <string name="dark_mode">Dark Mode</string>

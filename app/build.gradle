@@ -9,7 +9,7 @@ plugins {
 android {
     compileSdk 31
 
-    buildFeatures{
+    buildFeatures {
         viewBinding = true
     }
 
@@ -55,7 +55,15 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     testImplementation 'com.google.truth:truth:1.0.1'
+    //For runBlockingTest, CoroutineDispatcher etc.
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.2.1"
+    //For InstantTaskExecutorRule
+    testImplementation "androidx.arch.core:core-testing:2.1.0"
     androidTestImplementation 'com.google.truth:truth:1.0.1'
+    androidTestImplementation 'androidx.arch.core:core-testing:2.1.0'
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1'
+
+
 
     //New Material Design
     implementation 'com.google.android.material:material:1.0.0'
@@ -65,7 +73,7 @@ dependencies {
     implementation "org.kodein.di:kodein-di-framework-android-x:6.2.1"
 
     // ViewModel
-    implementation"androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1"
 
     // LiveData
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.4.1"

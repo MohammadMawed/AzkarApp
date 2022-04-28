@@ -234,13 +234,10 @@ class MainUIFragment : Fragment() {
 
         shareFloatingButton.setOnClickListener {
 
-            val shareIntent: Intent = Intent().apply {
-                action = Intent.ACTION_SEND
-                type = "text/plain"
-                val text: String = zikrTextView.text.toString()
-                putExtra(Intent.EXTRA_STREAM, text)
-            }
-            startActivity(Intent.createChooser(shareIntent, "Share using"))
+            val intent = Intent(Intent.ACTION_SEND)
+            intent.putExtra(Intent.EXTRA_TEXT, (zikrTextView.text))
+            intent.type = "text/plain"
+            it.context.startActivity(Intent.createChooser(intent, "Send To"))
         }
         return view
     }

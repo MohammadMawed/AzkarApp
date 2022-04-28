@@ -86,7 +86,7 @@ class SettingFragment : Fragment() {
             if (compoundButton.isChecked) {
 
                 viewModel.saveNotificationSettings(true, requireContext())
-                Snackbar.make(settingUI, "Notifications are now ON!", Snackbar.LENGTH_LONG).show()
+                //Snackbar.make(settingUI, "Notifications are now ON!", Snackbar.LENGTH_LONG).show()
 
             } else {
                 viewModel.saveNotificationSettings(false, requireContext())
@@ -115,7 +115,6 @@ class SettingFragment : Fragment() {
 
                 viewModel.saveNotificationSettingsHour(hour, requireContext())
                 viewModel.saveNotificationSettingsMinute(minute, requireContext())
-
 
                 var mintOp = "$hour:$minute"
 

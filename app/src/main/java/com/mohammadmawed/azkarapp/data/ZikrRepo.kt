@@ -20,10 +20,7 @@ import java.util.*
 import javax.inject.Inject
 
 
-class ZikrRepo @Inject constructor(
-    private val zikrDao: ZikrDao,
-    val preferencesManager: PreferencesManager
-) {
+class ZikrRepo @Inject constructor(private val zikrDao: ZikrDao) {
 
     fun getItemByID(id: Int, alsabah: Boolean): Flow<List<Zikr>> {
         val readAllData: Flow<List<Zikr>> = zikrDao.getAlsabahZikr(id, alsabah)
@@ -34,6 +31,7 @@ class ZikrRepo @Inject constructor(
         val readAllData: Flow<List<Zikr>> = zikrDao.getAlmasahZikr(id, alsabah)
         return readAllData
     }
+
     fun getZikr(): Flow<List<Zikr>> {
         val readAllData: Flow<List<Zikr>> = zikrDao.getZikr()
         return readAllData
