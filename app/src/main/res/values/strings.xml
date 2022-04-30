@@ -12,8 +12,8 @@
     <string name="setting">Setting</string>
     <string name="share">Share</string>
     <string name="snooze">Snooze</string>
-    <string name="notification_channel_id" translatable="false">zikr</string>
-    <string name="notification_channel_name" translatable="false">zikr</string>
+    <string name="notification_channel_id" translatable="false">Zikr</string>
+    <string name="notification_channel_name" translatable="false">Zikr</string>
     <string name="notification_title" translatable="false">Zikr</string>
     <string name="notification_content" translatable="false">Zikr</string>
     <string name="zikr1">Zikr</string>

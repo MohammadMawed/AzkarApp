@@ -9,6 +9,7 @@ import android.content.Intent
 import android.icu.util.Calendar
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import com.mohammadmawed.azkarapp.receiver.ReminderBroadcast
 import com.mohammadmawed.azkarapp.util.cancelNotifications
@@ -143,4 +144,5 @@ class ZikrRepo @Inject constructor(private val zikrDao: ZikrDao) {
 
         alarmManager.cancel(notifyPendingIntent)
     }
+
 }

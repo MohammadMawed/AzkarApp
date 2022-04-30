@@ -3,8 +3,10 @@ package com.mohammadmawed.azkarapp.ui
 import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
+import android.content.res.Configuration
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -18,6 +20,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import java.util.*
 
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -52,6 +55,7 @@ class ZikrViewModel @ViewModelInject constructor(
     val notificationRefFlow = preferencesManager.notificationRefFlow
     val notificationTimeHourFlow = preferencesManager.notificationTimeHourFlow
     val notificationTimeMinuteFlow = preferencesManager.notificationTimeMinuteFlow
+    val darkModeFlow = preferencesManager.darkModeRefFlow
 
     //val dao = zikrDao.getAlsabahZikr().asLiveData()
 
@@ -70,6 +74,7 @@ class ZikrViewModel @ViewModelInject constructor(
     fun getAlmasahZikr(id: Int, alsabah: Boolean): Flow<List<Zikr>> {
         return repo.getAlmasahZikr(id, alsabah)
     }
+
     fun getZikr(): Flow<List<Zikr>> {
         return repo.getZikr()
     }
@@ -92,6 +97,28 @@ class ZikrViewModel @ViewModelInject constructor(
         }
     }
 
+    fun enableDarkMode() {
+        viewModelScope.launch {
+            val darkModeState = darkModeFlow.first()
+            if (darkModeState) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            }
+        }
+    }
+
+    fun languageChange(lang: String, context: Context) {
+        val locale = Locale(lang)
+        Locale.setDefault(locale)
+        val configuration = Configuration()
+        configuration.locale = locale
+        context.resources.updateConfiguration(
+            configuration,
+            context.resources.displayMetrics
+        )
+    }
+
     fun saveNotificationSettings(value: Boolean, context: Context) {
         viewModelScope.launch {
             preferencesManager.saveNotification(value, context)
@@ -107,6 +134,12 @@ class ZikrViewModel @ViewModelInject constructor(
     fun saveNotificationSettingsMinute(value: Int, context: Context) {
         viewModelScope.launch {
             preferencesManager.saveNotificationMinute(value, context)
+        }
+    }
+
+    fun saveDarkModeState(value: Boolean, context: Context) {
+        viewModelScope.launch {
+            preferencesManager.saveDarkModeState(value, context)
         }
     }
 }

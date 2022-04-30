@@ -23,6 +23,7 @@ class PreferencesManager @Inject constructor(@ApplicationContext context: Contex
         val NOTIFICATION_TOGGLE: Preferences.Key<Boolean> = booleanPreferencesKey("notification")
         val NOTIFICATION_TIME_HOUR: Preferences.Key<Int> = intPreferencesKey("notification_time_hour")
         val NOTIFICATION_TIME_MINUTE: Preferences.Key<Int> = intPreferencesKey("notification_time_minute")
+        val DARK_MODE: Preferences.Key<Boolean> = booleanPreferencesKey("dark_mode")
     }
 
     suspend fun saveNotification(value: Boolean, context: Context) {
@@ -42,6 +43,13 @@ class PreferencesManager @Inject constructor(@ApplicationContext context: Contex
             it[NOTIFICATION_TIME_MINUTE] = value
         }
     }
+
+    suspend fun saveDarkModeState(value: Boolean, context: Context) {
+        context.dataStore.edit {
+            it[DARK_MODE] = value
+        }
+    }
+
     val notificationRefFlow: Flow<Boolean> = context.dataStore.data.map {
         it[NOTIFICATION_TOGGLE] ?: true
     }
@@ -53,5 +61,7 @@ class PreferencesManager @Inject constructor(@ApplicationContext context: Contex
     val notificationTimeMinuteFlow: Flow<Int> = context.dataStore.data.map {
         it[NOTIFICATION_TIME_MINUTE] ?: 0
     }
-
+    val darkModeRefFlow: Flow<Boolean> = context.dataStore.data.map {
+        it[DARK_MODE] ?: false
+    }
 }

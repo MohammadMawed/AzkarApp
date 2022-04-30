@@ -8,7 +8,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.RelativeLayout
+import android.widget.Switch
+import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -31,6 +33,7 @@ class SettingFragment : Fragment() {
     private lateinit var darkModeSwitch: Switch
     private lateinit var settingUI: ConstraintLayout
     private lateinit var timePickerButton: RelativeLayout
+    private lateinit var rateUsButton: RelativeLayout
     private lateinit var calendarSettingTextView: TextView
     private lateinit var notificationSetTextView: TextView
 
@@ -122,7 +125,7 @@ class SettingFragment : Fragment() {
                     mintOp = "$hour:0$minute "
                 }
                 viewModel.saveNotificationSettings(true, requireContext())
-                
+
                 Snackbar.make(settingUI, "You will receive at $mintOp", Snackbar.LENGTH_LONG)
                     .show()
 
@@ -145,9 +148,14 @@ class SettingFragment : Fragment() {
         darkModeSwitch.setOnCheckedChangeListener { _, b ->
             if (b) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                viewModel.saveDarkModeState(true, requireContext())
             } else {
+                viewModel.saveDarkModeState(false, requireContext())
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             }
+        }
+        rateUsButton.setOnClickListener {
+
         }
 
         return view
