@@ -4,11 +4,9 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
-import androidx.lifecycle.LiveData
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -23,7 +21,6 @@ class PreferencesManager @Inject constructor(@ApplicationContext context: Contex
         val NOTIFICATION_TOGGLE: Preferences.Key<Boolean> = booleanPreferencesKey("notification")
         val NOTIFICATION_TIME_HOUR: Preferences.Key<Int> = intPreferencesKey("notification_time_hour")
         val NOTIFICATION_TIME_MINUTE: Preferences.Key<Int> = intPreferencesKey("notification_time_minute")
-        val DARK_MODE: Preferences.Key<Boolean> = booleanPreferencesKey("dark_mode")
     }
 
     suspend fun saveNotification(value: Boolean, context: Context) {
@@ -44,12 +41,6 @@ class PreferencesManager @Inject constructor(@ApplicationContext context: Contex
         }
     }
 
-    suspend fun saveDarkModeState(value: Boolean, context: Context) {
-        context.dataStore.edit {
-            it[DARK_MODE] = value
-        }
-    }
-
     val notificationRefFlow: Flow<Boolean> = context.dataStore.data.map {
         it[NOTIFICATION_TOGGLE] ?: true
     }
@@ -60,8 +51,5 @@ class PreferencesManager @Inject constructor(@ApplicationContext context: Contex
 
     val notificationTimeMinuteFlow: Flow<Int> = context.dataStore.data.map {
         it[NOTIFICATION_TIME_MINUTE] ?: 0
-    }
-    val darkModeRefFlow: Flow<Boolean> = context.dataStore.data.map {
-        it[DARK_MODE] ?: false
     }
 }

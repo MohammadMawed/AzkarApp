@@ -17,7 +17,6 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.asLiveData
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.chip.Chip
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.mohammadmawed.azkarapp.R
@@ -39,7 +38,7 @@ class MainUIFragment : Fragment() {
     private lateinit var almasahChip: Chip
     private lateinit var shareFloatingButton: FloatingActionButton
     private lateinit var zikrContainer: RelativeLayout
-    private lateinit var nav_menu: BottomNavigationView
+    //private lateinit var nav_menu: BottomNavigationView
 
     private val viewModel: ZikrViewModel by viewModels()
     lateinit var zikr: Zikr
@@ -73,8 +72,7 @@ class MainUIFragment : Fragment() {
             calendarTextView.text = it
         }
 
-        val context = context
-        var idd: Int = 1
+        var idd = 1
 
         /*val selectedItemId: Int = nav_menu.selectedItemId
         val badge = nav_menu.getOrCreateBadge(selectedItemId)
@@ -82,10 +80,6 @@ class MainUIFragment : Fragment() {
         // An icon only badge will be displayed unless a number is set*/
 
         createChannel()
-
-        /**
-         *  Responds to chip click
-         */
 
         viewModel.itemById(idd, false).asLiveData().observe(viewLifecycleOwner) { list ->
             for (zikr in list) {
@@ -127,7 +121,7 @@ class MainUIFragment : Fragment() {
             }
         }
 
-        alsabahChip.setOnCheckedChangeListener { alsabahChip, isChecked ->
+        alsabahChip.setOnCheckedChangeListener { _, isChecked ->
             almasahChip.isChecked = false
             navigationTextView.text = getString(R.string.azkar_alsabah)
             // Responds to chip checked/unchecked
@@ -176,8 +170,8 @@ class MainUIFragment : Fragment() {
                 }
             }
         }
-        almasahChip.setOnCheckedChangeListener { almasahChip, isChecked ->
-            var iddd: Int = 31
+        almasahChip.setOnCheckedChangeListener { _, isChecked ->
+            var iddd = 31
 
             if (isChecked) {
                 alsabahChip.isChecked = false
@@ -248,7 +242,7 @@ class MainUIFragment : Fragment() {
             // Create the NotificationChannel
             val name = getText(R.string.notification_channel_name)
             val descriptionText = "Zikr"
-            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val importance = NotificationManager.IMPORTANCE_HIGH
             val mChannel =
                 NotificationChannel(getString(R.string.notification_channel_id), name, importance)
             mChannel.description = descriptionText

@@ -1,8 +1,8 @@
 package com.mohammadmawed.azkarapp.ui
 
 import android.annotation.SuppressLint
-import android.content.Context
-import android.content.res.Configuration
+import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,11 +12,9 @@ import android.widget.RelativeLayout
 import android.widget.Switch
 import android.widget.TextView
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.timepicker.MaterialTimePicker
@@ -26,14 +24,16 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.first
 
+
 @AndroidEntryPoint
 class SettingFragment : Fragment() {
 
+    @SuppressLint("UseSwitchCompatOrMaterialCode")
     private lateinit var notificationSwitch: Switch
-    private lateinit var darkModeSwitch: Switch
     private lateinit var settingUI: ConstraintLayout
     private lateinit var timePickerButton: RelativeLayout
     private lateinit var rateUsButton: RelativeLayout
+    private lateinit var policyButton: RelativeLayout
     private lateinit var calendarSettingTextView: TextView
     private lateinit var notificationSetTextView: TextView
 
@@ -50,19 +50,21 @@ class SettingFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_setting, container, false)
 
         notificationSwitch = view.findViewById(R.id.switch1)
-        darkModeSwitch = view.findViewById(R.id.switch2)
         calendarSettingTextView = view.findViewById(R.id.calendarRecTextView)
         notificationSetTextView = view.findViewById(R.id.notificationSetTextView)
         settingUI = view.findViewById(R.id.settingUI)
+        policyButton = view.findViewById(R.id.policyButton)
         timePickerButton = view.findViewById(R.id.timePickerButton)
+        rateUsButton = view.findViewById(R.id.rateUsButton)
 
-        viewModel.islamicCalendarLiveData.observe(viewLifecycleOwner, Observer {
+
+        viewModel.islamicCalendarLiveData.observe(viewLifecycleOwner) {
             calendarSettingTextView.text = it
 
-        })
+        }
 
-        var savedHour: Int = 0
-        var savedMinute: Int = 0
+        var savedHour = 0
+        var savedMinute = 0
 
         //Loading user's settings
         lifecycleScope.launchWhenStarted {
@@ -143,28 +145,14 @@ class SettingFragment : Fragment() {
             }
         }
 
-        darkModeSwitch.isChecked = isNightMode(requireContext())
-
-        darkModeSwitch.setOnCheckedChangeListener { _, b ->
-            if (b) {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                viewModel.saveDarkModeState(true, requireContext())
-            } else {
-                viewModel.saveDarkModeState(false, requireContext())
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-            }
-        }
-        rateUsButton.setOnClickListener {
-
+        policyButton.setOnClickListener {
+            val uri: Uri = Uri.parse("http://www.mohammadmawed.de")
+            val intent = Intent(Intent.ACTION_VIEW, uri)
+            startActivity(intent)
         }
 
         return view
-    }
-
-    private fun isNightMode(context: Context): Boolean {
-        val nightModeFlags =
-            context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
-        return nightModeFlags == Configuration.UI_MODE_NIGHT_YES
+        
     }
 
 }

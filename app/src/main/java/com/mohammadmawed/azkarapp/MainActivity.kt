@@ -39,7 +39,5 @@ class MainActivity : AppCompatActivity() {
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.nav_menu)
 
         setupWithNavController(bottomNavigationView, navController)
-
-        viewModel.enableDarkMode()
     }
 }

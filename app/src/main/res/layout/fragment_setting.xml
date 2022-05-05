@@ -131,36 +131,12 @@
             android:textColor="@color/white"
             android:textSize="15sp" />
 
-        <Switch
-            android:id="@+id/switch2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/timePickerButton"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="20dp"
-            android:text="@string/dark_mode"
-            android:textColor="#ffff"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            tools:ignore="UseSwitchCompatOrMaterialXml" />
-
-        <TextView
-            android:id="@+id/grr"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/switch2"
-            android:layout_marginTop="10dp"
-            android:text="@string/this_option_will_enable_dark_mode"
-            android:textColor="#fff"
-            android:textSize="15sp" />
-
 
         <TextView
             android:id="@+id/rateUsTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/grr"
+            android:layout_below="@+id/textView"
             android:layout_marginTop="20dp"
             android:text="@string/rate_us"
             android:textColor="#fff"
@@ -192,11 +168,37 @@
 
         </RelativeLayout>
 
+        <RelativeLayout
+            android:id="@+id/policyButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rateUsButton"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="35dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="35dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/shapedark"
+            android:gravity="center"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/policyTextViewButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/terms_and_policy"
+                android:textColor="#fff"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
         <TextView
             android:id="@+id/versionTitleTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/rateUsButton"
+            android:layout_below="@+id/policyButton"
             android:layout_marginTop="20dp"
             android:text="@string/current_version"
             android:textColor="#fff"
@@ -212,7 +214,6 @@
             android:text="@string/v_1_0_0"
             android:textColor="#fff"
             android:textSize="15sp" />
-
 
     </RelativeLayout>
 
