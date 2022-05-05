@@ -231,21 +231,19 @@ class MainUIFragment : Fragment() {
             val intent = Intent(Intent.ACTION_SEND)
             intent.putExtra(Intent.EXTRA_TEXT, (zikrTextView.text))
             intent.type = "text/plain"
-            it.context.startActivity(Intent.createChooser(intent, "Send To"))
+            it.context.startActivity(Intent.createChooser(intent, resources.getString(R.string.send_to)))
         }
         return view
     }
 
     private fun createChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-
             // Create the NotificationChannel
             val name = getText(R.string.notification_channel_name)
-            val descriptionText = "Zikr"
             val importance = NotificationManager.IMPORTANCE_HIGH
             val mChannel =
                 NotificationChannel(getString(R.string.notification_channel_id), name, importance)
-            mChannel.description = descriptionText
+            mChannel.description = resources.getString(R.string.notification_content)
             // Register the channel with the system; you can't change the importance
             // or other notification behaviors after this
             val notificationManager =

@@ -13,11 +13,11 @@
     <string name="share">Share</string>
     <string name="snooze">Snooze</string>
     <string name="notification_channel_id" translatable="false">Zikr</string>
-    <string name="notification_channel_name" translatable="false">Zikr</string>
-    <string name="notification_title" translatable="false">Zikr</string>
-    <string name="notification_content" translatable="false">Zikr</string>
+    <string name="notification_channel_name">Zikr</string>
+    <string name="notification_title">Zikr</string>
+    <string name="notification_content">Zikr Reminder</string>
     <string name="zikr1">Zikr</string>
-    <string name="notifications">Notifications</string>
+    <string name="notifications" >Notifications</string>
     <string name="this_option_will_send_a_reminder_if_enabled">This option will send a reminder if enabled.</string>
     <string name="dark_mode">Dark Mode</string>
     <string name="this_option_will_enable_dark_mode">This option will enable dark mode.</string>
@@ -30,4 +30,9 @@
     <string name="rate_us_on_google_play">Rate us on Google Play</string>
     <string name="rate_us">Rate Us</string>
     <string name="terms_and_policy">Terms and Policy</string>
+    <string name="select_time_to_get_notification_at">Select time to get notification at:</string>
+    <string name="you_will_receive_at">You will receive notifications at:</string>
+    <string name="notifications_are_now_OFF">Notifications are now OFF!</string>
+    <string name="notifications_are_now_ON">Notifications are now ON!</string>
+    <string name="send_to">Send To:</string>
 </resources>

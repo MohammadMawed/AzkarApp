@@ -13,10 +13,7 @@ import androidx.lifecycle.viewModelScope
 import com.mohammadmawed.azkarapp.data.PreferencesManager
 import com.mohammadmawed.azkarapp.data.Zikr
 import com.mohammadmawed.azkarapp.data.ZikrRepo
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 
@@ -32,7 +29,7 @@ class ZikrViewModel @ViewModelInject constructor(
     private var _islamicCalendarMutableLiveData: MutableLiveData<String> =
         MutableLiveData()
 
-    private val _notificationsOnSharedFlow: MutableSharedFlow<Boolean> =
+    private var _notificationsOnSharedFlow: MutableSharedFlow<Boolean> =
         MutableSharedFlow()
 
     val islamicCalendarLiveData: LiveData<String> =
@@ -85,6 +82,9 @@ class ZikrViewModel @ViewModelInject constructor(
 
     fun saveNotificationSettings(value: Boolean, context: Context) {
         viewModelScope.launch {
+            if (value){
+                _notificationsOnSharedFlow.emit(true)
+            }
             preferencesManager.saveNotification(value, context)
         }
     }

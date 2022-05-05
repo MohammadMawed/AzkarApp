@@ -20,6 +20,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import com.mohammadmawed.azkarapp.R
+import com.mohammadmawed.azkarapp.util.Constants
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.first
@@ -87,15 +88,28 @@ class SettingFragment : Fragment() {
             calendarSettingTextView.text = it
         }
 
-        notificationSwitch.setOnCheckedChangeListener { compoundButton, _ ->
-            if (compoundButton.isChecked) {
-
+        notificationSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
                 viewModel.saveNotificationSettings(true, requireContext())
-                //Snackbar.make(settingUI, "Notifications are now ON!", Snackbar.LENGTH_LONG).show()
-
+                lifecycleScope.launchWhenStarted {
+                    viewModel.notificationsOnSharedFlow.collectLatest {
+                        if (it) {
+                            Snackbar.make(
+                                settingUI,
+                                R.string.notifications_are_now_ON,
+                                Snackbar.LENGTH_LONG
+                            ).show()
+                        }
+                    }
+                }
             } else {
+                // If the switch button is on
                 viewModel.saveNotificationSettings(false, requireContext())
-                Snackbar.make(settingUI, "Notifications are now OFF!", Snackbar.LENGTH_LONG).show()
+                Snackbar.make(
+                    settingUI,
+                    resources.getText(R.string.notifications_are_now_OFF),
+                    Snackbar.LENGTH_LONG
+                ).show()
             }
         }
 
@@ -106,32 +120,33 @@ class SettingFragment : Fragment() {
                     .setTimeFormat(TimeFormat.CLOCK_12H)
                     .setHour(savedHour)
                     .setMinute(savedMinute)
-                    .setTitleText("Select time to get notification at:")
+                    .setTitleText(R.string.select_time_to_get_notification_at)
                     .build()
 
-            picker.show(childFragmentManager, "TAG")
+            picker.show(childFragmentManager, Constants.TIME_PICKER_TAG)
 
             picker.addOnPositiveButtonClickListener {
 
                 val hour = picker.hour
                 val minute = picker.minute
 
-                viewModel.saveNotificationSettings(false, requireContext())
-
-                viewModel.saveNotificationSettingsHour(hour, requireContext())
-                viewModel.saveNotificationSettingsMinute(minute, requireContext())
-
                 var mintOp = "$hour:$minute"
 
                 if (minute == 9 || minute < 9) {
-                    mintOp = "$hour:0$minute "
+                    mintOp = "$hour:0$minute"
                 }
-                viewModel.saveNotificationSettings(true, requireContext())
-
-                Snackbar.make(settingUI, "You will receive at $mintOp", Snackbar.LENGTH_LONG)
-                    .show()
 
                 notificationSetTextView.text = mintOp
+
+                viewModel.saveNotificationSettingsHour(hour, requireContext())
+                viewModel.saveNotificationSettingsMinute(minute, requireContext())
+                viewModel.saveNotificationSettings(true, requireContext())
+
+                Snackbar.make(
+                    settingUI,
+                    R.string.you_will_receive_at,
+                    Snackbar.LENGTH_LONG
+                ).show()
 
             }
             picker.addOnNegativeButtonClickListener {
@@ -146,13 +161,13 @@ class SettingFragment : Fragment() {
         }
 
         policyButton.setOnClickListener {
-            val uri: Uri = Uri.parse("http://www.mohammadmawed.de")
+            val uri: Uri = Uri.parse(Constants.PRIVACY_POLICY_URL)
             val intent = Intent(Intent.ACTION_VIEW, uri)
             startActivity(intent)
         }
 
         return view
-        
+
     }
 
 }

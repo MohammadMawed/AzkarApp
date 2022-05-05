@@ -7,7 +7,7 @@
     <string name="setting">الإعدادات</string>
     <string name="share">مشاركة</string>
     <string name="snooze">غفوة</string>
-    <string name="notifications">الإشعارات</string>
+    <string name="notifications" >الإشعارات</string>
     <string name="this_option_will_send_a_reminder_if_enabled">سيرسل هذا الخيار تذكيرًا إذا تم تمكينه.</string>
     <string name="dark_mode">الوضع الداكن</string>
     <string name="this_option_will_enable_dark_mode">سيؤدي هذا الخيار إلى تمكين الوضع المظلم.</string>
@@ -22,4 +22,12 @@
     <string name="azkar_almasah">أذكار المساء</string>
     <string name="zikr1">"أذكار "</string>
     <string name="terms_and_policy">الشروط والسياسة</string>
+    <string name="notification_channel_name">ذكر</string>
+    <string name="notification_title">ذكر</string>
+    <string name="notification_content">تذكير الذكر</string>
+    <string name="select_time_to_get_notification_at">حدد الوقت للحصول على إشعار على:</string>
+    <string name="you_will_receive_at">ستتلقى إشعارات على:</string>
+    <string name="notifications_are_now_OFF">الإخطارات متوقفة الآن!</string>
+    <string name="send_to">ارسل إلى:</string>
+    <string name="notifications_are_now_ON">الإخطارات قيد التشغيل الآن!</string>
 </resources>
