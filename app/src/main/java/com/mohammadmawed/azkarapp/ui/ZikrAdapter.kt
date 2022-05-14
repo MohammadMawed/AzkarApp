@@ -1,5 +1,6 @@
 package com.mohammadmawed.azkarapp.ui
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
@@ -30,6 +31,7 @@ class ZikrAdapter(private val dataList: List<Zikr>) :
         return zikrRecViewHolder(itemView)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: zikrRecViewHolder, position: Int) {
         val data: Zikr = dataList[position]
 
@@ -39,7 +41,8 @@ class ZikrAdapter(private val dataList: List<Zikr>) :
         holder.zikrTextViewRec.text = data.text
         holder.hintTextViewRec.text = data.hint
         holder.repeatTextViewRec.text = "$repeat" + "X"
-        holder.indexTextViewRec.text = "$index/60"
+        val aaa = index - 60
+        holder.indexTextViewRec.text = "$aaa/9"
 
         holder.shareButtonContainer.setOnClickListener {
 

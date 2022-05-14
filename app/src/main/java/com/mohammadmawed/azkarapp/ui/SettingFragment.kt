@@ -88,7 +88,7 @@ class SettingFragment : Fragment() {
             calendarSettingTextView.text = it
         }
 
-        notificationSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
+        notificationSwitch.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 viewModel.saveNotificationSettings(true, requireContext())
                 lifecycleScope.launchWhenStarted {

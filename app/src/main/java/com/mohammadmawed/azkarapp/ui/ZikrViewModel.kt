@@ -58,8 +58,8 @@ class ZikrViewModel @ViewModelInject constructor(
         return repo.getAlmasahZikr(id, alsabah)
     }
 
-    fun getZikr(): Flow<List<Zikr>> {
-        return repo.getZikr()
+    fun getZikrExtra(wasRead: Boolean): Flow<List<Zikr>> {
+        return repo.getZikrExtra(wasRead)
     }
 
     private fun islamicDate() {

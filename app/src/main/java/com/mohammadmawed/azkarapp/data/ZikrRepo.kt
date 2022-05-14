@@ -32,8 +32,8 @@ class ZikrRepo @Inject constructor(private val zikrDao: ZikrDao) {
         return readAllData
     }
 
-    fun getZikr(): Flow<List<Zikr>> {
-        val readAllData: Flow<List<Zikr>> = zikrDao.getZikr()
+    fun getZikrExtra(wasRead: Boolean): Flow<List<Zikr>> {
+        val readAllData: Flow<List<Zikr>> = zikrDao.getZikrExtra(wasRead)
         return readAllData
     }
 

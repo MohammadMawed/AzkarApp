@@ -46,7 +46,9 @@ class NightFragment : Fragment() {
             calendarRecTextView.text = it
         }
 
-        viewModel.getZikr().asLiveData().observe(viewLifecycleOwner) {
+        val id = true
+
+        viewModel.getZikrExtra(id).asLiveData().observe(viewLifecycleOwner) {
             zikrAdapter = ZikrAdapter(it)
             recyclerViewZikr.adapter = zikrAdapter
             zikrAdapter.notifyDataSetChanged()
