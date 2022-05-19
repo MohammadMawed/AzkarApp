@@ -71,7 +71,7 @@ class ZikrDaoTest {
         val zikr = Zikr(1, "name", "hint", 3, alsabah = true, wasRead = false)
         dao.addZikr(zikr)
 
-        val zikrFetched = dao.getZikrExtra().first().get(0)
+        val zikrFetched = dao.getZikrExtra(true).first().get(0)
 
         assertEquals(zikr, zikrFetched)
     }
