@@ -47,6 +47,7 @@
                 android:layout_marginBottom="5dp"
                 android:gravity="center"
                 android:textColor="@color/whiteFont"
+                android:textDirection="firstStrongRtl"
                 android:textSize="15sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -124,7 +125,8 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginTop="20dp"
                 android:textColor="#fff"
-                android:textIsSelectable="true"
+                android:layoutDirection="rtl"
+                android:textDirection="rtl"
                 android:textSize="15sp"
                 tools:text="@string/dummy" />
 
@@ -134,8 +136,11 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/zikrTextView"
                 android:layout_marginTop="25dp"
+                android:layoutDirection="rtl"
                 android:textColor="#fff"
+                android:textDirection="rtl"
                 android:textIsSelectable="true"
+                android:textAlignment="viewStart"
                 tools:text="@string/hintDummy" />
 
             <TextView
