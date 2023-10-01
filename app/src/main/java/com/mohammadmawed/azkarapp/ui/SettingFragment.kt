@@ -37,10 +37,11 @@ class SettingFragment : Fragment() {
     private lateinit var policyButton: RelativeLayout
     private lateinit var calendarSettingTextView: TextView
     private lateinit var notificationSetTextView: TextView
+    private lateinit var versionTextView: TextView
 
     private val viewModel: ZikrViewModel by viewModels()
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "StringFormatInvalid")
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,7 +58,10 @@ class SettingFragment : Fragment() {
         policyButton = view.findViewById(R.id.policyButton)
         timePickerButton = view.findViewById(R.id.timePickerButton)
         rateUsButton = view.findViewById(R.id.rateUsButton)
+        versionTextView = view.findViewById(R.id.versionTextView)
 
+
+        versionTextView.text = Constants.APP_VERSION
 
         viewModel.islamicCalendarLiveData.observe(viewLifecycleOwner) {
             calendarSettingTextView.text = it
@@ -66,6 +70,7 @@ class SettingFragment : Fragment() {
 
         var savedHour = 0
         var savedMinute = 0
+
 
         //Loading user's settings
         lifecycleScope.launchWhenStarted {
@@ -142,11 +147,9 @@ class SettingFragment : Fragment() {
                 viewModel.saveNotificationSettingsMinute(minute, requireContext())
                 viewModel.saveNotificationSettings(true, requireContext())
 
-                Snackbar.make(
-                    settingUI,
-                    R.string.you_will_receive_at,
-                    Snackbar.LENGTH_LONG
-                ).show()
+                val name = getString(R.string.you_will_receive_at)
+
+                Snackbar.make(settingUI, "$name $mintOp", Snackbar.LENGTH_LONG).show()
 
             }
             picker.addOnNegativeButtonClickListener {

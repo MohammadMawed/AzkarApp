@@ -33,9 +33,9 @@ fun NotificationManager.sendNotification(messageBody: String, applicationContext
     // Build the notification
     val builder = NotificationCompat.Builder(applicationContext, applicationContext.getString(R.string.notification_channel_id))
         //Step 1.8 use the new 'breakfast' notification channel
-        .setSmallIcon(R.drawable.tasbih)
-        .setContentTitle(applicationContext
-            .getString(R.string.notification_title))
+        .setSmallIcon(R.drawable.ic_notification)
+        .setColorized(false)
+        .setContentTitle(applicationContext.getString(R.string.notification_title))
         .setContentText(messageBody)
         .setContentIntent(contentPendingIntent)
         .setAutoCancel(true)

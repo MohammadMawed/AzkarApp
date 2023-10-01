@@ -26,11 +26,14 @@ class ZikrViewModel @ViewModelInject constructor(
     private val preferencesManager: PreferencesManager
 ) : AndroidViewModel(application) {
 
+
     private var _islamicCalendarMutableLiveData: MutableLiveData<String> =
         MutableLiveData()
 
     private var _notificationsOnSharedFlow: MutableSharedFlow<Boolean> =
         MutableSharedFlow()
+
+    val visiblePermissionDialog = mutableListOf<String>()
 
     val islamicCalendarLiveData: LiveData<String> =
         _islamicCalendarMutableLiveData
@@ -99,5 +102,13 @@ class ZikrViewModel @ViewModelInject constructor(
         viewModelScope.launch {
             preferencesManager.saveNotificationMinute(value, context)
         }
+    }
+    fun dismissDialog(){
+        visiblePermissionDialog.removeLast()
+    }
+    fun onPermissionResult(permission: String, isGranted: Boolean){
+     if (!isGranted){
+         visiblePermissionDialog.add(0, permission)
+     }
     }
 }

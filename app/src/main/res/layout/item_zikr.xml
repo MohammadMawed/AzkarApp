@@ -17,7 +17,7 @@
             android:id="@+id/zikrTextViewRec"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#fff"
+            android:textColor="@color/fontColorZikr"
             android:textIsSelectable="true"
             tools:text="@string/dummy" />
 
@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/zikrTextViewRec"
             android:layout_marginTop="12.5dp"
-            android:textColor="#fff"
+            android:textColor="@color/fontColorZikr"
             android:textIsSelectable="true"
             tools:text="@string/hintDummy" />
 
@@ -38,7 +38,7 @@
             android:layout_below="@+id/hintTextViewRec"
             android:layout_marginTop="18dp"
             android:gravity="center"
-            android:textColor="#fff"
+            android:textColor="@color/fontColorZikr"
             android:textIsSelectable="true"
             tools:text="10/31" />
 
@@ -51,10 +51,10 @@
             android:layout_marginTop="10dp"
             android:layout_toEndOf="@+id/indexTextViewRec"
             android:gravity="center"
-            android:textColor="#fff"
-            android:textStyle="bold"
+            android:textColor="@color/fontColorZikr"
             android:textIsSelectable="true"
             android:textSize="25sp"
+            android:textStyle="bold"
             tools:text="3X" />
 
         <RelativeLayout

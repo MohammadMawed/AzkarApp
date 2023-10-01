@@ -14,6 +14,7 @@
     <color name="color2">#e28743</color>
     <color name="color3">#06C5B2</color>
     <color name="gray">#DFDFDF</color>
+    <color name="grey">#DFDFDF</color>
     <color name="orange">#c21500</color>
     <color name="yellow">#ffc500</color>
     <color name="darkGreen">#414d0b</color>
@@ -38,5 +39,7 @@
     <color name="lightBlueBabyA">#848589</color>
     <color name="titanium_end">#535A5C</color>
     <color name="per">#4b33c1</color>
+    <color name="mintGreen">#547f28</color>
+    <color name="fontColorZikr">#fff</color>
     <color name="SplashScreenFontColor">#000000</color>
 </resources>

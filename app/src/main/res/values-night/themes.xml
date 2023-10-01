@@ -2,12 +2,12 @@
     <!-- Base application theme. -->
     <style name="Theme.AzkarApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/navi</item>
-        <item name="colorPrimaryVariant">@color/navi</item>
+        <item name="colorPrimary">@color/darkGreen</item>
+        <item name="colorPrimaryVariant">@color/darkGreen</item>
         <item name="colorOnPrimary">@color/black</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">#7d90d8</item>
-        <item name="colorSecondaryVariant">#7d90d8</item>
+        <item name="colorSecondary">@color/darkGreen</item>
+        <item name="colorSecondaryVariant">@color/darkGreen</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">@color/black</item>
@@ -16,6 +16,9 @@
         <!-- Customize your theme here. -->
     </style>
     <color name="gray">#292929</color>
+    <color name="grey">#DFDFDF</color>
     <color name="whiteFont">#fff</color>
-    <color name="naviLight">#7d90d8</color>
+    <color name="mintGreen">#99ce63</color>
+    <color name="fontColorZikr">#000</color>
+    <color name="naviLight">#D3EABC</color>
 </resources>

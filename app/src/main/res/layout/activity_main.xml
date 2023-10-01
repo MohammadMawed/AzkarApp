@@ -11,15 +11,14 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/nav_menu">
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragmentContainerView"
-        android:name="androidx.navigation.fragment.NavHostFragment"
-        android:layout_width="match_parent"
-        app:defaultNavHost="false"
-        app:navGraph="@navigation/navigation"
-        android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="17dp"
-        tools:layout_editor_absoluteY="221dp" />
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fragmentContainerView"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:defaultNavHost="false"
+            app:navGraph="@navigation/navigation"
+            tools:layout_editor_absoluteY="221dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

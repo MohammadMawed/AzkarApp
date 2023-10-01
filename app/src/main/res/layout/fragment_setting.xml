@@ -78,7 +78,7 @@
             android:layout_alignParentEnd="true"
             android:layout_marginTop="10dp"
             android:text="@string/notifications"
-            android:textColor="#ffff"
+            android:textColor="@color/fontColorZikr"
             android:textColorHighlight="@color/purple_200"
             android:textColorLink="@color/purple_200"
             android:textSize="20sp"
@@ -92,7 +92,7 @@
             android:layout_below="@+id/switch1"
             android:layout_marginTop="10dp"
             android:text="@string/this_option_will_send_a_reminder_if_enabled"
-            android:textColor="#fff"
+            android:textColor="@color/fontColorZikr"
             android:textSize="15sp" />
 
         <RelativeLayout
@@ -128,7 +128,7 @@
             android:layout_below="@+id/textView2"
             android:layout_marginTop="17dp"
             android:text="@string/receive_notification_at"
-            android:textColor="@color/white"
+            android:textColor="@color/fontColorZikr"
             android:textSize="15sp" />
 
 
@@ -139,7 +139,7 @@
             android:layout_below="@+id/textView"
             android:layout_marginTop="20dp"
             android:text="@string/rate_us"
-            android:textColor="#fff"
+            android:textColor="@color/fontColorZikr"
             android:textSize="20sp" />
 
         <RelativeLayout
@@ -201,7 +201,7 @@
             android:layout_below="@+id/policyButton"
             android:layout_marginTop="20dp"
             android:text="@string/current_version"
-            android:textColor="#fff"
+            android:textColor="@color/fontColorZikr"
             android:textSize="20sp" />
 
         <TextView
@@ -211,8 +211,8 @@
             android:layout_below="@+id/versionTitleTextView"
             android:layout_marginStart="5dp"
             android:layout_marginTop="10dp"
-            android:text="@string/v_1_0_0"
-            android:textColor="#fff"
+            tools:text="@string/v_1_0_0"
+            android:textColor="@color/fontColorZikr"
             android:textSize="15sp" />
 
     </RelativeLayout>

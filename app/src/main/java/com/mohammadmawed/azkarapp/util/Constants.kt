@@ -8,4 +8,6 @@ object Constants {
     const val PRIVACY_POLICY_URL = "https://mohammadmawed.de/azkarapp-privacy-policy"
     const val TIME_PICKER_TAG = "TIME_PICKER_TAG"
 
+    const val APP_VERSION = "1.1.0"
+
 }
