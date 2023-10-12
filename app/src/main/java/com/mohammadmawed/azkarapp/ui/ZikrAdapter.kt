@@ -61,6 +61,17 @@ class ZikrAdapter(private val dataList: List<Zikr>) :
             //navController = Navigation.findNavController(holder.itemView)
             //navController!!.navigate(R.id.action_mainUIFragment_to_singleItemFragment)
         }*/
+        holder.shareButtonContainer.setOnClickListener {
+            val shareIntent: Intent = Intent().apply {
+                action = Intent.ACTION_SEND
+                type = "text/plain"
+                val text: String = holder.zikrTextViewRec.text.toString()
+                putExtra(Intent.EXTRA_TEXT, "${holder.zikrTextViewRec.text}\n\n ${holder.hintTextViewRec.text}")
+            }
+            it.context.startActivity(Intent.createChooser(shareIntent, "Share using"))
+        }
+
+
     }
 
     override fun getItemCount(): Int {

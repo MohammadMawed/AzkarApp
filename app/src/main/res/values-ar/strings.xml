@@ -30,4 +30,5 @@
     <string name="notifications_are_now_OFF">الإخطارات متوقفة الآن!</string>
     <string name="send_to">ارسل إلى:</string>
     <string name="notifications_are_now_ON">الإخطارات قيد التشغيل الآن!</string>
+    <string name="notification_text">وقت أذكار الصباح. إنه وقت أذكار الصباح. لا تنس أن تتلاوها!</string>
 </resources>
