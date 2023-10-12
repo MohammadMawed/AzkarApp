@@ -4,11 +4,11 @@ The Azkar app provides Muslims with a collection of text to recite and read afte
 
 – The app was built with:
 
-MVVM as a design pattern.
-Coroutine.
-Dagger-Hilt.
-Room database.
-Android Unit & Component testing.
+- MVVM as a design pattern.
+- Coroutine.
+- Dagger-Hilt.
+- Room database.
+- Android Unit & Component testing.
 
 
 ![image23](https://github.com/MohammadMawed/AzkarApp/assets/68829790/db11d430-1e1c-4248-bf77-8b997eaf9b23)
