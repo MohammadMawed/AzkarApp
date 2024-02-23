@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">أذكار الصباح</string>
     <string name="azkar_alsabah">أذكار الصباح</string>
     <string name="next">التالي</string>
     <string name="previous">السابق</string>
@@ -29,6 +30,4 @@
     <string name="notifications_are_now_OFF">الإخطارات متوقفة الآن!</string>
     <string name="send_to">ارسل إلى:</string>
     <string name="notifications_are_now_ON">الإخطارات قيد التشغيل الآن!</string>
-    <string name="morning_notification">إشعار الصباح</string>
-    <string name="evening_notification">إشعار المساء</string>
 </resources>

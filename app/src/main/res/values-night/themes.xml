@@ -16,9 +16,9 @@
         <!-- Customize your theme here. -->
     </style>
     <color name="gray">#292929</color>
-    <color name="grey">#DFDFDF</color>
+    <color name="grey">#646464</color>
     <color name="whiteFont">#fff</color>
-    <color name="mintGreen">#99ce63</color>
+    <color name="mintGreen">#436A1A</color>
     <color name="fontColorZikr">#000</color>
     <color name="chipBackground">#4A4A4A</color>
     <color name="naviLight">#D3EABC</color>
