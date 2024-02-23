@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">AzkarApp</string>
+    <string name="app_name" translatable="false">جٍامعٍ الُِأذَڪار</string>
     <string name="dummy" translatable="false">أَعُوذُ بِاللهِ مِنْ الشَّيْطَانِ الرَّجِيمِ
 اللّهُ لاَ إِلَـهَ إِلاَّ هُوَ الْحَيُّ الْقَيُّومُ لاَ تَأْخُذُهُ سِنَةٌ وَلاَ نَوْمٌ لَّهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الأَرْضِ مَن ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلاَّ بِإِذْنِهِ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ وَلاَ يُحِيطُونَ بِشَيْءٍ مِّنْ عِلْمِهِ إِلاَّ بِمَا شَاء وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالأَرْضَ وَلاَ يَؤُودُهُ حِفْظُهُمَا وَهُوَ الْعَلِيُّ الْعَظِيمُ. [آية الكرسى - البقرة 255].</string>
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
@@ -35,4 +35,6 @@
     <string name="notifications_are_now_OFF">Notifications are now OFF!</string>
     <string name="notifications_are_now_ON">Notifications are now ON!</string>
     <string name="send_to">Send To:</string>
+    <string name="morning_notification">Morning Notification</string>
+    <string name="evening_notification">Evening Notification</string>
 </resources>

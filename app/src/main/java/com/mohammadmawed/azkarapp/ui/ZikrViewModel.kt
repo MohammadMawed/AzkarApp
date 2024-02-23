@@ -44,6 +44,10 @@ class ZikrViewModel @ViewModelInject constructor(
     val notificationTimeHourFlow = preferencesManager.notificationTimeHourFlow
     val notificationTimeMinuteFlow = preferencesManager.notificationTimeMinuteFlow
 
+    val notificationSecRefFlow = preferencesManager.notificationSecRefFlow
+    val notificationSecTimeHourFlow = preferencesManager.notificationSecTimeHourFlow
+    val notificationSecTimeMinuteFlow = preferencesManager.notificationSecTimeMinuteFlow
+
     //val dao = zikrDao.getAlsabahZikr().asLiveData()
 
 
@@ -51,6 +55,7 @@ class ZikrViewModel @ViewModelInject constructor(
         //Calling all functions when the viewModel is initialized
         islamicDate()
         remindUserAtTime(application)
+        remindUserAtTime1(application)
     }
 
     fun itemById(id: Int, alsabah: Boolean): Flow<List<Zikr>> {
@@ -76,12 +81,26 @@ class ZikrViewModel @ViewModelInject constructor(
             val minute = notificationTimeMinuteFlow.first()
             val per = notificationRefFlow.first()
             if (per) {
-                repo.reminderNotification(context, hour, minute)
+                repo.reminderNotification(context, hour, minute, "first") // For the first notification
             } else {
                 repo.cancelNotification(context)
             }
         }
     }
+
+    private fun remindUserAtTime1(context: Context) {
+        viewModelScope.launch {
+            val hour = notificationSecTimeHourFlow.first()
+            val minute = notificationSecTimeMinuteFlow.first()
+            val per = notificationSecRefFlow.first()
+            if (per) {
+                repo.reminderNotification(context, hour, minute, "second") // For the second notification
+            } else {
+                repo.cancelNotification(context)
+            }
+        }
+    }
+
 
     fun saveNotificationSettings(value: Boolean, context: Context) {
         viewModelScope.launch {
@@ -101,6 +120,27 @@ class ZikrViewModel @ViewModelInject constructor(
     fun saveNotificationSettingsMinute(value: Int, context: Context) {
         viewModelScope.launch {
             preferencesManager.saveNotificationMinute(value, context)
+        }
+    }
+
+    fun saveNotificationSecSettings(value: Boolean, context: Context) {
+        viewModelScope.launch {
+            if (value){
+                _notificationsOnSharedFlow.emit(true)
+            }
+            preferencesManager.saveNotificationSec(value, context)
+        }
+    }
+
+    fun saveNotificationSecSettingsHour(value: Int, context: Context) {
+        viewModelScope.launch {
+            preferencesManager.saveNotificationSecHour(value, context)
+        }
+    }
+
+    fun saveNotificationSecSettingsMinute(value: Int, context: Context) {
+        viewModelScope.launch {
+            preferencesManager.saveNotificationSecMinute(value, context)
         }
     }
     fun dismissDialog(){

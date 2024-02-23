@@ -20,5 +20,6 @@
     <color name="whiteFont">#fff</color>
     <color name="mintGreen">#99ce63</color>
     <color name="fontColorZikr">#000</color>
+    <color name="chipBackground">#4A4A4A</color>
     <color name="naviLight">#D3EABC</color>
 </resources>

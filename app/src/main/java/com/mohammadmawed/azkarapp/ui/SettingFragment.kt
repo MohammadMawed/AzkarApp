@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,12 +32,21 @@ class SettingFragment : Fragment() {
 
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     private lateinit var notificationSwitch: Switch
+
+    private lateinit var notificationSecSwitch: Switch
     private lateinit var settingUI: ConstraintLayout
+    private lateinit var settingUI1: ConstraintLayout
+
     private lateinit var timePickerButton: RelativeLayout
+    private lateinit var timePickerButton1: RelativeLayout
+
     private lateinit var rateUsButton: RelativeLayout
     private lateinit var policyButton: RelativeLayout
+
     private lateinit var calendarSettingTextView: TextView
     private lateinit var notificationSetTextView: TextView
+    private lateinit var notificationSecSetTextView: TextView
+
     private lateinit var versionTextView: TextView
 
     private val viewModel: ZikrViewModel by viewModels()
@@ -52,11 +62,14 @@ class SettingFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_setting, container, false)
 
         notificationSwitch = view.findViewById(R.id.switch1)
+        notificationSecSwitch = view.findViewById(R.id.switch2)
         calendarSettingTextView = view.findViewById(R.id.calendarRecTextView)
         notificationSetTextView = view.findViewById(R.id.notificationSetTextView)
+        notificationSecSetTextView = view.findViewById(R.id.notificationSecSetTextView)
         settingUI = view.findViewById(R.id.settingUI)
         policyButton = view.findViewById(R.id.policyButton)
         timePickerButton = view.findViewById(R.id.timePickerButton)
+        timePickerButton1 = view.findViewById(R.id.timePickerSecButton)
         rateUsButton = view.findViewById(R.id.rateUsButton)
         versionTextView = view.findViewById(R.id.versionTextView)
 
@@ -71,23 +84,35 @@ class SettingFragment : Fragment() {
         var savedHour = 0
         var savedMinute = 0
 
+        var savedHourSec = 0
+        var savedMinuteSec = 0
 
-        //Loading user's settings
+        var switchSate1 = false
+        var switchSate2 = false
+
+
+
         lifecycleScope.launchWhenStarted {
-
+            // Initialize variables for saved settings
             savedHour = viewModel.notificationTimeHourFlow.first()
             savedMinute = viewModel.notificationTimeMinuteFlow.first()
+            savedHourSec = viewModel.notificationSecTimeHourFlow.first()
+            savedMinuteSec = viewModel.notificationSecTimeMinuteFlow.first()
 
-            if (savedMinute == 9 || savedMinute < 9) {
-                notificationSetTextView.text = "$savedHour:0$savedMinute"
-            } else {
-                notificationSetTextView.text = "$savedHour:$savedMinute"
-            }
+            // Update UI based on saved settings
+            updateNotificationTextView(savedHour, savedMinute, notificationSetTextView)
+            updateNotificationTextView(savedHourSec, savedMinuteSec, notificationSecSetTextView)
 
-            viewModel.notificationRefFlow.collectLatest {
-                notificationSwitch.isChecked = it
-            }
+            Log.d("Checking", "Loading the switch1 state")
+            switchSate1 = viewModel.notificationRefFlow.first()
+            notificationSwitch.isChecked = switchSate1
+
+            Log.d("Checking", "Loading the switch2 state")
+            switchSate2 = viewModel.notificationSecRefFlow.first()
+            notificationSecSwitch.isChecked = switchSate2
+
         }
+
 
         viewModel.islamicCalendarLiveData.observe(viewLifecycleOwner) {
             calendarSettingTextView.text = it
@@ -110,6 +135,32 @@ class SettingFragment : Fragment() {
             } else {
                 // If the switch button is on
                 viewModel.saveNotificationSettings(false, requireContext())
+                Snackbar.make(
+                    settingUI,
+                    resources.getText(R.string.notifications_are_now_OFF),
+                    Snackbar.LENGTH_LONG
+                ).show()
+            }
+        }
+
+        notificationSecSwitch.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                viewModel.saveNotificationSecSettings(true, requireContext())
+                Log.d("TAG", "Debug log message");
+                lifecycleScope.launchWhenStarted {
+                    viewModel.notificationsOnSharedFlow.collectLatest {
+                        if (it) {
+                            Snackbar.make(
+                                settingUI,
+                                R.string.notifications_are_now_ON,
+                                Snackbar.LENGTH_LONG
+                            ).show()
+                        }
+                    }
+                }
+            } else {
+                // If the switch button is on
+                viewModel.saveNotificationSecSettings(false, requireContext())
                 Snackbar.make(
                     settingUI,
                     resources.getText(R.string.notifications_are_now_OFF),
@@ -162,6 +213,50 @@ class SettingFragment : Fragment() {
                 // call back code
             }
         }
+        // Inside timePickerButton1's setOnClickListener
+        timePickerButton1.setOnClickListener {
+            val pickerSec = MaterialTimePicker.Builder()
+                .setTimeFormat(TimeFormat.CLOCK_12H)
+                .setHour(savedHourSec)
+                .setMinute(savedMinuteSec)
+                .setTitleText(R.string.select_time_to_get_notification_at)
+                .build()
+
+            pickerSec.show(childFragmentManager, Constants.TIME_PICKER_SEC_TAG) // Use a different tag to differentiate from the first picker
+
+            pickerSec.addOnPositiveButtonClickListener {
+                val hourSec = pickerSec.hour
+                val minuteSec = pickerSec.minute
+
+                var mintOpSec = if (minuteSec <= 9) {
+                    "$hourSec:0$minuteSec"
+                } else {
+                    "$hourSec:$minuteSec"
+                }
+
+                notificationSecSetTextView.text = mintOpSec
+
+                // Saving the second notification settings correctly
+                viewModel.saveNotificationSecSettingsHour(hourSec, requireContext())
+                viewModel.saveNotificationSecSettingsMinute(minuteSec, requireContext())
+                viewModel.saveNotificationSecSettings(true, requireContext())
+
+                val name = getString(R.string.you_will_receive_at)
+
+
+                Snackbar.make(settingUI, "$name $mintOpSec", Snackbar.LENGTH_LONG).show()
+            }
+            // Add negative, cancel, and dismiss listeners as needed
+            pickerSec.addOnNegativeButtonClickListener {
+                // call back code
+            }
+            pickerSec.addOnCancelListener {
+                // call back code
+            }
+            pickerSec.addOnDismissListener {
+                // call back code
+            }
+        }
 
         policyButton.setOnClickListener {
             val uri: Uri = Uri.parse(Constants.PRIVACY_POLICY_URL)
@@ -169,8 +264,18 @@ class SettingFragment : Fragment() {
             startActivity(intent)
         }
 
+
         return view
 
+
+
+    }
+
+
+    // Helper function to update notification text views
+    private fun updateNotificationTextView(hour: Int, minute: Int, textView: TextView) {
+        val formattedTime = if (minute <= 9) "$hour:0$minute" else "$hour:$minute"
+        textView.text = formattedTime
     }
 
 }

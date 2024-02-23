@@ -39,6 +39,8 @@
     <color name="lightBlueBabyA">#848589</color>
     <color name="titanium_end">#535A5C</color>
     <color name="per">#4b33c1</color>
+    <color name="chipBackground">#9E9E9E</color>
+
     <color name="mintGreen">#547f28</color>
     <color name="fontColorZikr">#fff</color>
     <color name="SplashScreenFontColor">#000000</color>

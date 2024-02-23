@@ -63,14 +63,15 @@ class ZikrRepo @Inject constructor(private val zikrDao: ZikrDao) {
     @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("SimpleDateFormat", "UnspecifiedImmutableFlag")
 
-    fun reminderNotification(context: Context, hour: Int, minute: Int) {
+    fun reminderNotification(context: Context, hour: Int, minute: Int, notificationType: String) {
 
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val notifyPendingIntent: PendingIntent
-        val notifyIntent = Intent(context, ReminderBroadcast::class.java)
+        val notifyIntent = Intent(context, ReminderBroadcast::class.java).apply {
+            // Add extra to distinguish between first and second notifications
+            putExtra("notification_type", notificationType)
+        }
 
-
-        notifyPendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        val notifyPendingIntent: PendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             PendingIntent.getBroadcast(
                 context,
                 0,
@@ -85,7 +86,6 @@ class ZikrRepo @Inject constructor(private val zikrDao: ZikrDao) {
                 PendingIntent.FLAG_UPDATE_CURRENT
             )
         }
-
         val notificationManager =
             ContextCompat.getSystemService(context, NotificationManager::class.java)
                     as NotificationManager
@@ -100,7 +100,7 @@ class ZikrRepo @Inject constructor(private val zikrDao: ZikrDao) {
             set(Calendar.MINUTE, minute)
 
             //Prevent sending more than one notification to the user
-            if (this.time < Date()) this.add(Calendar.DAY_OF_MONTH, 1)
+            if (this.time < Date()) this.add(Calendar.DAY_OF_MONTH, 2)
 
             //Wake up the device to fire the alarm at approximately 3:00 p.m., and repeat once a day at the same time
             alarmManager.setRepeating(
