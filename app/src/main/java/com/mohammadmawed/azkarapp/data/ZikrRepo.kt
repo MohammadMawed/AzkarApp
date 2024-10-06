@@ -8,19 +8,33 @@ import android.content.Context
 import android.content.Intent
 import android.icu.util.Calendar
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import com.mohammadmawed.azkarapp.receiver.ReminderBroadcast
 import com.mohammadmawed.azkarapp.util.cancelNotifications
 import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
+import java.time.LocalTime
+import java.time.ZoneId
+import java.time.ZonedDateTime
 import java.time.chrono.HijrahDate
 import java.time.format.DateTimeFormatter
 import java.util.*
 import javax.inject.Inject
+import kotlin.math.asin
+import kotlin.math.atan2
+import kotlin.math.cos
+import kotlin.math.sin
 
 
 class ZikrRepo @Inject constructor(private val zikrDao: ZikrDao) {
+    companion object {
+        const val MORNING_NOTIFICATION_REQUEST_CODE = 100
+        const val EVENING_NOTIFICATION_REQUEST_CODE = 101
+        const val DEG_TO_RAD = Math.PI / 180
+        const val RAD_TO_DEG = 180 / Math.PI
+    }
 
     fun getItemByID(id: Int, alsabah: Boolean): Flow<List<Zikr>> {
         val readAllData: Flow<List<Zikr>> = zikrDao.getAlsabahZikr(id, alsabah)
@@ -61,87 +75,57 @@ class ZikrRepo @Inject constructor(private val zikrDao: ZikrDao) {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    @SuppressLint("SimpleDateFormat", "UnspecifiedImmutableFlag")
-
-    fun reminderNotification(context: Context, hour: Int, minute: Int, notificationType: String) {
-
+    @SuppressLint("UnspecifiedImmutableFlag", "ScheduleExactAlarm")
+    fun reminderNotification(context: Context, hour: Int, minute: Int, notificationType: String, requestCode: Int) {
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val notifyIntent = Intent(context, ReminderBroadcast::class.java).apply {
-            // Add extra to distinguish between first and second notifications
+        val intent = Intent(context, ReminderBroadcast::class.java).apply {
             putExtra("notification_type", notificationType)
         }
 
-        val notifyPendingIntent: PendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            PendingIntent.getBroadcast(
-                context,
-                0,
-                notifyIntent,
-                PendingIntent.FLAG_MUTABLE
-            )
-        } else {
-            PendingIntent.getBroadcast(
-                context,
-                0,
-                notifyIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT
-            )
-        }
-        val notificationManager =
-            ContextCompat.getSystemService(context, NotificationManager::class.java)
-                    as NotificationManager
+        val pendingIntent = PendingIntent.getBroadcast(
+            context,
+            requestCode,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
 
-        notificationManager.cancelNotifications()
-
-
-        // Set the alarm to start at 8:30 a.m.
-        Calendar.getInstance().apply {
-            timeInMillis = System.currentTimeMillis()
+        val targetCal = Calendar.getInstance().apply {
             set(Calendar.HOUR_OF_DAY, hour)
             set(Calendar.MINUTE, minute)
+            set(Calendar.SECOND, 0)
 
-            //Prevent sending more than one notification to the user
-            if (this.time < Date()) this.add(Calendar.DAY_OF_MONTH, 2)
-
-            //Wake up the device to fire the alarm at approximately 3:00 p.m., and repeat once a day at the same time
-            alarmManager.setRepeating(
-                AlarmManager.RTC_WAKEUP,
-                this.timeInMillis,
-                AlarmManager.INTERVAL_DAY,
-                notifyPendingIntent
-            )
+            // If the set time has already passed for today, schedule for tomorrow
+            if (before(Calendar.getInstance())) {
+                add(Calendar.DATE, 1)
+            }
         }
-    }
 
-    @SuppressLint("UnspecifiedImmutableFlag")
-    fun cancelNotification(context: Context) {
-
-        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val notifyPendingIntent: PendingIntent
-        val notifyIntent = Intent(context, ReminderBroadcast::class.java)
-
-        notifyPendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            PendingIntent.getBroadcast(
-                context,
-                0,
-                notifyIntent,
-                PendingIntent.FLAG_MUTABLE
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            alarmManager.setExactAndAllowWhileIdle(
+                AlarmManager.RTC_WAKEUP,
+                targetCal.timeInMillis,
+                pendingIntent
             )
         } else {
-            PendingIntent.getBroadcast(
-                context,
-                0,
-                notifyIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT
+            alarmManager.setExact(
+                AlarmManager.RTC_WAKEUP,
+                targetCal.timeInMillis,
+                pendingIntent
             )
         }
 
-        val notificationManager =
-            ContextCompat.getSystemService(context, NotificationManager::class.java)
-                    as NotificationManager
-
-        notificationManager.cancelNotifications()
-
-        alarmManager.cancel(notifyPendingIntent)
+        Log.d("ZikrRepo", "Scheduled $notificationType notification for ${targetCal.time}")
     }
+
+
+
+    @SuppressLint("UnspecifiedImmutableFlag")
+    fun cancelNotification(context: Context, requestCode: Int) {
+        val intent = Intent(context, ReminderBroadcast::class.java)
+        val pendingIntent = PendingIntent.getBroadcast(context, requestCode, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        alarmManager.cancel(pendingIntent)
+    }
+
 
 }

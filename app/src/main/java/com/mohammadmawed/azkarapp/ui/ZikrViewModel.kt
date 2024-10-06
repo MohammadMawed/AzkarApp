@@ -15,6 +15,7 @@ import com.mohammadmawed.azkarapp.data.Zikr
 import com.mohammadmawed.azkarapp.data.ZikrRepo
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import java.util.TimeZone
 
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -54,8 +55,7 @@ class ZikrViewModel @ViewModelInject constructor(
     init {
         //Calling all functions when the viewModel is initialized
         islamicDate()
-        remindUserAtTime(application)
-        remindUserAtTime1(application)
+        scheduleNotifications(application)
     }
 
     fun itemById(id: Int, alsabah: Boolean): Flow<List<Zikr>> {
@@ -75,33 +75,26 @@ class ZikrViewModel @ViewModelInject constructor(
         _islamicCalendarMutableLiveData.postValue(hijriDate)
     }
 
-    private fun remindUserAtTime(context: Context) {
+
+    private fun scheduleNotifications(context: Context) {
         viewModelScope.launch {
-            val hour = notificationTimeHourFlow.first()
-            val minute = notificationTimeMinuteFlow.first()
-            val per = notificationRefFlow.first()
-            if (per) {
-                repo.reminderNotification(context, hour, minute, "first") // For the first notification
+            val morningHour = notificationTimeHourFlow.first()
+            val morningMinute = notificationTimeMinuteFlow.first()
+            if (notificationRefFlow.first()) {
+                repo.reminderNotification(context, morningHour, morningMinute, "morning", ZikrRepo.MORNING_NOTIFICATION_REQUEST_CODE)
             } else {
-                repo.cancelNotification(context)
+                repo.cancelNotification(context, ZikrRepo.MORNING_NOTIFICATION_REQUEST_CODE)
+            }
+
+            val eveningHour = notificationSecTimeHourFlow.first()
+            val eveningMinute = notificationSecTimeMinuteFlow.first()
+            if (notificationSecRefFlow.first()) {
+                repo.reminderNotification(context, eveningHour, eveningMinute, "evening", ZikrRepo.EVENING_NOTIFICATION_REQUEST_CODE)
+            } else {
+                repo.cancelNotification(context, ZikrRepo.EVENING_NOTIFICATION_REQUEST_CODE)
             }
         }
     }
-
-    private fun remindUserAtTime1(context: Context) {
-        viewModelScope.launch {
-            val hour = notificationSecTimeHourFlow.first()
-            val minute = notificationSecTimeMinuteFlow.first()
-            val per = notificationSecRefFlow.first()
-            if (per) {
-                repo.reminderNotification(context, hour, minute, "second") // For the second notification
-            } else {
-                repo.cancelNotification(context)
-            }
-        }
-    }
-
-
     fun saveNotificationSettings(value: Boolean, context: Context) {
         viewModelScope.launch {
             if (value){
@@ -147,8 +140,8 @@ class ZikrViewModel @ViewModelInject constructor(
         visiblePermissionDialog.removeLast()
     }
     fun onPermissionResult(permission: String, isGranted: Boolean){
-     if (!isGranted){
-         visiblePermissionDialog.add(0, permission)
-     }
+        if (!isGranted){
+            visiblePermissionDialog.add(0, permission)
+        }
     }
 }

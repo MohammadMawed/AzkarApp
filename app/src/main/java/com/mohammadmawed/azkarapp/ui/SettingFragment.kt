@@ -170,7 +170,7 @@ class SettingFragment : Fragment() {
         }
 
         timePickerButton.setOnClickListener {
-
+            Log.d("Saved time not1 ", "Saved time is: ${savedHour}:${savedMinute}");
             val picker =
                 MaterialTimePicker.Builder()
                     .setTimeFormat(TimeFormat.CLOCK_12H)
@@ -215,6 +215,7 @@ class SettingFragment : Fragment() {
         }
         // Inside timePickerButton1's setOnClickListener
         timePickerButton1.setOnClickListener {
+            Log.d("Saved time not2 ", "Saved time not2 is: ${savedHourSec}:${savedMinuteSec}");
             val pickerSec = MaterialTimePicker.Builder()
                 .setTimeFormat(TimeFormat.CLOCK_12H)
                 .setHour(savedHourSec)

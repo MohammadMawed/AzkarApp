@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">أذكار الصباح</string>
     <string name="azkar_alsabah">أذكار الصباح</string>
     <string name="next">التالي</string>
     <string name="previous">السابق</string>
@@ -23,7 +22,6 @@
     <string name="zikr1">"أذكار "</string>
     <string name="terms_and_policy">الشروط والسياسة</string>
     <string name="notification_channel_name">ذكر</string>
-    <string name="notification_title">ذكر</string>
     <string name="notification_content">تذكير الذكر</string>
     <string name="select_time_to_get_notification_at">حدد الوقت للحصول على إشعار على:</string>
     <string name="you_will_receive_at">ستتلقى إشعارات على:</string>

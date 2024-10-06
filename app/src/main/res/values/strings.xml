@@ -14,9 +14,9 @@
     <string name="snooze">Snooze</string>
     <string name="notification_channel_id" translatable="false">Zikr</string>
     <string name="notification_channel_name">Zikr</string>
-    <string name="notification_title">Zikr</string>
+    <string name="notification_title" translatable="false">وقت الأذكار</string>
     <string name="notification_content">Zikr Reminder</string>
-    <string name="notification_text">It\'s the time for the morning dhikr. Don\'t forget to recite them!</string>
+    <string name="notification_text" translatable="false">It\'s the time for the morning dhikr. Don\'t forget to recite them!</string>
     <string name="zikr1">Zikr</string>
     <string name="notifications" >Notifications</string>
     <string name="this_option_will_send_a_reminder_if_enabled">This option will send a reminder if enabled.</string>
@@ -36,6 +36,6 @@
     <string name="notifications_are_now_OFF">Notifications are now OFF!</string>
     <string name="notifications_are_now_ON">Notifications are now ON!</string>
     <string name="send_to">Send To:</string>
-    <string name="morning_notification">Morning Notification</string>
-    <string name="evening_notification">Evening Notification</string>
+    <string name="morning_notification" translatable="false">Morning Notification</string>
+    <string name="evening_notification" translatable="false">Evening Notification</string>
 </resources>

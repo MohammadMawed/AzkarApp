@@ -9,6 +9,6 @@ object Constants {
     const val TIME_PICKER_TAG = "TIME_PICKER_TAG"
     const val TIME_PICKER_SEC_TAG = "TIME_PICKER_TAG_SEC"
 
-    const val APP_VERSION = "1.5.0"
+    const val APP_VERSION = "2.0.0"
 
 }

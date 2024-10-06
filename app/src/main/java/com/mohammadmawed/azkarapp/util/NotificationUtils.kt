@@ -40,7 +40,7 @@ fun NotificationManager.sendNotification(messageBody: String, applicationContext
         .setContentIntent(contentPendingIntent)
         .setAutoCancel(true)
         .setVibrate(VIBRATION)
-        .setOnlyAlertOnce(true)
+        //.setOnlyAlertOnce(true)
         //.setSound(Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + applicationContext + "/raw/eiskalt.mp3"))
         //add snooze action
         .setPriority(NotificationCompat.PRIORITY_HIGH)
