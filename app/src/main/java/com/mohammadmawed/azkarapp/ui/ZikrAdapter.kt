@@ -42,7 +42,7 @@ class ZikrAdapter(private val dataList: List<Zikr>) :
         holder.hintTextViewRec.text = data.hint
         holder.repeatTextViewRec.text = "$repeat" + "X"
         val aaa = index - 60
-        holder.indexTextViewRec.text = "$aaa/9"
+        holder.indexTextViewRec.text = "$aaa/30"
 
         holder.shareButtonContainer.setOnClickListener {
 
